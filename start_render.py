@@ -218,18 +218,20 @@ async def stressor_dashboard():
                 gap: 24px;
             }
             
-            .card {
-                background: rgba(255,255,255,0.1);
-                border-radius: 16px;
-                padding: 24px;
-                backdrop-filter: blur(20px);
-                border: 1px solid rgba(255,255,255,0.2);
-                transition: all 0.3s ease;
-                position: relative;
-                transform-style: preserve-3d;
-                cursor: pointer;
-                min-height: 280px;
-            }
+                         .card {
+                 background: rgba(255,255,255,0.1);
+                 border-radius: 16px;
+                 padding: 20px;
+                 backdrop-filter: blur(20px);
+                 border: 1px solid rgba(255,255,255,0.2);
+                 transition: all 0.3s ease;
+                 position: relative;
+                 transform-style: preserve-3d;
+                 cursor: pointer;
+                 min-height: 320px;
+                 max-height: 450px;
+                 overflow: hidden;
+             }
             
             .card:hover {
                 transform: translateY(-4px);
@@ -241,17 +243,19 @@ async def stressor_dashboard():
                 transform: rotateY(180deg);
             }
             
-            .card-front, .card-back {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                padding: 24px;
-                border-radius: 16px;
-                backface-visibility: hidden;
-                transition: all 0.6s ease;
-            }
+                         .card-front, .card-back {
+                 position: absolute;
+                 top: 0;
+                 left: 0;
+                 right: 0;
+                 bottom: 0;
+                 padding: 20px;
+                 border-radius: 16px;
+                 backface-visibility: hidden;
+                 transition: all 0.6s ease;
+                 overflow-y: auto;
+                 overflow-x: hidden;
+             }
             
             .card-back {
                 transform: rotateY(180deg);
@@ -259,21 +263,25 @@ async def stressor_dashboard():
                 border: 1px solid rgba(96,165,250,0.4);
             }
             
-            .math-content {
-                font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-                font-size: 13px;
-                line-height: 1.6;
-                color: rgba(255,255,255,0.9);
-            }
+                         .math-content {
+                 font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+                 font-size: 12px;
+                 line-height: 1.5;
+                 color: rgba(255,255,255,0.9);
+                 max-height: 350px;
+                 overflow-y: auto;
+             }
             
-            .math-formula {
-                background: rgba(0,0,0,0.3);
-                padding: 12px;
-                border-radius: 8px;
-                margin: 12px 0;
-                border-left: 3px solid #60a5fa;
-                font-weight: 500;
-            }
+                         .math-formula {
+                 background: rgba(0,0,0,0.3);
+                 padding: 10px;
+                 border-radius: 6px;
+                 margin: 8px 0;
+                 border-left: 3px solid #60a5fa;
+                 font-weight: 500;
+                 font-size: 11px;
+                 line-height: 1.4;
+             }
             
             .flip-indicator {
                 position: absolute;
@@ -364,12 +372,15 @@ async def stressor_dashboard():
                 display: none;
             }
             
-            .results-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-                gap: 24px;
-                margin-top: 24px;
-            }
+                         .results-grid {
+                 display: grid;
+                 grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                 gap: 20px;
+                 margin-top: 24px;
+                 max-width: 1200px;
+                 margin-left: auto;
+                 margin-right: auto;
+             }
             
             .metric {
                 display: flex;
@@ -455,19 +466,37 @@ async def stressor_dashboard():
                 50% { opacity: 0.3; }
             }
             
-            @media (max-width: 768px) {
-                .main-container {
-                    grid-template-columns: 1fr;
-                    padding: 16px;
-                }
-                .vin-input {
-                    width: 280px;
-                    margin: 8px;
-                }
-                .results-grid {
-                    grid-template-columns: 1fr;
-                }
-            }
+                         @media (max-width: 768px) {
+                 .main-container {
+                     grid-template-columns: 1fr;
+                     padding: 16px;
+                 }
+                 .vin-input {
+                     width: 280px;
+                     margin: 8px;
+                 }
+                 .results-grid {
+                     grid-template-columns: 1fr;
+                     gap: 16px;
+                 }
+                 .card {
+                     min-height: 300px;
+                     max-height: 400px;
+                     padding: 16px;
+                 }
+                 .card-front, .card-back {
+                     padding: 16px;
+                 }
+                 .math-content {
+                     font-size: 11px;
+                     max-height: 300px;
+                 }
+                 .math-formula {
+                     padding: 8px;
+                     margin: 6px 0;
+                     font-size: 10px;
+                 }
+             }
         </style>
     </head>
     <body>
