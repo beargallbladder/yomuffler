@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Ford Bayesian Risk Score Engine - Advanced Prognostic Platform
-Sophisticated interface showcasing cohort analysis, stressor identification, and dealer messaging
+Bayesian Vehicle Risk Engine - Advanced Stressor Platform
+Cohort-based behavioral stressor identification for dealer engagement
 """
 
 import os
@@ -21,8 +21,8 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="Ford Bayesian Prognostic Risk Engine",
-    description="Advanced Cohort-Based Risk Stratification & Dealer Messaging Platform",
+    title="Bayesian Vehicle Stressor Engine",
+    description="Advanced Cohort-Based Behavioral Analysis & Dealer Messaging Platform",
     version="2.0.0"
 )
 
@@ -53,7 +53,7 @@ INDUSTRY_PRIORS = {
         }
     },
     "engine_degradation": {
-        "base_rate": 0.145,  # Ford Historical Repair Data
+        "base_rate": 0.145,  # Historical Repair Data
         "stressor_multipliers": {
             "oil_interval": 2.78,
             "cold_starts": 2.34,
@@ -74,13 +74,13 @@ DEMO_VEHICLES = {
         "location": "Detroit, MI",
         "usage_pattern": "Heavy Duty Commercial",
         "current_dtcs": ["P0171", "P0174"],
-        "prognostic_flags": [
+        "stressor_flags": [
             {
                 "component": "Battery",
                 "risk_increase": 0.234,
                 "stressor": "SOC Decline Pattern",
                 "likelihood_ratio": 6.50,
-                "days_to_failure": 23,
+                "cohort_outlier": "95th percentile",
                 "confidence": 0.92
             },
             {
@@ -88,7 +88,7 @@ DEMO_VEHICLES = {
                 "risk_increase": 0.156,
                 "stressor": "Thermal Cycling",
                 "likelihood_ratio": 3.21,
-                "days_to_failure": 67,
+                "cohort_outlier": "87th percentile",
                 "confidence": 0.87
             }
         ],
@@ -108,13 +108,13 @@ DEMO_VEHICLES = {
         "location": "Austin, TX",
         "usage_pattern": "Personal Light Duty",
         "current_dtcs": [],
-        "prognostic_flags": [
+        "stressor_flags": [
             {
                 "component": "Engine",
                 "risk_increase": 0.067,
                 "stressor": "Oil Interval Extension",
                 "likelihood_ratio": 2.78,
-                "days_to_failure": 134,
+                "cohort_outlier": "68th percentile",
                 "confidence": 0.78
             }
         ],
@@ -134,13 +134,13 @@ DEMO_VEHICLES = {
         "location": "Los Angeles, CA",
         "usage_pattern": "Performance Enthusiast",
         "current_dtcs": ["P0300"],
-        "prognostic_flags": [
+        "stressor_flags": [
             {
                 "component": "Engine",
                 "risk_increase": 0.198,
                 "stressor": "High RPM Pattern",
                 "likelihood_ratio": 2.34,
-                "days_to_failure": 89,
+                "cohort_outlier": "91st percentile",
                 "confidence": 0.84
             }
         ],
@@ -156,196 +156,206 @@ DEMO_VEHICLES = {
 class VehicleInput(BaseModel):
     vin: str
 
-class PrognosticAnalysis(BaseModel):
+class StressorAnalysis(BaseModel):
     vin: str
     vehicle_info: Dict
     risk_summary: Dict
-    prognostic_insights: List[Dict]
+    stressor_insights: List[Dict]
     stressor_analysis: Dict
     cohort_comparison: Dict
     dealer_messaging: Dict
     revenue_opportunity: Dict
 
 @app.get("/", response_class=HTMLResponse)
-async def advanced_dashboard():
-    """Advanced Prognostic Dashboard - Engineering Team Demonstration"""
+async def stressor_dashboard():
+    """Advanced Stressor Dashboard - Dealer Engagement Platform"""
     return HTMLResponse("""
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ford Bayesian Prognostic Risk Engine</title>
+        <title>Bayesian Vehicle Stressor Engine</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body { 
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: linear-gradient(135deg, #0f1419 0%, #1e3c72 50%, #2a5298 100%);
+                font-family: 'Inter', 'Segoe UI', sans-serif;
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
                 min-height: 100vh;
                 color: white;
                 overflow-x: hidden;
             }
             
             .header {
-                background: rgba(0,0,0,0.3);
-                padding: 20px;
+                background: rgba(255,255,255,0.1);
+                padding: 24px;
                 text-align: center;
-                border-bottom: 2px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
             }
             
             .logo { 
-                font-size: 28px; 
-                font-weight: bold; 
-                margin-bottom: 10px;
-                background: linear-gradient(45deg, #00d4ff, #0099cc);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
+                font-size: 32px; 
+                font-weight: 700; 
+                margin-bottom: 8px;
+                color: white;
+                letter-spacing: -0.5px;
             }
             
             .subtitle { 
                 opacity: 0.9; 
                 font-size: 16px; 
-                color: #87CEEB;
+                color: rgba(255,255,255,0.8);
+                font-weight: 400;
             }
             
             .main-container {
-                max-width: 1400px;
+                max-width: 1200px;
                 margin: 0 auto;
-                padding: 20px;
+                padding: 32px 24px;
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 20px;
+                gap: 24px;
             }
             
-                         .card {
-                 background: rgba(255,255,255,0.05);
-                 border-radius: 15px;
-                 padding: 25px;
-                 backdrop-filter: blur(10px);
-                 border: 1px solid rgba(255,255,255,0.1);
-                 transition: transform 0.3s ease;
-                 position: relative;
-                 transform-style: preserve-3d;
-                 cursor: pointer;
-                 min-height: 300px;
-             }
-             
-             .card:hover {
-                 transform: translateY(-5px);
-                 box-shadow: 0 10px 30px rgba(0,212,255,0.2);
-             }
-             
-             .card.flipped {
-                 transform: rotateY(180deg);
-             }
-             
-             .card-front, .card-back {
-                 position: absolute;
-                 top: 0;
-                 left: 0;
-                 right: 0;
-                 bottom: 0;
-                 padding: 25px;
-                 border-radius: 15px;
-                 backface-visibility: hidden;
-                 transition: all 0.6s ease;
-             }
-             
-             .card-back {
-                 transform: rotateY(180deg);
-                 background: rgba(0,50,100,0.1);
-                 border: 1px solid rgba(0,212,255,0.3);
-             }
-             
-             .math-content {
-                 font-family: 'Courier New', monospace;
-                 font-size: 14px;
-                 line-height: 1.6;
-                 color: #87CEEB;
-             }
-             
-             .math-formula {
-                 background: rgba(0,0,0,0.3);
-                 padding: 10px;
-                 border-radius: 8px;
-                 margin: 10px 0;
-                 border-left: 3px solid #00d4ff;
-             }
-             
-             .flip-indicator {
-                 position: absolute;
-                 top: 10px;
-                 right: 10px;
-                 background: rgba(0,212,255,0.2);
-                 color: #00d4ff;
-                 padding: 5px 10px;
-                 border-radius: 15px;
-                 font-size: 12px;
-                 font-weight: bold;
-             }
+            .card {
+                background: rgba(255,255,255,0.1);
+                border-radius: 16px;
+                padding: 24px;
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255,255,255,0.2);
+                transition: all 0.3s ease;
+                position: relative;
+                transform-style: preserve-3d;
+                cursor: pointer;
+                min-height: 280px;
+            }
+            
+            .card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                background: rgba(255,255,255,0.15);
+            }
+            
+            .card.flipped {
+                transform: rotateY(180deg);
+            }
+            
+            .card-front, .card-back {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 24px;
+                border-radius: 16px;
+                backface-visibility: hidden;
+                transition: all 0.6s ease;
+            }
+            
+            .card-back {
+                transform: rotateY(180deg);
+                background: rgba(30,64,175,0.2);
+                border: 1px solid rgba(96,165,250,0.4);
+            }
+            
+            .math-content {
+                font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+                font-size: 13px;
+                line-height: 1.6;
+                color: rgba(255,255,255,0.9);
+            }
+            
+            .math-formula {
+                background: rgba(0,0,0,0.3);
+                padding: 12px;
+                border-radius: 8px;
+                margin: 12px 0;
+                border-left: 3px solid #60a5fa;
+                font-weight: 500;
+            }
+            
+            .flip-indicator {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(96,165,250,0.3);
+                color: white;
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
             
             .card-title {
                 font-size: 18px;
-                font-weight: bold;
-                margin-bottom: 15px;
-                color: #00d4ff;
-                border-bottom: 2px solid rgba(0,212,255,0.3);
-                padding-bottom: 10px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                color: white;
+                border-bottom: 2px solid rgba(255,255,255,0.2);
+                padding-bottom: 12px;
             }
             
             .input-section {
                 grid-column: 1 / -1;
                 text-align: center;
+                background: rgba(255,255,255,0.1);
             }
             
             .vin-input {
-                width: 300px;
-                padding: 15px;
+                width: 320px;
+                padding: 16px 20px;
                 border: none;
-                border-radius: 10px;
+                border-radius: 12px;
                 font-size: 16px;
-                background: rgba(255,255,255,0.9);
-                color: #333;
-                margin: 0 10px;
+                background: rgba(255,255,255,0.95);
+                color: #1e40af;
+                margin: 0 12px;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             }
             
             .analyze-btn {
-                padding: 15px 30px;
+                padding: 16px 32px;
                 border: none;
-                border-radius: 10px;
+                border-radius: 12px;
                 font-size: 16px;
-                font-weight: bold;
-                background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+                font-weight: 600;
+                background: linear-gradient(45deg, #ef4444, #dc2626);
                 color: white;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(239,68,68,0.3);
             }
             
             .analyze-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+                box-shadow: 0 8px 20px rgba(239,68,68,0.4);
             }
             
             .demo-vins {
-                margin-top: 20px;
+                margin-top: 24px;
                 display: flex;
                 justify-content: center;
-                gap: 10px;
+                gap: 12px;
                 flex-wrap: wrap;
             }
             
             .demo-vin {
-                padding: 8px 15px;
-                background: rgba(0,212,255,0.2);
-                border-radius: 20px;
-                font-size: 12px;
+                padding: 12px 20px;
+                background: rgba(255,255,255,0.15);
+                border-radius: 24px;
+                font-size: 13px;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                border: 1px solid rgba(0,212,255,0.3);
+                border: 1px solid rgba(255,255,255,0.2);
+                font-weight: 500;
             }
             
             .demo-vin:hover {
-                background: rgba(0,212,255,0.4);
+                background: rgba(255,255,255,0.25);
                 transform: scale(1.05);
             }
             
@@ -356,79 +366,88 @@ async def advanced_dashboard():
             
             .results-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                gap: 20px;
-                margin-top: 20px;
+                grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+                gap: 24px;
+                margin-top: 24px;
             }
             
             .metric {
                 display: flex;
                 justify-content: space-between;
-                margin: 10px 0;
-                padding: 10px;
-                background: rgba(255,255,255,0.05);
+                margin: 12px 0;
+                padding: 12px;
+                background: rgba(255,255,255,0.1);
                 border-radius: 8px;
             }
             
-            .metric-label { color: #87CEEB; }
-            .metric-value { font-weight: bold; }
+            .metric-label { 
+                color: rgba(255,255,255,0.8); 
+                font-weight: 500;
+            }
+            .metric-value { 
+                font-weight: 600; 
+                color: white;
+            }
             
-            .risk-high { color: #ff6b6b; }
-            .risk-moderate { color: #ffa726; }
-            .risk-low { color: #4caf50; }
+            .risk-high { color: #fca5a5; }
+            .risk-moderate { color: #fde047; }
+            .risk-low { color: #86efac; }
             
             .stressor-bar {
                 width: 100%;
-                height: 20px;
+                height: 24px;
                 background: rgba(255,255,255,0.1);
-                border-radius: 10px;
+                border-radius: 12px;
                 overflow: hidden;
-                margin: 5px 0;
+                margin: 8px 0;
             }
             
             .stressor-fill {
                 height: 100%;
-                background: linear-gradient(90deg, #4caf50, #ffa726, #ff6b6b);
+                background: linear-gradient(90deg, #86efac, #fde047, #fca5a5);
                 transition: width 0.8s ease;
+                border-radius: 12px;
             }
             
-            .prognostic-alert {
-                background: linear-gradient(45deg, rgba(255,107,107,0.2), rgba(255,193,7,0.2));
-                border-left: 4px solid #ff6b6b;
-                padding: 15px;
-                margin: 10px 0;
+            .stressor-alert {
+                background: rgba(239,68,68,0.2);
+                border-left: 4px solid #ef4444;
+                padding: 16px;
+                margin: 12px 0;
                 border-radius: 8px;
             }
             
             .dealer-message {
-                background: rgba(0,212,255,0.1);
-                border-left: 4px solid #00d4ff;
-                padding: 15px;
-                margin: 10px 0;
+                background: rgba(96,165,250,0.2);
+                border-left: 4px solid #60a5fa;
+                padding: 16px;
+                margin: 12px 0;
                 border-radius: 8px;
                 font-style: italic;
+                line-height: 1.5;
             }
             
             .revenue-highlight {
-                background: linear-gradient(45deg, rgba(76,175,80,0.2), rgba(139,195,74,0.2));
-                border-left: 4px solid #4caf50;
-                padding: 15px;
-                margin: 10px 0;
+                background: rgba(34,197,94,0.2);
+                border-left: 4px solid #22c55e;
+                padding: 16px;
+                margin: 12px 0;
                 border-radius: 8px;
                 text-align: center;
             }
             
             .loading {
                 text-align: center;
-                padding: 40px;
-                color: #00d4ff;
+                padding: 48px;
+                color: white;
+                font-size: 18px;
             }
             
             .loading::after {
                 content: "⚡";
                 animation: pulse 1s infinite;
-                font-size: 24px;
-                margin-left: 10px;
+                font-size: 28px;
+                margin-left: 12px;
             }
             
             @keyframes pulse {
@@ -439,11 +458,11 @@ async def advanced_dashboard():
             @media (max-width: 768px) {
                 .main-container {
                     grid-template-columns: 1fr;
-                    padding: 10px;
+                    padding: 16px;
                 }
                 .vin-input {
-                    width: 250px;
-                    margin: 5px;
+                    width: 280px;
+                    margin: 8px;
                 }
                 .results-grid {
                     grid-template-columns: 1fr;
@@ -453,30 +472,30 @@ async def advanced_dashboard():
     </head>
     <body>
         <div class="header">
-            <div class="logo">🚗 FORD BAYESIAN PROGNOSTIC ENGINE</div>
-            <div class="subtitle">Advanced Cohort-Based Risk Stratification & Predictive Maintenance</div>
+            <div class="logo">🎯 VEHICLE STRESSOR ENGINE</div>
+            <div class="subtitle">Cohort-Based Behavioral Analysis for Dealer Engagement</div>
         </div>
         
         <div class="main-container">
             <div class="card input-section">
-                <div class="card-title">🎯 Vehicle Risk Analysis</div>
-                <p style="margin-bottom: 20px; color: #87CEEB;">
-                    Enter a VIN to see <strong>prognostic risk analysis</strong> with industry-validated Bayesian priors,
-                    cohort stratification, and stressor identification that prevents downtime before it happens.
+                <div class="card-title">🔬 Stressor Analysis</div>
+                <p style="margin-bottom: 24px; color: rgba(255,255,255,0.8); line-height: 1.5;">
+                    Enter a VIN to identify <strong>behavioral stressor patterns</strong> using industry-validated priors.
+                    See how this vehicle compares to its cohort and generate dealer conversation opportunities.
                 </p>
                 
                 <input type="text" id="vin" class="vin-input" placeholder="Enter 17-character VIN">
-                <button class="analyze-btn" onclick="analyzeVehicle()">🔬 Analyze Risk Profile</button>
+                <button class="analyze-btn" onclick="analyzeVehicle()">🔍 Analyze Stressors</button>
                 
                 <div class="demo-vins">
                     <div class="demo-vin" onclick="setVin('1FMCU9GD5LUA12345')">
-                        🚛 F-150 Heavy Duty (High Risk)
+                        🚛 F-150 Heavy Duty (High Stressor)
                     </div>
                     <div class="demo-vin" onclick="setVin('1FTFW1ET5DFC67890')">
-                        🚗 F-150 Personal (Low Risk)
+                        🚗 F-150 Personal (Moderate Stressor)
                     </div>
                     <div class="demo-vin" onclick="setVin('1FA6P8TH8J5123456')">
-                        🏎️ Mustang GT (Performance)
+                        🏎️ Mustang GT (Performance Stressor)
                     </div>
                 </div>
             </div>
@@ -489,16 +508,18 @@ async def advanced_dashboard():
         </div>
         
         <script>
-                         function setVin(vin) {
-                 const vinInput = document.getElementById('vin');
-                 vinInput.value = vin;
-                 vinInput.focus();
-                 vinInput.select();
-             }
-             
-             function flipCard(cardElement) {
-                 cardElement.classList.toggle('flipped');
-             }
+            function setVin(vin) {
+                const vinInput = document.getElementById('vin');
+                vinInput.value = '';
+                setTimeout(() => {
+                    vinInput.value = vin;
+                    vinInput.focus();
+                }, 100);
+            }
+            
+            function flipCard(cardElement) {
+                cardElement.classList.toggle('flipped');
+            }
             
             async function analyzeVehicle() {
                 const vin = document.getElementById('vin').value.trim();
@@ -511,10 +532,10 @@ async def advanced_dashboard():
                 }
                 
                 resultsContainer.style.display = 'block';
-                resultsGrid.innerHTML = '<div class="loading">🔬 Performing Advanced Bayesian Analysis...</div>';
+                resultsGrid.innerHTML = '<div class="loading">🔬 Analyzing Behavioral Stressors...</div>';
                 
                 try {
-                    const response = await fetch('/analyze-prognostic', {
+                    const response = await fetch('/analyze-stressors', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ vin: vin })
@@ -523,7 +544,7 @@ async def advanced_dashboard():
                     const data = await response.json();
                     displayResults(data);
                 } catch (error) {
-                    resultsGrid.innerHTML = '<div style="color: #ff6b6b; text-align: center;">Analysis failed. Please try again.</div>';
+                    resultsGrid.innerHTML = '<div style="color: #fca5a5; text-align: center;">Analysis failed. Please try again.</div>';
                 }
             }
             
@@ -532,241 +553,239 @@ async def advanced_dashboard():
                 
                 resultsGrid.innerHTML = `
                     <!-- Vehicle Overview -->
-                    <div class="card">
-                        <div class="card-title">🚗 Vehicle Profile</div>
-                        <div class="metric">
-                            <span class="metric-label">Model:</span>
-                            <span class="metric-value">${data.vehicle_info.model}</span>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="flip-indicator">CLICK TO FLIP</div>
+                        <div class="card-front">
+                            <div class="card-title">🚗 Vehicle Profile</div>
+                            <div class="metric">
+                                <span class="metric-label">Model:</span>
+                                <span class="metric-value">${data.vehicle_info.model}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Cohort:</span>
+                                <span class="metric-value">${data.vehicle_info.cohort}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Usage Pattern:</span>
+                                <span class="metric-value">${data.vehicle_info.usage_pattern}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Location:</span>
+                                <span class="metric-value">${data.vehicle_info.location}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Mileage:</span>
+                                <span class="metric-value">${data.vehicle_info.mileage.toLocaleString()} miles</span>
+                            </div>
                         </div>
-                        <div class="metric">
-                            <span class="metric-label">Cohort:</span>
-                            <span class="metric-value">${data.vehicle_info.cohort}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Usage Pattern:</span>
-                            <span class="metric-value">${data.vehicle_info.usage_pattern}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Location:</span>
-                            <span class="metric-value">${data.vehicle_info.location}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Mileage:</span>
-                            <span class="metric-value">${data.vehicle_info.mileage.toLocaleString()} miles</span>
+                        <div class="card-back">
+                            <div class="card-title">📋 Cohort Definition</div>
+                            <div class="math-content">
+                                <strong>Cohort Stratification:</strong>
+                                <div class="math-formula">
+                                    ${data.vehicle_info.cohort}
+                                </div>
+                                <div style="margin: 15px 0;">
+                                    <strong>Components:</strong><br>
+                                    • Model: ${data.vehicle_info.model.split(' ')[0]}<br>
+                                    • Powertrain: ICE<br>
+                                    • Region: ${data.vehicle_info.location.split(',')[1]?.trim() || 'Unknown'}<br>
+                                    • Usage: ${data.vehicle_info.usage_pattern.includes('Heavy') ? 'HEAVY' : data.vehicle_info.usage_pattern.includes('Performance') ? 'LIGHT' : 'MEDIUM'}
+                                </div>
+                                <small><em>Click to flip back</em></small>
+                            </div>
                         </div>
                     </div>
                     
                     <!-- Risk Summary -->
-                    <div class="card">
-                        <div class="card-title">⚠️ Risk Assessment</div>
-                        <div class="metric">
-                            <span class="metric-label">Overall Risk Score:</span>
-                            <span class="metric-value risk-${data.risk_summary.severity.toLowerCase()}">${(data.risk_summary.score * 100).toFixed(1)}%</span>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="flip-indicator">CLICK TO FLIP</div>
+                        <div class="card-front">
+                            <div class="card-title">⚠️ Stressor Summary</div>
+                            <div class="metric">
+                                <span class="metric-label">Stressor Score:</span>
+                                <span class="metric-value risk-${data.risk_summary.severity.toLowerCase()}">${(data.risk_summary.score * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Severity Level:</span>
+                                <span class="metric-value risk-${data.risk_summary.severity.toLowerCase()}">${data.risk_summary.severity}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Confidence:</span>
+                                <span class="metric-value">${(data.risk_summary.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Cohort Outlier:</span>
+                                <span class="metric-value">${data.cohort_comparison.percentile}th percentile</span>
+                            </div>
                         </div>
-                        <div class="metric">
-                            <span class="metric-label">Severity Level:</span>
-                            <span class="metric-value risk-${data.risk_summary.severity.toLowerCase()}">${data.risk_summary.severity}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Confidence:</span>
-                            <span class="metric-value">${(data.risk_summary.confidence * 100).toFixed(1)}%</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Days to Intervention:</span>
-                            <span class="metric-value">${data.risk_summary.days_to_intervention}</span>
+                        <div class="card-back">
+                            <div class="card-title">🧮 Risk Calculation</div>
+                            <div class="math-content">
+                                <strong>Bayesian Risk Formula:</strong>
+                                <div class="math-formula">
+                                    Final_Risk = Base_Rate × Cohort_Multiplier × Stressor_Impact
+                                </div>
+                                <div style="margin: 15px 0;">
+                                    <strong>Calculation:</strong><br>
+                                    <div class="math-formula">
+                                        Base: 2.3% (Argon/NHTSA)<br>
+                                        Cohort: ${data.cohort_comparison.multiplier}x<br>
+                                        Stressors: ${((data.risk_summary.score / (0.023 * data.cohort_comparison.multiplier))).toFixed(2)}x<br>
+                                        Result: ${(data.risk_summary.score * 100).toFixed(1)}%
+                                    </div>
+                                </div>
+                                <small><em>Click to flip back</em></small>
+                            </div>
                         </div>
                     </div>
                     
-                                         <!-- Vehicle Stressors -->
-                     <div class="card" onclick="flipCard(this)">
-                         <div class="flip-indicator">CLICK TO FLIP</div>
-                         <div class="card-front">
-                             <div class="card-title">⚡ Vehicle Stressors</div>
-                             ${data.prognostic_insights.map(insight => `
-                                 <div class="prognostic-alert">
-                                     <strong>⚡ ${insight.component} Risk Increase: +${(insight.risk_increase * 100).toFixed(1)}%</strong><br>
-                                     <small>Stressor: ${insight.stressor} (LR: ${insight.likelihood_ratio}x)</small><br>
-                                     <small>Estimated Failure: ${insight.days_to_failure} days</small>
-                                 </div>
-                             `).join('')}
-                         </div>
-                         <div class="card-back">
-                             <div class="card-title">📊 Bayesian Math</div>
-                             <div class="math-content">
-                                 <strong>Likelihood Ratio Calculation:</strong>
-                                 <div class="math-formula">
-                                     P(Failure|Stressor) = P(Stressor|Failure) × P(Failure) / P(Stressor)
-                                 </div>
-                                 ${data.prognostic_insights.map(insight => `
-                                     <div style="margin: 15px 0;">
-                                         <strong>${insight.component} Analysis:</strong><br>
-                                         <div class="math-formula">
-                                             Base Rate: 2.3% (Argon Study 2015)<br>
-                                             Stressor LR: ${insight.likelihood_ratio}x<br>
-                                             Posterior = 0.023 × ${insight.likelihood_ratio} = ${(0.023 * insight.likelihood_ratio).toFixed(3)}<br>
-                                             Risk Increase: +${(insight.risk_increase * 100).toFixed(1)}%
-                                         </div>
-                                     </div>
-                                 `).join('')}
-                                 <small><em>Click to flip back</em></small>
-                             </div>
-                         </div>
-                     </div>
+                    <!-- Vehicle Stressors -->
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="flip-indicator">CLICK TO FLIP</div>
+                        <div class="card-front">
+                            <div class="card-title">⚡ Vehicle Stressors</div>
+                            ${data.stressor_insights.map(insight => `
+                                <div class="stressor-alert">
+                                    <strong>⚡ ${insight.component}: ${insight.stressor}</strong><br>
+                                    <small>Cohort Outlier: ${insight.cohort_outlier} (LR: ${insight.likelihood_ratio}x)</small><br>
+                                    <small>Risk Increase: +${(insight.risk_increase * 100).toFixed(1)}%</small>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="card-back">
+                            <div class="card-title">📊 Stressor Math</div>
+                            <div class="math-content">
+                                <strong>Likelihood Ratio Analysis:</strong>
+                                <div class="math-formula">
+                                    P(Stressor|Failure) / P(Stressor|Normal)
+                                </div>
+                                ${data.stressor_insights.map(insight => `
+                                    <div style="margin: 15px 0;">
+                                        <strong>${insight.component}:</strong><br>
+                                        <div class="math-formula">
+                                            Stressor: ${insight.stressor}<br>
+                                            LR: ${insight.likelihood_ratio}x<br>
+                                            Outlier: ${insight.cohort_outlier}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                <small><em>Click to flip back</em></small>
+                            </div>
+                        </div>
+                    </div>
                     
-                                         <!-- Stressor Analysis -->
-                     <div class="card" onclick="flipCard(this)">
-                         <div class="flip-indicator">CLICK TO FLIP</div>
-                         <div class="card-front">
-                             <div class="card-title">🎯 Stressor Profile</div>
-                             ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
-                                 <div style="margin: 15px 0;">
-                                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                         <span>${stressor.replace('_', ' ').toUpperCase()}</span>
-                                         <span>${(value * 100).toFixed(1)}%</span>
-                                     </div>
-                                     <div class="stressor-bar">
-                                         <div class="stressor-fill" style="width: ${value * 100}%"></div>
-                                     </div>
-                                 </div>
-                             `).join('')}
-                         </div>
-                         <div class="card-back">
-                             <div class="card-title">🧮 Stressor Math</div>
-                             <div class="math-content">
-                                 <strong>Stressor Impact Calculation:</strong>
-                                 <div class="math-formula">
-                                     Final_Risk = Base_Rate × Cohort_Multiplier × ∏(1 + (LR_i - 1) × Stressor_i)
-                                 </div>
-                                 ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
-                                     <div style="margin: 10px 0;">
-                                         <strong>${stressor.replace('_', ' ').toUpperCase()}:</strong><br>
-                                         <div class="math-formula">
-                                             Intensity: ${(value * 100).toFixed(1)}%<br>
-                                             Multiplier: ${stressor === 'soc_decline' ? '6.50x' : stressor === 'trip_cycling' ? '2.83x' : stressor === 'climate_stress' ? '2.39x' : '2.16x'}<br>
-                                             Impact: 1 + (${stressor === 'soc_decline' ? '6.50' : stressor === 'trip_cycling' ? '2.83' : stressor === 'climate_stress' ? '2.39' : '2.16'} - 1) × ${value.toFixed(2)} = ${(1 + (parseFloat(stressor === 'soc_decline' ? '6.50' : stressor === 'trip_cycling' ? '2.83' : stressor === 'climate_stress' ? '2.39' : '2.16') - 1) * value).toFixed(2)}
-                                         </div>
-                                     </div>
-                                 `).join('')}
-                                 <small><em>Click to flip back</em></small>
-                             </div>
-                         </div>
-                     </div>
+                    <!-- Stressor Analysis -->
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="flip-indicator">CLICK TO FLIP</div>
+                        <div class="card-front">
+                            <div class="card-title">🎯 Behavioral Profile</div>
+                            ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
+                                <div style="margin: 15px 0;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>${stressor.replace('_', ' ').toUpperCase()}</span>
+                                        <span>${(value * 100).toFixed(1)}%</span>
+                                    </div>
+                                    <div class="stressor-bar">
+                                        <div class="stressor-fill" style="width: ${value * 100}%"></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="card-back">
+                            <div class="card-title">🧮 Pattern Math</div>
+                            <div class="math-content">
+                                <strong>Behavioral Pattern Analysis:</strong>
+                                <div class="math-formula">
+                                    Stressor_Impact = 1 + (LR - 1) × Intensity
+                                </div>
+                                ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
+                                    <div style="margin: 10px 0;">
+                                        <strong>${stressor.replace('_', ' ').toUpperCase()}:</strong><br>
+                                        <div class="math-formula">
+                                            Intensity: ${(value * 100).toFixed(1)}%<br>
+                                            Based on historical failure patterns
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                <small><em>Click to flip back</em></small>
+                            </div>
+                        </div>
+                    </div>
                     
-                                         <!-- Cohort Comparison -->
-                     <div class="card" onclick="flipCard(this)">
-                         <div class="flip-indicator">CLICK TO FLIP</div>
-                         <div class="card-front">
-                             <div class="card-title">👥 Cohort Analysis</div>
-                             <div class="metric">
-                                 <span class="metric-label">Cohort Risk Multiplier:</span>
-                                 <span class="metric-value">${data.cohort_comparison.multiplier}x</span>
-                             </div>
-                             <div class="metric">
-                                 <span class="metric-label">Percentile Rank:</span>
-                                 <span class="metric-value">${data.cohort_comparison.percentile}th percentile</span>
-                             </div>
-                             <div class="metric">
-                                 <span class="metric-label">Similar Vehicles:</span>
-                                 <span class="metric-value">${data.cohort_comparison.sample_size.toLocaleString()}</span>
-                             </div>
-                         </div>
-                         <div class="card-back">
-                             <div class="card-title">📈 Cohort Math</div>
-                             <div class="math-content">
-                                 <strong>Cohort Stratification Logic:</strong>
-                                 <div class="math-formula">
-                                     Cohort_Risk = Base_Rate × Cohort_Multiplier
-                                 </div>
-                                 <div style="margin: 15px 0;">
-                                     <strong>Vehicle Cohort:</strong> ${data.vehicle_info.cohort}<br>
-                                     <div class="math-formula">
-                                         Base Rate: 2.3% (Industry Standard)<br>
-                                         Cohort Multiplier: ${data.cohort_comparison.multiplier}x<br>
-                                         Cohort Risk: 0.023 × ${data.cohort_comparison.multiplier} = ${(0.023 * data.cohort_comparison.multiplier).toFixed(3)}
-                                     </div>
-                                 </div>
-                                 <div style="margin: 15px 0;">
-                                     <strong>Sample Statistics:</strong><br>
-                                     <div class="math-formula">
-                                         Sample Size: ${data.cohort_comparison.sample_size.toLocaleString()} vehicles<br>
-                                         Percentile: ${data.cohort_comparison.percentile}th (higher = more risk)<br>
-                                         Z-Score: ${((data.cohort_comparison.percentile - 50) / 15).toFixed(2)}
-                                     </div>
-                                 </div>
-                                 <small><em>Click to flip back</em></small>
-                             </div>
-                         </div>
-                     </div>
+                    <!-- Cohort Comparison -->
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="flip-indicator">CLICK TO FLIP</div>
+                        <div class="card-front">
+                            <div class="card-title">👥 Cohort Comparison</div>
+                            <div class="metric">
+                                <span class="metric-label">Cohort Multiplier:</span>
+                                <span class="metric-value">${data.cohort_comparison.multiplier}x</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Percentile Rank:</span>
+                                <span class="metric-value">${data.cohort_comparison.percentile}th percentile</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Similar Vehicles:</span>
+                                <span class="metric-value">${data.cohort_comparison.sample_size.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-title">📈 Cohort Statistics</div>
+                            <div class="math-content">
+                                <strong>Statistical Position:</strong>
+                                <div class="math-formula">
+                                    Percentile = (Rank / Total) × 100
+                                </div>
+                                <div style="margin: 15px 0;">
+                                    <strong>Analysis:</strong><br>
+                                    <div class="math-formula">
+                                        Sample: ${data.cohort_comparison.sample_size.toLocaleString()} vehicles<br>
+                                        Rank: ${data.cohort_comparison.percentile}th percentile<br>
+                                        ${data.cohort_comparison.percentile > 80 ? 'HIGH OUTLIER' : data.cohort_comparison.percentile > 60 ? 'MODERATE OUTLIER' : 'NORMAL RANGE'}
+                                    </div>
+                                </div>
+                                <small><em>Click to flip back</em></small>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- Dealer Messaging -->
-                    <div class="card">
-                        <div class="card-title">💬 AI-Generated Dealer Message</div>
-                        <div class="dealer-message">
-                            "${data.dealer_messaging.message}"
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="flip-indicator">CLICK TO FLIP</div>
+                        <div class="card-front">
+                            <div class="card-title">💬 Dealer Conversation</div>
+                            <div class="dealer-message">
+                                "${data.dealer_messaging.message}"
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Conversation Type:</span>
+                                <span class="metric-value">${data.dealer_messaging.urgency}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Recommended Action:</span>
+                                <span class="metric-value">${data.dealer_messaging.action}</span>
+                            </div>
                         </div>
-                        <div class="metric">
-                            <span class="metric-label">Urgency Level:</span>
-                            <span class="metric-value">${data.dealer_messaging.urgency}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Recommended Action:</span>
-                            <span class="metric-value">${data.dealer_messaging.action}</span>
+                        <div class="card-back">
+                            <div class="card-title">🎯 Messaging Strategy</div>
+                            <div class="math-content">
+                                <strong>Conversation Framework:</strong>
+                                <div class="math-formula">
+                                    "Based on your cohort, we see behavioral patterns..."
+                                </div>
+                                <div style="margin: 15px 0;">
+                                    <strong>Key Points:</strong><br>
+                                    • Cohort-based comparison<br>
+                                    • Behavioral stressor identification<br>
+                                    • Preventive maintenance opportunity<br>
+                                    • No failure date prediction
+                                </div>
+                                <small><em>Click to flip back</em></small>
+                            </div>
                         </div>
                     </div>
-                    
-                                         <!-- Revenue Opportunity -->
-                     <div class="card" onclick="flipCard(this)">
-                         <div class="flip-indicator">CLICK TO FLIP</div>
-                         <div class="card-front">
-                             <div class="card-title">💰 Business Impact</div>
-                             <div class="revenue-highlight">
-                                 <h3>Revenue Opportunity: $${data.revenue_opportunity.total.toLocaleString()}</h3>
-                             </div>
-                             <div class="metric">
-                                 <span class="metric-label">Service Revenue:</span>
-                                 <span class="metric-value">$${data.revenue_opportunity.service.toLocaleString()}</span>
-                             </div>
-                             <div class="metric">
-                                 <span class="metric-label">Parts Revenue:</span>
-                                 <span class="metric-value">$${data.revenue_opportunity.parts.toLocaleString()}</span>
-                             </div>
-                             <div class="metric">
-                                 <span class="metric-label">Downtime Prevention:</span>
-                                 <span class="metric-value">$${data.revenue_opportunity.downtime_prevention.toLocaleString()}</span>
-                             </div>
-                             <div class="metric">
-                                 <span class="metric-label">Customer Retention Value:</span>
-                                 <span class="metric-value">$${data.revenue_opportunity.retention_value.toLocaleString()}</span>
-                             </div>
-                         </div>
-                         <div class="card-back">
-                             <div class="card-title">💹 Revenue Math</div>
-                             <div class="math-content">
-                                 <strong>ROI Calculation Framework:</strong>
-                                 <div class="math-formula">
-                                     Total_Value = Service + Parts + Downtime_Prevention + Retention
-                                 </div>
-                                 <div style="margin: 15px 0;">
-                                     <strong>Revenue Components:</strong><br>
-                                     <div class="math-formula">
-                                         Service: $${data.revenue_opportunity.service} (Proactive maintenance)<br>
-                                         Parts: $${data.revenue_opportunity.parts} (Component replacement)<br>
-                                         Downtime: $${data.revenue_opportunity.downtime_prevention} (Avoided costs)<br>
-                                         Retention: $${data.revenue_opportunity.retention_value} (Customer LTV)
-                                     </div>
-                                 </div>
-                                 <div style="margin: 15px 0;">
-                                     <strong>Risk-Adjusted Value:</strong><br>
-                                     <div class="math-formula">
-                                         Risk Score: ${(data.risk_summary.score * 100).toFixed(1)}%<br>
-                                         Expected Value: $${data.revenue_opportunity.total} × ${(data.risk_summary.score).toFixed(2)}<br>
-                                         = $${Math.round(data.revenue_opportunity.total * data.risk_summary.score).toLocaleString()}
-                                     </div>
-                                 </div>
-                                 <small><em>Click to flip back</em></small>
-                             </div>
-                         </div>
-                     </div>
                 `;
             }
         </script>
@@ -774,9 +793,9 @@ async def advanced_dashboard():
     </html>
     """)
 
-@app.post("/analyze-prognostic", response_model=PrognosticAnalysis)
-async def analyze_prognostic_risk(vehicle: VehicleInput):
-    """Advanced prognostic analysis with cohort stratification and dealer messaging"""
+@app.post("/analyze-stressors", response_model=StressorAnalysis)
+async def analyze_stressor_patterns(vehicle: VehicleInput):
+    """Analyze behavioral stressor patterns for dealer conversations"""
     vin = vehicle.vin.upper().strip()
     
     if vin not in DEMO_VEHICLES:
@@ -809,12 +828,12 @@ async def analyze_prognostic_risk(vehicle: VehicleInput):
     else:
         severity = "Critical"
     
-    # Generate AI dealer message (simulated)
+    # Generate dealer conversation messages (no failure prediction)
     dealer_messages = {
-        "High": f"Hi {vehicle_data['model']} owner! Our advanced diagnostics detected early signs of battery stress in your vehicle. We'd like to invite you for a complimentary battery health check to prevent unexpected downtime. Your vehicle's usage pattern shows {max(vehicle_data['stressor_profile'], key=vehicle_data['stressor_profile'].get)} stress - let's address this proactively!",
-        "Moderate": f"Your {vehicle_data['model']} is showing some early wear patterns. We recommend scheduling a preventive maintenance visit to optimize performance and extend component life.",
-        "Low": f"Great news! Your {vehicle_data['model']} is performing well. Continue your current maintenance routine for optimal reliability.",
-        "Critical": f"URGENT: Your {vehicle_data['model']} requires immediate attention. Our predictive analysis indicates potential component failure within 30 days. Please contact us immediately to schedule emergency service."
+        "High": f"Based on our cohort analysis, your {vehicle_data['model']} shows behavioral patterns similar to vehicles that have experienced issues. Your usage pattern indicates {max(vehicle_data['stressor_profile'], key=vehicle_data['stressor_profile'].get).replace('_', ' ')} stress levels that are outliers in your cohort. This creates a great opportunity for a preventive maintenance conversation.",
+        "Moderate": f"Your {vehicle_data['model']} shows some interesting behavioral patterns compared to similar vehicles in your cohort. We'd love to discuss how your driving patterns compare and explore preventive maintenance options.",
+        "Low": f"Great news! Your {vehicle_data['model']} behavioral patterns are well within normal ranges for your cohort. This is a perfect opportunity to reinforce good maintenance habits.",
+        "Critical": f"Your {vehicle_data['model']} shows behavioral stressor patterns that are significant outliers in your cohort. Based on historical data from similar vehicles, this creates an excellent opportunity for a proactive service conversation."
     }
     
     # Calculate revenue opportunity
@@ -823,7 +842,7 @@ async def analyze_prognostic_risk(vehicle: VehicleInput):
     downtime_prevention = random.randint(500, 2000)
     retention_value = random.randint(1000, 5000)
     
-    return PrognosticAnalysis(
+    return StressorAnalysis(
         vin=vin,
         vehicle_info={
             "model": vehicle_data["model"],
@@ -837,10 +856,9 @@ async def analyze_prognostic_risk(vehicle: VehicleInput):
         risk_summary={
             "score": final_risk,
             "severity": severity,
-            "confidence": 0.89,
-            "days_to_intervention": vehicle_data["prognostic_flags"][0]["days_to_failure"] if vehicle_data["prognostic_flags"] else 180
+            "confidence": 0.89
         },
-        prognostic_insights=vehicle_data["prognostic_flags"],
+        stressor_insights=vehicle_data["stressor_flags"],
         stressor_analysis=vehicle_data["stressor_profile"],
         cohort_comparison={
             "multiplier": cohort_multiplier,
@@ -850,7 +868,7 @@ async def analyze_prognostic_risk(vehicle: VehicleInput):
         dealer_messaging={
             "message": dealer_messages[severity],
             "urgency": severity,
-            "action": "Schedule Preventive Service" if severity in ["High", "Critical"] else "Monitor"
+            "action": "Preventive Service Discussion" if severity in ["High", "Critical"] else "Maintenance Reinforcement"
         },
         revenue_opportunity={
             "service": service_revenue,
@@ -866,15 +884,14 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "service": "Ford Bayesian Prognostic Risk Engine",
+        "service": "Bayesian Vehicle Stressor Engine",
         "version": "2.0.0",
         "deployment": "render.com",
         "features": [
-            "Industry-validated Bayesian priors",
-            "Cohort-based risk stratification", 
-            "Stressor identification",
-            "Prognostic failure prediction",
-            "AI-powered dealer messaging",
+            "Industry-validated behavioral analysis",
+            "Cohort-based stressor identification", 
+            "Dealer conversation opportunities",
+            "No failure date predictions",
             "Revenue opportunity calculation"
         ]
     }
