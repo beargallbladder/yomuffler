@@ -1,7 +1,7 @@
 services:
-  # Main API Service
+  # Ford Risk Score Engine - Standalone Service
   - type: web
-    name: ford-risk-api
+    name: yomuffler
     env: python
     plan: starter
     buildCommand: pip install -r requirements-render.txt
@@ -9,32 +9,5 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: ford-risk-redis
-          property: connectionString
-      - key: DATABASE_URL
-        fromDatabase:
-          name: ford-risk-db
-          property: connectionString
       - key: ENVIRONMENT
-        value: production
-      - key: API_TITLE
-        value: Ford Risk Score Engine
-      - key: API_DESCRIPTION
-        value: Mobile-friendly Bayesian risk scoring for Ford vehicles
-
-  # Redis Cache Service
-  - type: redis
-    name: ford-risk-redis
-    plan: starter
-    maxmemoryPolicy: allkeys-lru
-    ipAllowList: []
-
-# PostgreSQL Database
-databases:
-  - name: ford-risk-db
-    databaseName: ford_risk
-    user: ford_risk_user
-    plan: free 
+        value: production 
