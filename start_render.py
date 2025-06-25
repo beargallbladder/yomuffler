@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="Bayesian Vehicle Stressor Engine",
     description="Advanced Cohort-Based Behavioral Analysis & Dealer Messaging Platform",
-    version="2.0.0"
+    version="2.0.1"
 )
 
 # Industry-Validated Priors (from your specification)
