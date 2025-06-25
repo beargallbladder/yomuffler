@@ -1,0 +1,276 @@
+version: '3.8'
+
+services:
+  # Data Ingestion Swarm
+  vh-telemetry-agent:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.ingestion
+    environment:
+      - SERVICE_TYPE=vh_telemetry
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    networks:
+      - ford-swarm
+
+  soc-monitor-agent:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.ingestion
+    environment:
+      - SERVICE_TYPE=soc_monitor
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 2
+    networks:
+      - ford-swarm
+
+  trip-cycle-agent:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.ingestion
+    environment:
+      - SERVICE_TYPE=trip_cycle
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 2
+    networks:
+      - ford-swarm
+
+  climate-data-agent:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.ingestion
+    environment:
+      - SERVICE_TYPE=climate_data
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 1
+    networks:
+      - ford-swarm
+
+  # Processing Swarm
+  bayesian-engine:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.processing
+    environment:
+      - SERVICE_TYPE=bayesian_engine
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+      - WORKER_CONCURRENCY=4
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          memory: 1G
+          cpus: '2'
+        reservations:
+          memory: 512M
+          cpus: '1'
+    networks:
+      - ford-swarm
+
+  cohort-processor:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.processing
+    environment:
+      - SERVICE_TYPE=cohort_processor
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 3
+    networks:
+      - ford-swarm
+
+  risk-calculator:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.processing
+    environment:
+      - SERVICE_TYPE=risk_calculator
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 4
+    networks:
+      - ford-swarm
+
+  index-builder:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.processing
+    environment:
+      - SERVICE_TYPE=index_builder
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 2
+    networks:
+      - ford-swarm
+
+  # API Swarm
+  api-gateway:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - SERVICE_TYPE=api_gateway
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - redis
+      - postgres
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    networks:
+      - ford-swarm
+
+  load-balancer:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/ssl:/etc/nginx/ssl
+    depends_on:
+      - api-gateway
+    networks:
+      - ford-swarm
+
+  # Infrastructure Services
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 2gb --maxmemory-policy allkeys-lru
+    networks:
+      - ford-swarm
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=ford_risk
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ford-swarm
+
+  # Monitoring & Observability
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    networks:
+      - ford-swarm
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana:/etc/grafana/provisioning
+    networks:
+      - ford-swarm
+
+  # Message Queue for Swarm Communication
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=ford
+      - RABBITMQ_DEFAULT_PASS=risk_engine
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - ford-swarm
+
+  # Task Scheduler
+  celery-beat:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.scheduler
+    environment:
+      - CELERY_BROKER_URL=pyamqp://ford:risk_engine@rabbitmq:5672//
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://postgres:password@postgres:5432/ford_risk
+    depends_on:
+      - rabbitmq
+      - redis
+      - postgres
+    networks:
+      - ford-swarm
+
+volumes:
+  redis-data:
+  postgres-data:
+  prometheus-data:
+  grafana-data:
+  rabbitmq-data:
+
+networks:
+  ford-swarm:
+    driver: bridge 

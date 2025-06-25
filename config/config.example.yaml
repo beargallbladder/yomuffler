@@ -1,0 +1,222 @@
+# Ford Bayesian Risk Score Engine Configuration
+
+# Application Settings
+app:
+  name: "Ford Bayesian Risk Score Engine"
+  version: "1.0.0"
+  environment: "development"  # development, staging, production
+  debug: true
+  log_level: "INFO"
+
+# API Gateway Settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  max_request_size: 16777216  # 16MB
+  timeout: 30
+  cors:
+    enabled: true
+    origins: ["*"]
+    methods: ["GET", "POST", "PUT", "DELETE"]
+    headers: ["*"]
+
+# Database Configuration
+database:
+  postgres:
+    host: "localhost"
+    port: 5432
+    database: "ford_risk"
+    username: "postgres"
+    password: "password"
+    pool_size: 20
+    max_overflow: 30
+    echo: false
+
+# Redis Configuration
+redis:
+  host: "localhost"
+  port: 6379
+  database: 0
+  password: null
+  max_connections: 100
+  socket_timeout: 5
+  socket_connect_timeout: 5
+  retry_on_timeout: true
+
+# Message Queue (RabbitMQ)
+message_queue:
+  broker_url: "pyamqp://ford:risk_engine@localhost:5672//"
+  result_backend: "redis://localhost:6379/1"
+  task_serializer: "json"
+  accept_content: ["json"]
+  result_serializer: "json"
+  timezone: "UTC"
+
+# Swarm Configuration
+swarm:
+  orchestrator:
+    heartbeat_interval: 30
+    worker_timeout: 120
+    max_queue_depth: 1000
+    scale_up_threshold: 0.8
+    scale_down_threshold: 0.2
+    health_check_interval: 60
+  
+  services:
+    bayesian_engine:
+      min_workers: 2
+      max_workers: 10
+      memory_limit: "1G"
+      cpu_limit: 2
+    
+    cohort_processor:
+      min_workers: 1
+      max_workers: 5
+      memory_limit: "512M"
+      cpu_limit: 1
+    
+    risk_calculator:
+      min_workers: 2
+      max_workers: 8
+      memory_limit: "512M"
+      cpu_limit: 1
+    
+    index_builder:
+      min_workers: 1
+      max_workers: 3
+      memory_limit: "512M"
+      cpu_limit: 1
+    
+    vh_telemetry:
+      min_workers: 2
+      max_workers: 6
+      memory_limit: "256M"
+      cpu_limit: 0.5
+    
+    soc_monitor:
+      min_workers: 1
+      max_workers: 4
+      memory_limit: "256M"
+      cpu_limit: 0.5
+    
+    trip_cycle:
+      min_workers: 1
+      max_workers: 4
+      memory_limit: "256M"
+      cpu_limit: 0.5
+    
+    climate_data:
+      min_workers: 1
+      max_workers: 2
+      memory_limit: "256M"
+      cpu_limit: 0.5
+
+# Bayesian Engine Configuration
+bayesian:
+  model_version: "1.0"
+  confidence_threshold: 0.5
+  cache_ttl: 3600  # 1 hour
+  batch_size: 1000
+  max_batch_size: 10000
+  
+  # Industry Benchmarks
+  benchmarks:
+    argon_study_year: 2015
+    nhtsa_data_version: "2023"
+    ford_historical_cutoff: "2020-01-01"
+  
+  # Likelihood Ratio Thresholds
+  thresholds:
+    soc_decline: -0.15  # 15% decline over 30 days
+    trip_cycling: 50    # cycles per week
+    climate_stress: 0.7 # stress index
+    maintenance_compliance: 0.6  # compliance score
+
+# Caching Configuration
+cache:
+  risk_scores:
+    ttl: 3600  # 1 hour
+    max_size: 100000
+  
+  cohort_assignments:
+    ttl: 86400  # 24 hours
+    max_size: 10000
+  
+  batch_results:
+    ttl: 604800  # 7 days
+    max_size: 1000
+
+# Monitoring & Metrics
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9090
+    path: "/metrics"
+  
+  grafana:
+    enabled: true
+    port: 3000
+    admin_password: "admin"
+  
+  health_checks:
+    enabled: true
+    interval: 60
+    timeout: 10
+  
+  logging:
+    level: "INFO"
+    format: "json"
+    file: "logs/ford_risk_engine.log"
+    max_size: "100MB"
+    backup_count: 5
+
+# Security Configuration
+security:
+  api_keys:
+    enabled: false
+    header_name: "X-API-Key"
+  
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 1000
+    burst_size: 100
+  
+  cors:
+    enabled: true
+    allow_origins: ["*"]
+    allow_methods: ["GET", "POST"]
+    allow_headers: ["*"]
+
+# External Integrations
+integrations:
+  ford_vh_telemetry:
+    enabled: true
+    endpoint: "https://api.ford.com/vh/telemetry"
+    api_key: "${FORD_VH_API_KEY}"
+    timeout: 30
+    retry_count: 3
+  
+  weather_service:
+    enabled: true
+    provider: "openweather"
+    api_key: "${WEATHER_API_KEY}"
+    cache_ttl: 1800  # 30 minutes
+  
+  dealer_crm:
+    enabled: false
+    webhook_url: "${DEALER_CRM_WEBHOOK}"
+    timeout: 15
+
+# Development Settings
+development:
+  auto_reload: true
+  debug_mode: true
+  sample_data:
+    enabled: true
+    vehicle_count: 1000
+    generate_on_startup: false
+  
+  testing:
+    database_url: "postgresql://postgres:password@localhost:5432/ford_risk_test"
+    redis_url: "redis://localhost:6379/15" 
