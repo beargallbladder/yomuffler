@@ -538,6 +538,24 @@ async def stressor_dashboard():
                 transform: translateY(-4px);
                 box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4);
             }
+            
+            .ai-generate-btn {
+                background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            }
+            
+            .ai-generate-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+            }
         </style>
     </head>
     <body>
@@ -890,8 +908,15 @@ async def stressor_dashboard():
                                     <div id="ai-conversation" style="font-size: 15px; font-weight: 500; line-height: 1.4; font-style: italic;">
                                         "${data.dealer_conversation}"
                                     </div>
-                                    <div id="ai-loading" style="display: none; font-size: 13px; opacity: 0.7; margin-top: 8px;">
-                                        🤖 Generating enhanced AI conversation...
+                                    
+                                    <div style="text-align: center; margin-top: 16px;">
+                                        <button id="generate-ai-btn" onclick="generateAIConversation('${data.vehicle_info.vin}')" 
+                                                class="ai-generate-btn">
+                                            🤖 Generate Personalized Message
+                                        </button>
+                                        <div id="ai-loading" style="display: none; font-size: 13px; opacity: 0.7; margin-top: 8px;">
+                                            🤖 AI is crafting personalized conversation...
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -1019,17 +1044,16 @@ async def stressor_dashboard():
                         </div>
                     </div>
                 `;
-                
-                // Lazy load the AI conversation after displaying results
-                loadAIConversation(data.vehicle_info.vin);
             }
             
-            async function loadAIConversation(vin) {
+            async function generateAIConversation(vin) {
                 const aiConversationElement = document.getElementById('ai-conversation');
                 const aiLoadingElement = document.getElementById('ai-loading');
+                const generateBtn = document.getElementById('generate-ai-btn');
                 
                 try {
-                    // Show loading indicator
+                    // Hide button and show loading
+                    generateBtn.style.display = 'none';
                     aiLoadingElement.style.display = 'block';
                     
                     const response = await fetch('/generate-ai-conversation', {
@@ -1044,10 +1068,21 @@ async def stressor_dashboard():
                     aiLoadingElement.style.display = 'none';
                     aiConversationElement.innerHTML = `"${data.ai_conversation}"`;
                     
+                    // Show success indicator
+                    aiLoadingElement.innerHTML = '✅ Personalized message generated!';
+                    aiLoadingElement.style.display = 'block';
+                    aiLoadingElement.style.color = '#22c55e';
+                    setTimeout(() => {
+                        aiLoadingElement.style.display = 'none';
+                    }, 2000);
+                    
                 } catch (error) {
-                    // Hide loading on error, keep fallback conversation
+                    // Show error and restore button
                     aiLoadingElement.style.display = 'none';
-                    console.log('AI conversation failed to load, using fallback');
+                    generateBtn.style.display = 'block';
+                    generateBtn.innerHTML = '⚠️ Try Again';
+                    generateBtn.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                    console.log('AI conversation failed to load');
                 }
             }
         </script>
