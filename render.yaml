@@ -37,4 +37,4 @@ databases:
   - name: ford-risk-db
     databaseName: ford_risk
     user: ford_risk_user
-    plan: starter 
+    plan: free 
