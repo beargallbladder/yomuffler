@@ -30,6 +30,7 @@ services:
     name: ford-risk-redis
     plan: starter
     maxmemoryPolicy: allkeys-lru
+    ipAllowList: []
 
 # PostgreSQL Database
 databases:
