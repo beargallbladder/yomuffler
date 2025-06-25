@@ -233,15 +233,15 @@ async def stressor_dashboard():
                  overflow: hidden;
              }
             
-            .card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-                background: rgba(255,255,255,0.15);
-            }
+                         .card:hover:not(.flipped) {
+                 transform: translateY(-4px);
+                 box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                 background: rgba(255,255,255,0.15);
+             }
             
-            .card.flipped {
-                transform: rotateY(180deg);
-            }
+                         .card.flipped {
+                 transform: rotateY(180deg) !important;
+             }
             
                          .card-front, .card-back {
                  position: absolute;
@@ -547,7 +547,9 @@ async def stressor_dashboard():
             }
             
             function flipCard(cardElement) {
+                console.log('Flipping card:', cardElement);
                 cardElement.classList.toggle('flipped');
+                console.log('Card classes:', cardElement.className);
             }
             
             async function analyzeVehicle() {
