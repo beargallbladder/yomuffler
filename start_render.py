@@ -218,50 +218,54 @@ async def stressor_dashboard():
                 gap: 24px;
             }
             
-                         .card {
+                                      .card {
                  background: rgba(255,255,255,0.1);
                  border-radius: 16px;
-                 padding: 20px;
+                 padding: 0;
                  backdrop-filter: blur(20px);
                  border: 1px solid rgba(255,255,255,0.2);
-                 transition: all 0.3s ease;
                  position: relative;
-                 transform-style: preserve-3d;
                  cursor: pointer;
                  min-height: 320px;
                  max-height: 450px;
                  overflow: hidden;
+                 perspective: 1000px;
              }
-            
-                         .card:hover:not(.flipped) {
-                 transform: translateY(-4px);
-                 box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-                 background: rgba(255,255,255,0.15);
+             
+             .card-inner {
+                 position: relative;
+                 width: 100%;
+                 height: 100%;
+                 text-align: center;
+                 transition: transform 0.6s;
+                 transform-style: preserve-3d;
              }
-            
-                         .card.flipped {
-                 transform: rotateY(180deg) !important;
+             
+             .card.flipped .card-inner {
+                 transform: rotateY(180deg);
              }
-            
-                         .card-front, .card-back {
+             
+             .card-front, .card-back {
                  position: absolute;
-                 top: 0;
-                 left: 0;
-                 right: 0;
-                 bottom: 0;
+                 width: 100%;
+                 height: 100%;
                  padding: 20px;
                  border-radius: 16px;
+                 -webkit-backface-visibility: hidden;
                  backface-visibility: hidden;
-                 transition: all 0.6s ease;
                  overflow-y: auto;
                  overflow-x: hidden;
              }
-            
-            .card-back {
-                transform: rotateY(180deg);
-                background: rgba(30,64,175,0.2);
-                border: 1px solid rgba(96,165,250,0.4);
-            }
+             
+             .card-front {
+                 background: rgba(255,255,255,0.1);
+             }
+             
+             .card-back {
+                 background: rgba(30,64,175,0.2);
+                 border: 1px solid rgba(96,165,250,0.4);
+                 transform: rotateY(180deg);
+             }
             
                          .math-content {
                  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
@@ -586,37 +590,39 @@ async def stressor_dashboard():
                     <!-- Customer Overview - Clean Dealer View -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
-                        <div class="card-front">
-                            <div class="card-title">👤 ${data.vehicle_info.model}</div>
-                            <div style="text-align: center; margin: 30px 0;">
-                                <div style="font-size: 20px; opacity: 0.8;">${data.vehicle_info.mileage.toLocaleString()} miles</div>
-                                <div style="font-size: 16px; opacity: 0.7;">${data.vehicle_info.location}</div>
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <div class="card-title">👤 ${data.vehicle_info.model}</div>
+                                <div style="text-align: center; margin: 30px 0;">
+                                    <div style="font-size: 20px; opacity: 0.8;">${data.vehicle_info.mileage.toLocaleString()} miles</div>
+                                    <div style="font-size: 16px; opacity: 0.7;">${data.vehicle_info.location}</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 18px; font-weight: 600;">${data.vehicle_info.usage_pattern}</div>
+                                </div>
                             </div>
-                            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; text-align: center;">
-                                <div style="font-size: 18px; font-weight: 600;">${data.vehicle_info.usage_pattern}</div>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-title">🏗️ For Your Engineering Team</div>
-                            <div class="math-content">
-                                <strong>Why We Built Cohorts This Way:</strong>
-                                <div class="math-formula">
-                                    We minimize cohorts to maximize dealer coverage. Start small, scale smart.
-                                </div>
-                                <div style="margin: 15px 0;">
-                                    <strong>This Vehicle's Cohort:</strong><br>
-                                    ${data.vehicle_info.cohort}
-                                </div>
-                                <div style="margin: 15px 0;">
-                                    <strong>Your Rollout Strategy:</strong><br>
-                                    • Phase 1: 5-10 cohorts (beta dealers)<br>
-                                    • Phase 2: 15-25 cohorts (US expansion)<br>
-                                    • Phase 3: 30-50 cohorts (North America)<br>
-                                    • Always prioritize coverage over granularity
-                                </div>
-                                <div style="margin: 15px 0;">
-                                    <strong>Statistical Foundation:</strong><br>
-                                    ${data.cohort_comparison.sample_size.toLocaleString()} similar vehicles provide robust analysis power
+                            <div class="card-back">
+                                <div class="card-title">🏗️ For Your Engineering Team</div>
+                                <div class="math-content">
+                                    <strong>Why We Built Cohorts This Way:</strong>
+                                    <div class="math-formula">
+                                        We minimize cohorts to maximize dealer coverage. Start small, scale smart.
+                                    </div>
+                                    <div style="margin: 15px 0;">
+                                        <strong>This Vehicle's Cohort:</strong><br>
+                                        ${data.vehicle_info.cohort}
+                                    </div>
+                                    <div style="margin: 15px 0;">
+                                        <strong>Your Rollout Strategy:</strong><br>
+                                        • Phase 1: 5-10 cohorts (beta dealers)<br>
+                                        • Phase 2: 15-25 cohorts (US expansion)<br>
+                                        • Phase 3: 30-50 cohorts (North America)<br>
+                                        • Always prioritize coverage over granularity
+                                    </div>
+                                    <div style="margin: 15px 0;">
+                                        <strong>Statistical Foundation:</strong><br>
+                                        ${data.cohort_comparison.sample_size.toLocaleString()} similar vehicles provide robust analysis power
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -625,7 +631,8 @@ async def stressor_dashboard():
                     <!-- Conversation Opportunity - Clean Dealer View -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
-                        <div class="card-front">
+                        <div class="card-inner">
+                            <div class="card-front">
                             <div class="card-title">💬 Conversation Opportunity</div>
                             <div style="text-align: center; margin: 20px 0;">
                                 <div style="font-size: 32px; font-weight: bold; color: ${data.risk_summary.severity === 'High' ? '#fca5a5' : data.risk_summary.severity === 'Moderate' ? '#fde047' : '#86efac'};">
