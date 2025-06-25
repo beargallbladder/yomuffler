@@ -221,13 +221,14 @@ async def stressor_dashboard():
                                       .card {
                  background: rgba(255,255,255,0.1);
                  border-radius: 16px;
-                 padding: 0;
-                 backdrop-filter: blur(20px);
+                 padding: 20px;
+                 backdrop-filter: blur(10px);
                  border: 1px solid rgba(255,255,255,0.2);
-                 position: relative;
+                 transition: all 0.3s ease;
                  cursor: pointer;
-                 min-height: 320px;
-                 max-height: 450px;
+                 position: relative;
+                 min-height: 280px;
+                 max-height: 350px;
                  overflow: hidden;
                  perspective: 1000px;
              }
@@ -236,7 +237,7 @@ async def stressor_dashboard():
                  position: relative;
                  width: 100%;
                  height: 100%;
-                 text-align: center;
+                 text-align: left;
                  transition: transform 0.6s;
                  transform-style: preserve-3d;
              }
@@ -249,12 +250,9 @@ async def stressor_dashboard():
                  position: absolute;
                  width: 100%;
                  height: 100%;
-                 padding: 20px;
-                 border-radius: 16px;
-                 -webkit-backface-visibility: hidden;
                  backface-visibility: hidden;
+                 padding: 0;
                  overflow-y: auto;
-                 overflow-x: hidden;
              }
              
              .card-front {
@@ -378,8 +376,8 @@ async def stressor_dashboard():
             
                          .results-grid {
                  display: grid;
-                 grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                 gap: 20px;
+                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                 gap: 16px;
                  margin-top: 24px;
                  max-width: 1200px;
                  margin-left: auto;
@@ -481,11 +479,11 @@ async def stressor_dashboard():
                  }
                  .results-grid {
                      grid-template-columns: 1fr;
-                     gap: 16px;
+                     gap: 12px;
                  }
                  .card {
-                     min-height: 300px;
-                     max-height: 400px;
+                     min-height: 240px;
+                     max-height: 300px;
                      padding: 16px;
                  }
                  .card-front, .card-back {
@@ -493,11 +491,11 @@ async def stressor_dashboard():
                  }
                  .math-content {
                      font-size: 11px;
-                     max-height: 300px;
+                     max-height: 200px;
                  }
                  .math-formula {
-                     padding: 8px;
-                     margin: 6px 0;
+                     padding: 6px;
+                     margin: 4px 0;
                      font-size: 10px;
                  }
              }
