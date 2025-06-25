@@ -547,9 +547,9 @@ async def stressor_dashboard():
             }
             
             function flipCard(cardElement) {
-                console.log('Flipping card:', cardElement);
                 cardElement.classList.toggle('flipped');
-                console.log('Card classes:', cardElement.className);
+                // Prevent event bubbling
+                event.stopPropagation();
             }
             
             async function analyzeVehicle() {
@@ -583,41 +583,40 @@ async def stressor_dashboard():
                 const resultsGrid = document.getElementById('resultsGrid');
                 
                 resultsGrid.innerHTML = `
-                    <!-- Customer Overview - Dealer Portal Style -->
+                    <!-- Customer Overview - Clean Dealer View -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
                         <div class="card-front">
-                            <div class="card-title">👤 Customer Profile</div>
-                            <div style="text-align: center; margin: 20px 0;">
-                                <div style="font-size: 24px; font-weight: bold; margin-bottom: 8px;">${data.vehicle_info.model}</div>
-                                <div style="font-size: 16px; opacity: 0.8;">${data.vehicle_info.mileage.toLocaleString()} miles • ${data.vehicle_info.location}</div>
+                            <div class="card-title">👤 ${data.vehicle_info.model}</div>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <div style="font-size: 20px; opacity: 0.8;">${data.vehicle_info.mileage.toLocaleString()} miles</div>
+                                <div style="font-size: 16px; opacity: 0.7;">${data.vehicle_info.location}</div>
                             </div>
-                            <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin: 16px 0;">
-                                <div style="font-size: 14px; opacity: 0.9;">Usage Pattern</div>
+                            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; text-align: center;">
                                 <div style="font-size: 18px; font-weight: 600;">${data.vehicle_info.usage_pattern}</div>
                             </div>
                         </div>
                         <div class="card-back">
-                            <div class="card-title">🏗️ Cohort Architecture</div>
+                            <div class="card-title">🏗️ For Your Engineering Team</div>
                             <div class="math-content">
-                                <strong>Cohort System Design:</strong>
+                                <strong>Why We Built Cohorts This Way:</strong>
                                 <div class="math-formula">
-                                    Model|Powertrain|Region|Usage = Cohort Identity
+                                    We minimize cohorts to maximize dealer coverage. Start small, scale smart.
                                 </div>
-                                <div style="margin: 12px 0;">
+                                <div style="margin: 15px 0;">
                                     <strong>This Vehicle's Cohort:</strong><br>
                                     ${data.vehicle_info.cohort}
                                 </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Engineering Strategy:</strong><br>
-                                    • Start with 5-10 cohorts (beta dealers)<br>
-                                    • Scale to 15-25 (US expansion)<br>
-                                    • Max 30-50 (North America)<br>
-                                    • Minimize cohorts = maximize dealer coverage
+                                <div style="margin: 15px 0;">
+                                    <strong>Your Rollout Strategy:</strong><br>
+                                    • Phase 1: 5-10 cohorts (beta dealers)<br>
+                                    • Phase 2: 15-25 cohorts (US expansion)<br>
+                                    • Phase 3: 30-50 cohorts (North America)<br>
+                                    • Always prioritize coverage over granularity
                                 </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Sample Size:</strong> ${data.cohort_comparison.sample_size.toLocaleString()} vehicles<br>
-                                    <strong>Statistical Power:</strong> Robust for analysis
+                                <div style="margin: 15px 0;">
+                                    <strong>Statistical Foundation:</strong><br>
+                                    ${data.cohort_comparison.sample_size.toLocaleString()} similar vehicles provide robust analysis power
                                 </div>
                             </div>
                         </div>
