@@ -217,19 +217,72 @@ async def advanced_dashboard():
                 gap: 20px;
             }
             
-            .card {
-                background: rgba(255,255,255,0.05);
-                border-radius: 15px;
-                padding: 25px;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255,255,255,0.1);
-                transition: transform 0.3s ease;
-            }
-            
-            .card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(0,212,255,0.2);
-            }
+                         .card {
+                 background: rgba(255,255,255,0.05);
+                 border-radius: 15px;
+                 padding: 25px;
+                 backdrop-filter: blur(10px);
+                 border: 1px solid rgba(255,255,255,0.1);
+                 transition: transform 0.3s ease;
+                 position: relative;
+                 transform-style: preserve-3d;
+                 cursor: pointer;
+                 min-height: 300px;
+             }
+             
+             .card:hover {
+                 transform: translateY(-5px);
+                 box-shadow: 0 10px 30px rgba(0,212,255,0.2);
+             }
+             
+             .card.flipped {
+                 transform: rotateY(180deg);
+             }
+             
+             .card-front, .card-back {
+                 position: absolute;
+                 top: 0;
+                 left: 0;
+                 right: 0;
+                 bottom: 0;
+                 padding: 25px;
+                 border-radius: 15px;
+                 backface-visibility: hidden;
+                 transition: all 0.6s ease;
+             }
+             
+             .card-back {
+                 transform: rotateY(180deg);
+                 background: rgba(0,50,100,0.1);
+                 border: 1px solid rgba(0,212,255,0.3);
+             }
+             
+             .math-content {
+                 font-family: 'Courier New', monospace;
+                 font-size: 14px;
+                 line-height: 1.6;
+                 color: #87CEEB;
+             }
+             
+             .math-formula {
+                 background: rgba(0,0,0,0.3);
+                 padding: 10px;
+                 border-radius: 8px;
+                 margin: 10px 0;
+                 border-left: 3px solid #00d4ff;
+             }
+             
+             .flip-indicator {
+                 position: absolute;
+                 top: 10px;
+                 right: 10px;
+                 background: rgba(0,212,255,0.2);
+                 color: #00d4ff;
+                 padding: 5px 10px;
+                 border-radius: 15px;
+                 font-size: 12px;
+                 font-weight: bold;
+             }
             
             .card-title {
                 font-size: 18px;
@@ -436,9 +489,16 @@ async def advanced_dashboard():
         </div>
         
         <script>
-            function setVin(vin) {
-                document.getElementById('vin').value = vin;
-            }
+                         function setVin(vin) {
+                 const vinInput = document.getElementById('vin');
+                 vinInput.value = vin;
+                 vinInput.focus();
+                 vinInput.select();
+             }
+             
+             function flipCard(cardElement) {
+                 cardElement.classList.toggle('flipped');
+             }
             
             async function analyzeVehicle() {
                 const vin = document.getElementById('vin').value.trim();
@@ -517,50 +577,126 @@ async def advanced_dashboard():
                         </div>
                     </div>
                     
-                    <!-- Prognostic Insights -->
-                    <div class="card">
-                        <div class="card-title">🔮 Prognostic Insights</div>
-                        ${data.prognostic_insights.map(insight => `
-                            <div class="prognostic-alert">
-                                <strong>⚡ ${insight.component} Risk Increase: +${(insight.risk_increase * 100).toFixed(1)}%</strong><br>
-                                <small>Stressor: ${insight.stressor} (LR: ${insight.likelihood_ratio}x)</small><br>
-                                <small>Estimated Failure: ${insight.days_to_failure} days</small>
-                            </div>
-                        `).join('')}
-                    </div>
+                                         <!-- Vehicle Stressors -->
+                     <div class="card" onclick="flipCard(this)">
+                         <div class="flip-indicator">CLICK TO FLIP</div>
+                         <div class="card-front">
+                             <div class="card-title">⚡ Vehicle Stressors</div>
+                             ${data.prognostic_insights.map(insight => `
+                                 <div class="prognostic-alert">
+                                     <strong>⚡ ${insight.component} Risk Increase: +${(insight.risk_increase * 100).toFixed(1)}%</strong><br>
+                                     <small>Stressor: ${insight.stressor} (LR: ${insight.likelihood_ratio}x)</small><br>
+                                     <small>Estimated Failure: ${insight.days_to_failure} days</small>
+                                 </div>
+                             `).join('')}
+                         </div>
+                         <div class="card-back">
+                             <div class="card-title">📊 Bayesian Math</div>
+                             <div class="math-content">
+                                 <strong>Likelihood Ratio Calculation:</strong>
+                                 <div class="math-formula">
+                                     P(Failure|Stressor) = P(Stressor|Failure) × P(Failure) / P(Stressor)
+                                 </div>
+                                 ${data.prognostic_insights.map(insight => `
+                                     <div style="margin: 15px 0;">
+                                         <strong>${insight.component} Analysis:</strong><br>
+                                         <div class="math-formula">
+                                             Base Rate: 2.3% (Argon Study 2015)<br>
+                                             Stressor LR: ${insight.likelihood_ratio}x<br>
+                                             Posterior = 0.023 × ${insight.likelihood_ratio} = ${(0.023 * insight.likelihood_ratio).toFixed(3)}<br>
+                                             Risk Increase: +${(insight.risk_increase * 100).toFixed(1)}%
+                                         </div>
+                                     </div>
+                                 `).join('')}
+                                 <small><em>Click to flip back</em></small>
+                             </div>
+                         </div>
+                     </div>
                     
-                    <!-- Stressor Analysis -->
-                    <div class="card">
-                        <div class="card-title">🎯 Stressor Profile</div>
-                        ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
-                            <div style="margin: 15px 0;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                    <span>${stressor.replace('_', ' ').toUpperCase()}</span>
-                                    <span>${(value * 100).toFixed(1)}%</span>
-                                </div>
-                                <div class="stressor-bar">
-                                    <div class="stressor-fill" style="width: ${value * 100}%"></div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
+                                         <!-- Stressor Analysis -->
+                     <div class="card" onclick="flipCard(this)">
+                         <div class="flip-indicator">CLICK TO FLIP</div>
+                         <div class="card-front">
+                             <div class="card-title">🎯 Stressor Profile</div>
+                             ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
+                                 <div style="margin: 15px 0;">
+                                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                         <span>${stressor.replace('_', ' ').toUpperCase()}</span>
+                                         <span>${(value * 100).toFixed(1)}%</span>
+                                     </div>
+                                     <div class="stressor-bar">
+                                         <div class="stressor-fill" style="width: ${value * 100}%"></div>
+                                     </div>
+                                 </div>
+                             `).join('')}
+                         </div>
+                         <div class="card-back">
+                             <div class="card-title">🧮 Stressor Math</div>
+                             <div class="math-content">
+                                 <strong>Stressor Impact Calculation:</strong>
+                                 <div class="math-formula">
+                                     Final_Risk = Base_Rate × Cohort_Multiplier × ∏(1 + (LR_i - 1) × Stressor_i)
+                                 </div>
+                                 ${Object.entries(data.stressor_analysis).map(([stressor, value]) => `
+                                     <div style="margin: 10px 0;">
+                                         <strong>${stressor.replace('_', ' ').toUpperCase()}:</strong><br>
+                                         <div class="math-formula">
+                                             Intensity: ${(value * 100).toFixed(1)}%<br>
+                                             Multiplier: ${stressor === 'soc_decline' ? '6.50x' : stressor === 'trip_cycling' ? '2.83x' : stressor === 'climate_stress' ? '2.39x' : '2.16x'}<br>
+                                             Impact: 1 + (${stressor === 'soc_decline' ? '6.50' : stressor === 'trip_cycling' ? '2.83' : stressor === 'climate_stress' ? '2.39' : '2.16'} - 1) × ${value.toFixed(2)} = ${(1 + (parseFloat(stressor === 'soc_decline' ? '6.50' : stressor === 'trip_cycling' ? '2.83' : stressor === 'climate_stress' ? '2.39' : '2.16') - 1) * value).toFixed(2)}
+                                         </div>
+                                     </div>
+                                 `).join('')}
+                                 <small><em>Click to flip back</em></small>
+                             </div>
+                         </div>
+                     </div>
                     
-                    <!-- Cohort Comparison -->
-                    <div class="card">
-                        <div class="card-title">👥 Cohort Analysis</div>
-                        <div class="metric">
-                            <span class="metric-label">Cohort Risk Multiplier:</span>
-                            <span class="metric-value">${data.cohort_comparison.multiplier}x</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Percentile Rank:</span>
-                            <span class="metric-value">${data.cohort_comparison.percentile}th percentile</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Similar Vehicles:</span>
-                            <span class="metric-value">${data.cohort_comparison.sample_size.toLocaleString()}</span>
-                        </div>
-                    </div>
+                                         <!-- Cohort Comparison -->
+                     <div class="card" onclick="flipCard(this)">
+                         <div class="flip-indicator">CLICK TO FLIP</div>
+                         <div class="card-front">
+                             <div class="card-title">👥 Cohort Analysis</div>
+                             <div class="metric">
+                                 <span class="metric-label">Cohort Risk Multiplier:</span>
+                                 <span class="metric-value">${data.cohort_comparison.multiplier}x</span>
+                             </div>
+                             <div class="metric">
+                                 <span class="metric-label">Percentile Rank:</span>
+                                 <span class="metric-value">${data.cohort_comparison.percentile}th percentile</span>
+                             </div>
+                             <div class="metric">
+                                 <span class="metric-label">Similar Vehicles:</span>
+                                 <span class="metric-value">${data.cohort_comparison.sample_size.toLocaleString()}</span>
+                             </div>
+                         </div>
+                         <div class="card-back">
+                             <div class="card-title">📈 Cohort Math</div>
+                             <div class="math-content">
+                                 <strong>Cohort Stratification Logic:</strong>
+                                 <div class="math-formula">
+                                     Cohort_Risk = Base_Rate × Cohort_Multiplier
+                                 </div>
+                                 <div style="margin: 15px 0;">
+                                     <strong>Vehicle Cohort:</strong> ${data.vehicle_info.cohort}<br>
+                                     <div class="math-formula">
+                                         Base Rate: 2.3% (Industry Standard)<br>
+                                         Cohort Multiplier: ${data.cohort_comparison.multiplier}x<br>
+                                         Cohort Risk: 0.023 × ${data.cohort_comparison.multiplier} = ${(0.023 * data.cohort_comparison.multiplier).toFixed(3)}
+                                     </div>
+                                 </div>
+                                 <div style="margin: 15px 0;">
+                                     <strong>Sample Statistics:</strong><br>
+                                     <div class="math-formula">
+                                         Sample Size: ${data.cohort_comparison.sample_size.toLocaleString()} vehicles<br>
+                                         Percentile: ${data.cohort_comparison.percentile}th (higher = more risk)<br>
+                                         Z-Score: ${((data.cohort_comparison.percentile - 50) / 15).toFixed(2)}
+                                     </div>
+                                 </div>
+                                 <small><em>Click to flip back</em></small>
+                             </div>
+                         </div>
+                     </div>
                     
                     <!-- Dealer Messaging -->
                     <div class="card">
@@ -578,29 +714,59 @@ async def advanced_dashboard():
                         </div>
                     </div>
                     
-                    <!-- Revenue Opportunity -->
-                    <div class="card">
-                        <div class="card-title">💰 Business Impact</div>
-                        <div class="revenue-highlight">
-                            <h3>Revenue Opportunity: $${data.revenue_opportunity.total.toLocaleString()}</h3>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Service Revenue:</span>
-                            <span class="metric-value">$${data.revenue_opportunity.service.toLocaleString()}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Parts Revenue:</span>
-                            <span class="metric-value">$${data.revenue_opportunity.parts.toLocaleString()}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Downtime Prevention:</span>
-                            <span class="metric-value">$${data.revenue_opportunity.downtime_prevention.toLocaleString()}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Customer Retention Value:</span>
-                            <span class="metric-value">$${data.revenue_opportunity.retention_value.toLocaleString()}</span>
-                        </div>
-                    </div>
+                                         <!-- Revenue Opportunity -->
+                     <div class="card" onclick="flipCard(this)">
+                         <div class="flip-indicator">CLICK TO FLIP</div>
+                         <div class="card-front">
+                             <div class="card-title">💰 Business Impact</div>
+                             <div class="revenue-highlight">
+                                 <h3>Revenue Opportunity: $${data.revenue_opportunity.total.toLocaleString()}</h3>
+                             </div>
+                             <div class="metric">
+                                 <span class="metric-label">Service Revenue:</span>
+                                 <span class="metric-value">$${data.revenue_opportunity.service.toLocaleString()}</span>
+                             </div>
+                             <div class="metric">
+                                 <span class="metric-label">Parts Revenue:</span>
+                                 <span class="metric-value">$${data.revenue_opportunity.parts.toLocaleString()}</span>
+                             </div>
+                             <div class="metric">
+                                 <span class="metric-label">Downtime Prevention:</span>
+                                 <span class="metric-value">$${data.revenue_opportunity.downtime_prevention.toLocaleString()}</span>
+                             </div>
+                             <div class="metric">
+                                 <span class="metric-label">Customer Retention Value:</span>
+                                 <span class="metric-value">$${data.revenue_opportunity.retention_value.toLocaleString()}</span>
+                             </div>
+                         </div>
+                         <div class="card-back">
+                             <div class="card-title">💹 Revenue Math</div>
+                             <div class="math-content">
+                                 <strong>ROI Calculation Framework:</strong>
+                                 <div class="math-formula">
+                                     Total_Value = Service + Parts + Downtime_Prevention + Retention
+                                 </div>
+                                 <div style="margin: 15px 0;">
+                                     <strong>Revenue Components:</strong><br>
+                                     <div class="math-formula">
+                                         Service: $${data.revenue_opportunity.service} (Proactive maintenance)<br>
+                                         Parts: $${data.revenue_opportunity.parts} (Component replacement)<br>
+                                         Downtime: $${data.revenue_opportunity.downtime_prevention} (Avoided costs)<br>
+                                         Retention: $${data.revenue_opportunity.retention_value} (Customer LTV)
+                                     </div>
+                                 </div>
+                                 <div style="margin: 15px 0;">
+                                     <strong>Risk-Adjusted Value:</strong><br>
+                                     <div class="math-formula">
+                                         Risk Score: ${(data.risk_summary.score * 100).toFixed(1)}%<br>
+                                         Expected Value: $${data.revenue_opportunity.total} × ${(data.risk_summary.score).toFixed(2)}<br>
+                                         = $${Math.round(data.revenue_opportunity.total * data.risk_summary.score).toLocaleString()}
+                                     </div>
+                                 </div>
+                                 <small><em>Click to flip back</em></small>
+                             </div>
+                         </div>
+                     </div>
                 `;
             }
         </script>
