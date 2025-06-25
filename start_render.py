@@ -648,29 +648,30 @@ async def stressor_dashboard():
                                       'Reinforce current maintenance habits'}
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-title">🧠 Stressor Score Logic</div>
-                            <div class="math-content">
-                                <strong>No Synchronous Bayesian Inference:</strong>
-                                <div class="math-formula">
-                                    All calculations pre-computed overnight → FastAPI serves cached results
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Score Calculation:</strong><br>
-                                    • Industry base rates (Argon, NHTSA)<br>
-                                    • Cohort-specific multipliers<br>
-                                    • Stressor pattern matching<br>
-                                    • Historical failure correlation
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Daily Recalculation:</strong><br>
-                                    Same VIN yesterday ≠ Same VIN today<br>
-                                    Fresh leads every day as behavior changes
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Performance:</strong> Sub-millisecond API response<br>
-                                    <strong>Confidence:</strong> ${(data.risk_summary.confidence * 100).toFixed(0)}%
+                            </div>
+                            <div class="card-back">
+                                <div class="card-title">🧠 Stressor Score Logic</div>
+                                <div class="math-content">
+                                    <strong>No Synchronous Bayesian Inference:</strong>
+                                    <div class="math-formula">
+                                        All calculations pre-computed overnight → FastAPI serves cached results
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Score Calculation:</strong><br>
+                                        • Industry base rates (Argon, NHTSA)<br>
+                                        • Cohort-specific multipliers<br>
+                                        • Stressor pattern matching<br>
+                                        • Historical failure correlation
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Daily Recalculation:</strong><br>
+                                        Same VIN yesterday ≠ Same VIN today<br>
+                                        Fresh leads every day as behavior changes
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Performance:</strong> Sub-millisecond API response<br>
+                                        <strong>Confidence:</strong> ${(data.risk_summary.confidence * 100).toFixed(0)}%
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -679,7 +680,8 @@ async def stressor_dashboard():
                     <!-- Component Stressors - What Dealers Need to Know -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
-                        <div class="card-front">
+                        <div class="card-inner">
+                            <div class="card-front">
                             <div class="card-title">⚡ Key Issues to Discuss</div>
                             ${data.stressor_insights.map(insight => `
                                 <div style="background: rgba(239,68,68,0.15); border-left: 4px solid #ef4444; padding: 14px; margin: 12px 0; border-radius: 8px;">
@@ -695,35 +697,36 @@ async def stressor_dashboard():
                                     </div>
                                 </div>
                             `).join('')}
-                        </div>
-                        <div class="card-back">
-                            <div class="card-title">🔬 Modular Stressor System</div>
-                            <div class="math-content">
-                                <strong>Component-Specific Stressor Combinations:</strong>
-                                <div class="math-formula">
-                                    Different components = Different stressor fingerprints
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Diesel Regen Issues:</strong><br>
-                                    • Temperature delta (25°F+ ignition off → start)<br>
-                                    • Short trips (insufficient regen time)
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Battery Issues:</strong><br>
-                                    • Temperature delta<br>
-                                    • Short trips<br>
-                                    • Ignition cycles (start/stop stress)
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Engine/Transmission:</strong><br>
-                                    • Odometer patterns<br>
-                                    • Trip characteristics<br>
-                                    • Ignition cycles<br>
-                                    • Extreme heat exposure
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>LLM Enrichment:</strong><br>
-                                    System feeds precise stressor data to LLM for contextual dealer conversations
+                            </div>
+                            <div class="card-back">
+                                <div class="card-title">🔬 Modular Stressor System</div>
+                                <div class="math-content">
+                                    <strong>Component-Specific Stressor Combinations:</strong>
+                                    <div class="math-formula">
+                                        Different components = Different stressor fingerprints
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Diesel Regen Issues:</strong><br>
+                                        • Temperature delta (25°F+ ignition off → start)<br>
+                                        • Short trips (insufficient regen time)
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Battery Issues:</strong><br>
+                                        • Temperature delta<br>
+                                        • Short trips<br>
+                                        • Ignition cycles (start/stop stress)
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Engine/Transmission:</strong><br>
+                                        • Odometer patterns<br>
+                                        • Trip characteristics<br>
+                                        • Ignition cycles<br>
+                                        • Extreme heat exposure
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>LLM Enrichment:</strong><br>
+                                        System feeds precise stressor data to LLM for contextual dealer conversations
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -732,52 +735,54 @@ async def stressor_dashboard():
                     <!-- Customer Behavior - Simple for Dealers -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
-                        <div class="card-front">
-                            <div class="card-title">📊 Driving Patterns</div>
-                            <div style="margin: 16px 0;">
-                                ${Object.entries(data.stressor_analysis).slice(0, 3).map(([stressor, value]) => `
-                                    <div style="margin: 12px 0;">
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                                            <span style="font-size: 14px; font-weight: 500;">
-                                                ${stressor === 'soc_decline' ? 'Cold Weather Impact' :
-                                                  stressor === 'trip_cycling' ? 'Short Trip Frequency' :
-                                                  stressor === 'climate_stress' ? 'Climate Exposure' :
-                                                  stressor === 'high_rpm' ? 'Performance Usage' :
-                                                  'Usage Intensity'}
-                                            </span>
-                                            <span style="font-weight: 600;">${value > 0.7 ? 'High' : value > 0.4 ? 'Moderate' : 'Low'}</span>
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <div class="card-title">📊 Driving Patterns</div>
+                                <div style="margin: 16px 0;">
+                                    ${Object.entries(data.stressor_analysis).slice(0, 3).map(([stressor, value]) => `
+                                        <div style="margin: 12px 0;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                                <span style="font-size: 14px; font-weight: 500;">
+                                                    ${stressor === 'soc_decline' ? 'Cold Weather Impact' :
+                                                      stressor === 'trip_cycling' ? 'Short Trip Frequency' :
+                                                      stressor === 'climate_stress' ? 'Climate Exposure' :
+                                                      stressor === 'high_rpm' ? 'Performance Usage' :
+                                                      'Usage Intensity'}
+                                                </span>
+                                                <span style="font-weight: 600;">${value > 0.7 ? 'High' : value > 0.4 ? 'Moderate' : 'Low'}</span>
+                                            </div>
+                                            <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden;">
+                                                <div style="height: 100%; background: ${value > 0.7 ? '#fca5a5' : value > 0.4 ? '#fde047' : '#86efac'}; width: ${value * 100}%; border-radius: 4px; transition: width 0.8s ease;"></div>
+                                            </div>
                                         </div>
-                                        <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden;">
-                                            <div style="height: 100%; background: ${value > 0.7 ? '#fca5a5' : value > 0.4 ? '#fde047' : '#86efac'}; width: ${value * 100}%; border-radius: 4px; transition: width 0.8s ease;"></div>
-                                        </div>
-                                    </div>
-                                `).join('')}
+                                    `).join('')}
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-title">📈 Behavioral Analysis Architecture</div>
-                            <div class="math-content">
-                                <strong>Real-Time Stressor Detection:</strong>
-                                <div class="math-formula">
-                                    Telemetry streams → Pattern recognition → Stressor identification
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Temperature Delta Tracking:</strong><br>
-                                    • Monitor ignition off temperature<br>
-                                    • Track next start temperature<br>
-                                    • Flag 25°F+ deltas as stressor<br>
-                                    • Correlate with component stress
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Trip Pattern Analysis:</strong><br>
-                                    • Trip duration vs. component warm-up time<br>
-                                    • Ignition cycle frequency<br>
-                                    • Insufficient regen opportunity detection<br>
-                                    • Battery charging time analysis
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Pre-Calculation Strategy:</strong><br>
-                                    All patterns computed overnight, indexed for instant dealer access
+                            <div class="card-back">
+                                <div class="card-title">📈 Behavioral Analysis Architecture</div>
+                                <div class="math-content">
+                                    <strong>Real-Time Stressor Detection:</strong>
+                                    <div class="math-formula">
+                                        Telemetry streams → Pattern recognition → Stressor identification
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Temperature Delta Tracking:</strong><br>
+                                        • Monitor ignition off temperature<br>
+                                        • Track next start temperature<br>
+                                        • Flag 25°F+ deltas as stressor<br>
+                                        • Correlate with component stress
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Trip Pattern Analysis:</strong><br>
+                                        • Trip duration vs. component warm-up time<br>
+                                        • Ignition cycle frequency<br>
+                                        • Insufficient regen opportunity detection<br>
+                                        • Battery charging time analysis
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Pre-Calculation Strategy:</strong><br>
+                                        All patterns computed overnight, indexed for instant dealer access
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -786,46 +791,48 @@ async def stressor_dashboard():
                     <!-- Cohort Position - Clean for Dealers -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
-                        <div class="card-front">
-                            <div class="card-title">📍 Vehicle Position</div>
-                            <div style="text-align: center; margin: 20px 0;">
-                                <div style="font-size: 28px; font-weight: bold; margin-bottom: 8px;">
-                                    ${data.cohort_comparison.percentile}th
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <div class="card-title">📍 Vehicle Position</div>
+                                <div style="text-align: center; margin: 20px 0;">
+                                    <div style="font-size: 28px; font-weight: bold; margin-bottom: 8px;">
+                                        ${data.cohort_comparison.percentile}th
+                                    </div>
+                                    <div style="font-size: 14px; opacity: 0.8;">Percentile in Cohort</div>
                                 </div>
-                                <div style="font-size: 14px; opacity: 0.8;">Percentile in Cohort</div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin: 16px 0;">
+                                    <div style="font-size: 14px; opacity: 0.9;">Compared to</div>
+                                    <div style="font-size: 18px; font-weight: 600;">${data.cohort_comparison.sample_size.toLocaleString()} Similar Vehicles</div>
+                                </div>
+                                <div style="font-size: 14px; text-align: center; opacity: 0.8;">
+                                    ${data.cohort_comparison.percentile > 80 ? '🔴 High outlier - Great conversation opportunity' : 
+                                      data.cohort_comparison.percentile > 60 ? '🟡 Moderate outlier - Good talking point' : 
+                                      '🟢 Normal range - Maintenance reinforcement'}
+                                </div>
                             </div>
-                            <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin: 16px 0;">
-                                <div style="font-size: 14px; opacity: 0.9;">Compared to</div>
-                                <div style="font-size: 18px; font-weight: 600;">${data.cohort_comparison.sample_size.toLocaleString()} Similar Vehicles</div>
-                            </div>
-                            <div style="font-size: 14px; text-align: center; opacity: 0.8;">
-                                ${data.cohort_comparison.percentile > 80 ? '🔴 High outlier - Great conversation opportunity' : 
-                                  data.cohort_comparison.percentile > 60 ? '🟡 Moderate outlier - Good talking point' : 
-                                  '🟢 Normal range - Maintenance reinforcement'}
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-title">🎯 Cohort Outlier Strategy</div>
-                            <div class="math-content">
-                                <strong>Outlier = Conversation Opportunity:</strong>
-                                <div class="math-formula">
-                                    Statistical outliers in cohort behavior = Dealer leads
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Percentile Interpretation:</strong><br>
-                                    • 80th+ percentile = High priority conversation<br>
-                                    • 60-80th percentile = Moderate opportunity<br>
-                                    • <60th percentile = Maintenance reinforcement<br>
-                                    • Daily recalculation = Fresh leads
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>This Vehicle:</strong><br>
-                                    Rank: ${data.cohort_comparison.percentile}th of ${data.cohort_comparison.sample_size.toLocaleString()}<br>
-                                    Status: ${data.cohort_comparison.percentile > 80 ? 'HIGH OUTLIER' : data.cohort_comparison.percentile > 60 ? 'MODERATE OUTLIER' : 'NORMAL RANGE'}
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Business Logic:</strong><br>
-                                    Outliers get dealer attention, normal vehicles get maintenance reinforcement
+                            <div class="card-back">
+                                <div class="card-title">🎯 Cohort Outlier Strategy</div>
+                                <div class="math-content">
+                                    <strong>Outlier = Conversation Opportunity:</strong>
+                                    <div class="math-formula">
+                                        Statistical outliers in cohort behavior = Dealer leads
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Percentile Interpretation:</strong><br>
+                                        • 80th+ percentile = High priority conversation<br>
+                                        • 60-80th percentile = Moderate opportunity<br>
+                                        • <60th percentile = Maintenance reinforcement<br>
+                                        • Daily recalculation = Fresh leads
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>This Vehicle:</strong><br>
+                                        Rank: ${data.cohort_comparison.percentile}th of ${data.cohort_comparison.sample_size.toLocaleString()}<br>
+                                        Status: ${data.cohort_comparison.percentile > 80 ? 'HIGH OUTLIER' : data.cohort_comparison.percentile > 60 ? 'MODERATE OUTLIER' : 'NORMAL RANGE'}
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Business Logic:</strong><br>
+                                        Outliers get dealer attention, normal vehicles get maintenance reinforcement
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -834,44 +841,46 @@ async def stressor_dashboard():
                     <!-- AI Conversation - What Dealers See -->
                     <div class="card" onclick="flipCard(this)">
                         <div class="flip-indicator">FLIP FOR TECH</div>
-                        <div class="card-front">
-                            <div class="card-title">🤖 Suggested Conversation</div>
-                            <div style="background: rgba(96,165,250,0.2); border-left: 4px solid #60a5fa; padding: 16px; margin: 16px 0; border-radius: 8px; font-style: italic; line-height: 1.5;">
-                                "${data.dealer_messaging.message.substring(0, 200)}..."
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <div class="card-title">🤖 Suggested Conversation</div>
+                                <div style="background: rgba(96,165,250,0.2); border-left: 4px solid #60a5fa; padding: 16px; margin: 16px 0; border-radius: 8px; font-style: italic; line-height: 1.5;">
+                                    "${data.dealer_messaging.message.substring(0, 200)}..."
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+                                    <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; margin-right: 8px; text-align: center;">
+                                        <div style="font-size: 12px; opacity: 0.8;">Priority</div>
+                                        <div style="font-size: 16px; font-weight: 600;">${data.dealer_messaging.urgency}</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; margin-left: 8px; text-align: center;">
+                                        <div style="font-size: 12px; opacity: 0.8;">Action</div>
+                                        <div style="font-size: 16px; font-weight: 600;">${data.dealer_messaging.action.split(' ')[0]}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 16px;">
-                                <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; margin-right: 8px; text-align: center;">
-                                    <div style="font-size: 12px; opacity: 0.8;">Priority</div>
-                                    <div style="font-size: 16px; font-weight: 600;">${data.dealer_messaging.urgency}</div>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; margin-left: 8px; text-align: center;">
-                                    <div style="font-size: 12px; opacity: 0.8;">Action</div>
-                                    <div style="font-size: 16px; font-weight: 600;">${data.dealer_messaging.action.split(' ')[0]}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-title">🧠 LLM Enrichment Strategy</div>
-                            <div class="math-content">
-                                <strong>Contextual Conversation Generation:</strong>
-                                <div class="math-formula">
-                                    Stressor data + Cohort position + Component issues = Personalized dealer script
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>LLM Training Inputs:</strong><br>
-                                    • Specific stressor combinations<br>
-                                    • Component vulnerability mapping<br>
-                                    • Cohort comparison context<br>
-                                    • Regional/seasonal factors<br>
-                                    • Historical repair correlations
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Example Enrichment:</strong><br>
-                                    "Your diesel F-150 in Detroit shows 28°F temperature deltas and 12-minute average trips - perfect storm for regen issues. Let's discuss extended drive cycles."
-                                </div>
-                                <div style="margin: 12px 0;">
-                                    <strong>Dynamic Updates:</strong><br>
-                                    LLM gets fresh stressor data daily, generates new conversation angles as patterns evolve
+                            <div class="card-back">
+                                <div class="card-title">🧠 LLM Enrichment Strategy</div>
+                                <div class="math-content">
+                                    <strong>Contextual Conversation Generation:</strong>
+                                    <div class="math-formula">
+                                        Stressor data + Cohort position + Component issues = Personalized dealer script
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>LLM Training Inputs:</strong><br>
+                                        • Specific stressor combinations<br>
+                                        • Component vulnerability mapping<br>
+                                        • Cohort comparison context<br>
+                                        • Regional/seasonal factors<br>
+                                        • Historical repair correlations
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Example Enrichment:</strong><br>
+                                        "Your diesel F-150 in Detroit shows 28°F temperature deltas and 12-minute average trips - perfect storm for regen issues. Let's discuss extended drive cycles."
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Dynamic Updates:</strong><br>
+                                        LLM gets fresh stressor data daily, generates new conversation angles as patterns evolve
+                                    </div>
                                 </div>
                             </div>
                         </div>
