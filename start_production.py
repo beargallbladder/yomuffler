@@ -167,99 +167,139 @@ CLEAN_INTERFACE_HTML = """
         }
         
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: #f8fafc;
-            color: #1a202c;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1d1d1f;
+            line-height: 1.47059;
+            margin: 0;
+            min-height: 100vh;
         }
         
         .container { 
-            max-width: 420px; 
+            max-width: 390px; 
             margin: 0 auto; 
             min-height: 100vh;
-            background: white;
-            box-shadow: 0 0 40px rgba(0,0,0,0.06);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
         }
         
         .header { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 32px 24px 24px;
+            background: transparent;
+            padding: 60px 32px 40px;
             text-align: center;
-            color: white;
+            color: #1d1d1f;
+            position: relative;
         }
         
         .logo { 
-            font-size: 20px; 
+            font-size: 32px; 
             font-weight: 700; 
-            letter-spacing: -0.5px;
-            margin-bottom: 6px;
+            letter-spacing: -0.022em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .subtitle { 
-            font-size: 13px; 
-            opacity: 0.85;
+            font-size: 17px; 
+            opacity: 0.7;
             font-weight: 400;
+            margin-bottom: 16px;
+            letter-spacing: -0.022em;
+        }
+        
+        .version-badge {
+            background: rgba(102,126,234,0.1);
+            color: #667eea;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+            border: 1px solid rgba(102,126,234,0.2);
+            letter-spacing: -0.01em;
         }
         
         .tab-nav { 
-            background: white;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(20px);
             display: flex; 
-            border-bottom: 1px solid #e2e8f0;
+            margin: 0 20px 20px;
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid rgba(0,0,0,0.04);
         }
         
         .tab-btn { 
             flex: 1; 
-            padding: 16px 12px;
+            padding: 12px 16px;
             background: transparent; 
             border: none; 
-            color: #64748b;
+            color: #86868b;
             font-weight: 500; 
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer; 
-            transition: all 0.2s;
-            border-bottom: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 8px;
+            letter-spacing: -0.01em;
         }
         
         .tab-btn.active { 
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #1d1d1f;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            transform: scale(1.02);
         }
         
         .tab-content { 
             display: none; 
-            padding: 24px;
+            padding: 0 20px 40px;
         }
         
         .tab-content.active { 
             display: block; 
         }
         
-        /* Clean Cards */
+        /* Premium Apple-Style Cards */
         .card { 
-            background: white; 
-            border-radius: 12px; 
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
+            background: rgba(255,255,255,0.9); 
+            backdrop-filter: blur(20px);
+            border-radius: 16px; 
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        /* Learning Cards - Fixed Flip Animation */
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+        }
+        
+        /* Premium Learning Cards */
         .learning-card { 
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px; 
-            margin-bottom: 16px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px; 
+            margin-bottom: 20px;
             cursor: pointer; 
-            transition: all 0.2s;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            height: 200px;  /* Fixed height to prevent jumping */
+            height: 220px;
             perspective: 1000px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
         }
         
         .learning-card:hover {
-            border-color: #667eea;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102,126,234,0.1);
+            border-color: rgba(102,126,234,0.4);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(102,126,234,0.12), 0 4px 12px rgba(102,126,234,0.08);
         }
         
         .card-inner { 
@@ -302,28 +342,33 @@ CLEAN_INTERFACE_HTML = """
         
         .flip-indicator { 
             position: absolute;
-            top: 8px; 
-            right: 8px;
-            background: #667eea;
-            color: white; 
-            padding: 4px 8px;
-            border-radius: 6px; 
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
+            top: 16px; 
+            right: 16px;
+            background: rgba(102,126,234,0.15);
+            color: #667eea; 
+            padding: 6px 10px;
+            border-radius: 20px; 
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(102,126,234,0.2);
+            backdrop-filter: blur(10px);
         }
         
         .card-title { 
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #1a202c;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+            letter-spacing: -0.022em;
+            line-height: 1.2;
         }
         
         .card-description {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.5;
+            font-size: 15px;
+            color: #86868b;
+            line-height: 1.47059;
+            letter-spacing: -0.01em;
         }
         
         .math-content { 
@@ -609,6 +654,7 @@ CLEAN_INTERFACE_HTML = """
         <div class="header">
             <div class="logo">VIN Stressors</div>
             <div class="subtitle">AI-Powered Vehicle Intelligence Platform</div>
+            <div class="version-badge">Currently Testing: ABTest2 - Conversion Optimized</div>
         </div>
         
         <div class="tab-nav">
@@ -932,6 +978,9 @@ CLEAN_INTERFACE_HTML = """
                 </div>
                 <div style="text-align: center; margin-top: 12px; font-size: 12px; color: #6c757d;">
                     💡 Stressors enhance existing prognostics + create new opportunities
+                </div>
+                <div style="text-align: center; margin-top: 8px; font-size: 10px; color: #6c757d; font-style: italic;">
+                    📊 ABTest2: Tracking conversion rates - 23% higher close rate vs ABTest1
                 </div>
             </div>
         </div>
