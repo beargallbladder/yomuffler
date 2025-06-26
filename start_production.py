@@ -42,18 +42,33 @@ class AIMessageGenerator:
             stressor_context = ", ".join(stressors)
             risk_level = "CRITICAL" if risk_score >= 50 else "HIGH" if risk_score >= 30 else "MODERATE"
             
-            # Channel-specific prompts
+            # Calculate realistic battery service pricing
+            if "Light Truck" in vehicle_info:
+                parts_cost, service_cost = 280, 125
+            elif "SUV" in vehicle_info:
+                parts_cost, service_cost = 320, 145
+            elif "Sedan" in vehicle_info:
+                parts_cost, service_cost = 180, 85
+            else:
+                parts_cost, service_cost = 250, 110
+            
+            total_cost = parts_cost + service_cost
+            
+            # Channel-specific prompts with realistic pricing
             prompts = {
                 "sms": f"""Create 3 concise SMS messages (under 160 chars each) for {customer_name} about their {vehicle_info}. 
                 Vehicle shows these stressors: {stressor_context}. Risk level: {risk_level} ({risk_score:.1f}%).
+                Battery service cost: Parts ${parts_cost} + Service ${service_cost} = ${total_cost}.
                 Be professional, urgent but not alarmist. Focus on prevention and value.""",
                 
                 "email": f"""Create 3 professional email talking points for {customer_name} about their {vehicle_info}.
                 Vehicle analysis shows: {stressor_context}. Risk assessment: {risk_level} ({risk_score:.1f}%).
+                Battery service estimate: Parts ${parts_cost} + Labor ${service_cost} = ${total_cost}.
                 Focus on academic backing, specific stressors, and business value. Be consultative.""",
                 
                 "phone": f"""Create 3 phone conversation starters for {customer_name} about their {vehicle_info}.
                 Detected stressors: {stressor_context}. Risk level: {risk_level} ({risk_score:.1f}%).
+                Battery service pricing: ${parts_cost} parts + ${service_cost} service = ${total_cost} total.
                 Natural conversation flow, build rapport, educate about specific risks."""
             }
             
@@ -671,7 +686,9 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                     <div class="loading-messages">Generating personalized messages...</div>
                 </div>
-                <div class="revenue-estimate">Service Opportunity: $1,960 • Contact Within: 24 hours</div>
+                <div class="revenue-estimate">
+                    Battery Service: Parts $280 + Service $125 = $405 • Contact Within: 24 hours
+                </div>
             </div>
             
             <div class="lead-card">
@@ -695,7 +712,9 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                     <div class="loading-messages">Generating personalized messages...</div>
                 </div>
-                <div class="revenue-estimate">Service Opportunity: $2,520 • Contact Within: 48 hours</div>
+                <div class="revenue-estimate">
+                    Battery Service: Parts $320 + Service $145 = $465 • Contact Within: 48 hours
+                </div>
             </div>
         </div>
     </div>
@@ -729,34 +748,49 @@ CLEAN_INTERFACE_HTML = """
         function calculateRisk(vin) {
             document.getElementById('result').style.display = 'block';
             
-            let riskScore, category, comparison, revenue;
+            let riskScore, category, comparison, partsRevenue, serviceRevenue, totalRevenue;
             
             if (vin.includes('1FTFW1ET')) {
                 riskScore = 49.3;
                 category = "Light Truck";
                 comparison = "3.3x above average";
-                revenue = "$1,960";
+                // F-150 battery service pricing
+                partsRevenue = 280;  // Heavy duty battery + terminals
+                serviceRevenue = 125; // Testing, installation, system check
+                totalRevenue = partsRevenue + serviceRevenue;
             } else if (vin.includes('1FMHK8D8')) {
                 riskScore = 68.6;
                 category = "SUV Commercial";
                 comparison = "2.8x above average";
-                revenue = "$2,520";
+                // Commercial SUV pricing
+                partsRevenue = 320;  // Premium commercial battery
+                serviceRevenue = 145; // Extended testing, fleet documentation
+                totalRevenue = partsRevenue + serviceRevenue;
             } else if (vin.includes('3FA6P0HR')) {
                 riskScore = 14.2;
                 category = "Passenger Sedan";
                 comparison = "1.6x above average";
-                revenue = "$957";
+                // Standard sedan pricing
+                partsRevenue = 180;  // Standard battery
+                serviceRevenue = 85;  // Basic service
+                totalRevenue = partsRevenue + serviceRevenue;
             } else {
                 riskScore = 28.7;
                 category = "Performance Vehicle";
                 comparison = "2.1x above average";
-                revenue = "$1,340";
+                // Performance vehicle pricing
+                partsRevenue = 250;  // High-performance battery
+                serviceRevenue = 110; // Performance system check
+                totalRevenue = partsRevenue + serviceRevenue;
             }
             
             document.getElementById('riskScore').textContent = riskScore.toFixed(1) + '%';
             document.getElementById('category').textContent = category;
             document.getElementById('comparison').textContent = comparison;
-            document.getElementById('revenue').textContent = revenue;
+            document.getElementById('revenue').innerHTML = `
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Parts: $${partsRevenue} • Service: $${serviceRevenue}</div>
+                <div style="font-weight: 600;">Total: $${totalRevenue}</div>
+            `;
             
             const badge = document.getElementById('severityBadge');
             if (riskScore >= 50) {
@@ -870,13 +904,19 @@ CLEAN_INTERFACE_HTML = """
                     name: "Sarah Johnson",
                     vehicle: "2022 Light Truck",
                     stressors: ["temperature_extremes", "short_trip_cycles", "high_ignition_frequency"],
-                    riskScore: 49.3
+                    riskScore: 49.3,
+                    partsRevenue: 280,
+                    serviceRevenue: 125,
+                    totalRevenue: 405
                 },
                 mike: {
                     name: "Mike Rodriguez", 
                     vehicle: "2023 SUV",
                     stressors: ["commercial_usage", "multiple_drivers", "high_mileage"],
-                    riskScore: 68.6
+                    riskScore: 68.6,
+                    partsRevenue: 320,
+                    serviceRevenue: 145,
+                    totalRevenue: 465
                 }
             };
             
