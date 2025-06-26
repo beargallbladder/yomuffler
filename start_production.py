@@ -27,7 +27,7 @@ class AIMessageGenerator:
         
     def generate_personalized_messages(self, customer_name: str, vehicle_info: str, 
                                        stressors: List[str], risk_score: float, 
-                                       channel: str = "sms") -> Dict[str, List[str]]:
+                                       channel: str = "sms", message_type: str = "integrated") -> Dict[str, List[str]]:
         """Generate personalized messages based on stressor analysis"""
         
         if not self.openai_api_key:
@@ -54,21 +54,46 @@ class AIMessageGenerator:
             
             total_cost = parts_cost + service_cost
             
-            # Channel-specific prompts with realistic pricing
-            prompt = f"""Create 3 personalized {channel} messages for {customer_name} about their {vehicle_info}.
+            # Create different prompts based on message type
+            if message_type == "integrated":
+                # Sarah Johnson scenario: Existing prognostics + stressor analysis
+                prompt = f"""Create 3 personalized {channel} messages for {customer_name} about their {vehicle_info}.
+
+SCENARIO: Customer has EXISTING scheduled maintenance (oil change overdue, tire rotation due) + STRESSOR ANALYSIS shows battery risk.
 
 Vehicle Analysis:
-- Stressors detected: {stressor_context}
-- Risk level: {risk_level} ({risk_score:.1f}%)
-- Battery service cost: Parts ${parts_cost} + Service ${service_cost} = ${total_cost}
+- Existing services needed: Oil change (overdue), tire rotation
+- NEW stressor risk detected: {stressor_context}
+- Battery failure risk: {risk_level} ({risk_score:.1f}%)
+- BUNDLED opportunity: Oil ${85} + Battery check ${parts_cost//2} + Tire rotation ${45} = ${85 + parts_cost//2 + 45}
 
 Requirements:
-- Be specific about their vehicle's unique stress patterns
-- Reference academic research (Argonne studies) 
-- Explain why their specific combination matters
-- Include realistic pricing context
-- Be conversational and professional
-- Each message should be different but related
+- Focus on BUNDLING existing services with stressor-based battery check
+- "While you're here for oil change, let's also check your battery"
+- Emphasize convenience of doing everything in one visit
+- Reference specific stressor patterns that increase urgency
+- Show cost savings vs separate visits
+
+Return ONLY the 3 messages, one per line, no numbering or bullets."""
+                
+            else:  # proactive messaging
+                # Mike Rodriguez scenario: No existing prognostics, pure stressor opportunity
+                prompt = f"""Create 3 personalized {channel} messages for {customer_name} about their {vehicle_info}.
+
+SCENARIO: Customer has NO immediate service needs, but STRESSOR ANALYSIS reveals proactive opportunity.
+
+Vehicle Analysis:
+- No active prognostics or overdue maintenance
+- STRESSOR-ONLY opportunity: {stressor_context}
+- Risk level: {risk_level} ({risk_score:.1f}%)
+- Proactive service value: Fleet health check ${total_cost//3} prevents future ${total_cost * 2} emergency
+
+Requirements:
+- Focus on PROACTIVE intervention before problems occur
+- Emphasize preventing expensive future failures
+- Use stressor patterns to create urgency without existing issues
+- Position as smart preventive maintenance
+- Reference commercial/fleet usage implications
 
 Return ONLY the 3 messages, one per line, no numbering or bullets."""
             
@@ -218,17 +243,17 @@ CLEAN_INTERFACE_HTML = """
             border: 1px solid #e2e8f0;
         }
         
-        /* Learning Cards - No Overlapping */
+        /* Learning Cards - Fixed Flip Animation */
         .learning-card { 
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 12px; 
-            padding: 20px;
             margin-bottom: 16px;
             cursor: pointer; 
             transition: all 0.2s;
             position: relative;
-            min-height: 120px;
+            height: 200px;  /* Fixed height to prevent jumping */
+            perspective: 1000px;
         }
         
         .learning-card:hover {
@@ -242,7 +267,7 @@ CLEAN_INTERFACE_HTML = """
             width: 100%; 
             height: 100%;
             transition: transform 0.6s;
-            transform-style: preserve-3d; 
+            transform-style: preserve-3d;
         }
         
         .learning-card.flipped .card-inner { 
@@ -256,13 +281,21 @@ CLEAN_INTERFACE_HTML = """
             backface-visibility: hidden;
             top: 0;
             left: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 12px;
+        }
+        
+        .card-front {
+            background: white;
+            z-index: 2;
         }
         
         .card-back { 
             transform: rotateY(180deg);
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 16px;
+            z-index: 1;
+            overflow-y: auto;
         }
         
         .flip-indicator { 
@@ -786,10 +819,22 @@ CLEAN_INTERFACE_HTML = """
             <div class="lead-card">
                 <div class="lead-header">
                     <div class="customer-name">Sarah Johnson</div>
-                    <div class="priority-badge priority-critical">Critical</div>
+                    <div class="priority-badge priority-critical">URGENT</div>
                 </div>
                 <div class="vehicle-info">2022 Light Truck • VIN: 1FTFW1ET5LFA67890 • 47,823 miles</div>
-                <div class="issue-type">Battery Risk: 3.3x Above Category Average</div>
+                <div class="issue-type">Scheduled Service + Battery Risk (3.3x Above Cohort)</div>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 12px; margin: 12px 0;">
+                    <div style="font-size: 12px; font-weight: 600; color: #856404; margin-bottom: 6px;">📋 EXISTING PROGNOSTICS:</div>
+                    <div style="font-size: 11px; color: #856404;">• Oil change due (3,200 miles overdue)</div>
+                    <div style="font-size: 11px; color: #856404;">• Tire rotation recommended</div>
+                </div>
+                
+                <div style="background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; padding: 12px; margin: 12px 0;">
+                    <div style="font-size: 12px; font-weight: 600; color: #721c24; margin-bottom: 6px;">⚡ STRESSOR ANALYSIS:</div>
+                    <div style="font-size: 11px; color: #721c24;">• Winter + short trips + high ignition cycles</div>
+                    <div style="font-size: 11px; color: #721c24;">• Battery stress: 85th percentile vs cohort</div>
+                </div>
                 
                 <div class="engagement-channels">
                     <div class="channel-btn active" onclick="switchChannel(this, 'sms', 'sarah')">📱 SMS</div>
@@ -799,23 +844,39 @@ CLEAN_INTERFACE_HTML = """
                 
                 <div class="ai-messages" id="sarah-messages">
                     <div class="ai-messages-title">
-                        <span>AI-Generated Messages</span>
+                        <span>Integrated Service Messaging</span>
                         <span class="ai-badge">GPT-4</span>
                     </div>
-                    <div class="loading-messages">Generating personalized messages...</div>
+                    <div class="loading-messages">Generating bundled service messaging...</div>
                 </div>
-                <div class="revenue-estimate">
-                    Battery Service: Parts $280 + Service $125 = $405 • Contact Within: 24 hours
+                
+                <div style="background: #d1ecf1; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin: 12px 0; text-align: center;">
+                    <div style="font-size: 12px; font-weight: 600; color: #0c5460; margin-bottom: 4px;">💰 BUNDLED SERVICE OPPORTUNITY</div>
+                    <div style="font-size: 13px; color: #0c5460;">Oil Service $85 + Battery Check $125 + Tire Rotation $45 = <strong>$255</strong></div>
+                    <div style="font-size: 11px; color: #0c5460; margin-top: 4px;">vs. separate visits: $85 + $280 + $45 = $410</div>
                 </div>
             </div>
             
             <div class="lead-card">
                 <div class="lead-header">
                     <div class="customer-name">Mike Rodriguez</div>
-                    <div class="priority-badge priority-high">High</div>
+                    <div class="priority-badge priority-high">HIGH</div>
                 </div>
                 <div class="vehicle-info">2023 SUV • VIN: 1FMHK8D83LGA89012 • 23,456 miles</div>
-                <div class="issue-type">Commercial Usage: 2.1x Risk Multiplier</div>
+                <div class="issue-type">Fleet Usage + Multiple Stress Factors</div>
+                
+                <div style="background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 12px; margin: 12px 0;">
+                    <div style="font-size: 12px; font-weight: 600; color: #155724; margin-bottom: 6px;">✅ NO ACTIVE PROGNOSTICS</div>
+                    <div style="font-size: 11px; color: #155724;">• Next scheduled maintenance: 2,800 miles</div>
+                    <div style="font-size: 11px; color: #155724;">• All systems currently within normal parameters</div>
+                </div>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 12px; margin: 12px 0;">
+                    <div style="font-size: 12px; font-weight: 600; color: #856404; margin-bottom: 6px;">⚠️ STRESSOR-ONLY OPPORTUNITY:</div>
+                    <div style="font-size: 11px; color: #856404;">• Commercial usage patterns detected</div>
+                    <div style="font-size: 11px; color: #856404;">• Multiple driver stress indicators</div>
+                    <div style="font-size: 11px; color: #856404;">• Proactive intervention recommended</div>
+                </div>
                 
                 <div class="engagement-channels">
                     <div class="channel-btn active" onclick="switchChannel(this, 'sms', 'mike')">📱 SMS</div>
@@ -825,13 +886,40 @@ CLEAN_INTERFACE_HTML = """
                 
                 <div class="ai-messages" id="mike-messages">
                     <div class="ai-messages-title">
-                        <span>AI-Generated Messages</span>
+                        <span>Proactive Outreach Messaging</span>
                         <span class="ai-badge">GPT-4</span>
                     </div>
-                    <div class="loading-messages">Generating personalized messages...</div>
+                    <div class="loading-messages">Generating proactive service messaging...</div>
                 </div>
-                <div class="revenue-estimate">
-                    Battery Service: Parts $320 + Service $145 = $465 • Contact Within: 48 hours
+                
+                <div style="background: #e2e3e5; border: 1px solid #d6d8db; border-radius: 8px; padding: 12px; margin: 12px 0; text-align: center;">
+                    <div style="font-size: 12px; font-weight: 600; color: #383d41; margin-bottom: 4px;">🔮 PROACTIVE SERVICE OPPORTUNITY</div>
+                    <div style="font-size: 13px; color: #383d41;">Fleet Health Check $145 • Early Intervention Value</div>
+                    <div style="font-size: 11px; color: #383d41; margin-top: 4px;">Prevents future $800+ emergency service</div>
+                </div>
+            </div>
+            
+            <div style="background: #e9ecef; border-radius: 12px; padding: 16px; margin-top: 20px;">
+                <div style="font-size: 14px; font-weight: 600; color: #495057; margin-bottom: 12px; text-align: center;">📊 LEAD QUEUE INTELLIGENCE</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center;">
+                    <div style="background: #fff; border-radius: 8px; padding: 12px;">
+                        <div style="font-size: 18px; font-weight: 700; color: #dc3545;">12</div>
+                        <div style="font-size: 11px; color: #6c757d;">URGENT Leads</div>
+                        <div style="font-size: 10px; color: #6c757d;">Existing + Stressors</div>
+                    </div>
+                    <div style="background: #fff; border-radius: 8px; padding: 12px;">
+                        <div style="font-size: 18px; font-weight: 700; color: #fd7e14;">8</div>
+                        <div style="font-size: 11px; color: #6c757d;">HIGH Priority</div>
+                        <div style="font-size: 10px; color: #6c757d;">Stressor-Only</div>
+                    </div>
+                    <div style="background: #fff; border-radius: 8px; padding: 12px;">
+                        <div style="font-size: 18px; font-weight: 700; color: #28a745;">34</div>
+                        <div style="font-size: 11px; color: #6c757d;">NORMAL Queue</div>
+                        <div style="font-size: 10px; color: #6c757d;">Routine Follow-up</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 12px; font-size: 12px; color: #6c757d;">
+                    💡 Stressors enhance existing prognostics + create new opportunities
                 </div>
             </div>
         </div>
@@ -950,12 +1038,15 @@ CLEAN_INTERFACE_HTML = """
             }
             
             // Show loading state
+            const messageTitle = customer === 'sarah' ? 'Integrated Service Messaging' : 'Proactive Outreach Messaging';
+            const loadingText = customer === 'sarah' ? 'bundled service messaging' : 'proactive service messaging';
+            
             messagesContainer.innerHTML = `
                 <div class="ai-messages-title">
-                    <span>AI-Generated Messages</span>
+                    <span>${messageTitle}</span>
                     <span class="ai-badge">GPT-4</span>
                 </div>
-                <div class="loading-messages">Generating personalized ${channel.toUpperCase()} messages...</div>
+                <div class="loading-messages">Generating ${loadingText}...</div>
             `;
             
             try {
@@ -973,7 +1064,8 @@ CLEAN_INTERFACE_HTML = """
                         vehicle_info: customerData.vehicle,
                         stressors: customerData.stressors,
                         risk_score: customerData.riskScore,
-                        channel: channel
+                        channel: channel,
+                        message_type: customer === 'sarah' ? 'integrated' : 'proactive'
                     })
                 });
                 
@@ -1007,9 +1099,13 @@ CLEAN_INTERFACE_HTML = """
                 '<span class="ai-badge">GPT-4</span>' : 
                 '<span class="ai-badge">Fallback</span>';
             
+            // Determine if this is Sarah or Mike based on container ID
+            const isSarah = container.id.includes('sarah');
+            const messageTitle = isSarah ? 'Integrated Service Messaging' : 'Proactive Outreach Messaging';
+            
             container.innerHTML = `
                 <div class="ai-messages-title">
-                    <span>AI-Generated Messages</span>
+                    <span>${messageTitle}</span>
                     ${personalizedBadge}
                 </div>
                 ${data.messages.map(msg => `<div class="ai-message">${msg}</div>`).join('')}
@@ -1095,6 +1191,7 @@ def main():
             stressors: List[str]
             risk_score: float
             channel: str = "sms"
+            message_type: str = "integrated"  # "integrated" or "proactive"
         
         @app.get("/")
         async def root():
@@ -1104,14 +1201,15 @@ def main():
         async def generate_messages(request: MessageRequest):
             """Generate AI-powered personalized messages"""
             try:
-                logger.info(f"🤖 Generating {request.channel} messages for {request.customer_name}")
+                logger.info(f"🤖 Generating {request.message_type} {request.channel} messages for {request.customer_name}")
                 
                 messages = ai_generator.generate_personalized_messages(
                     customer_name=request.customer_name,
                     vehicle_info=request.vehicle_info,
                     stressors=request.stressors,
                     risk_score=request.risk_score,
-                    channel=request.channel
+                    channel=request.channel,
+                    message_type=request.message_type
                 )
                 
                 return messages
