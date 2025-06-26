@@ -73,7 +73,7 @@ class RiskScoreMetadata(BaseModel):
 
 
 class RiskScoreOutput(BaseModel):
-    """Output data model for risk score results"""
+    """Output data model for risk score results with academic validation"""
     vin: str = Field(..., description="Vehicle identifier")
     risk_score: float = Field(..., ge=0.0, le=1.0, description="Failure probability (0.0-1.0)")
     severity_bucket: SeverityBucket = Field(..., description="Risk severity classification")
@@ -83,6 +83,8 @@ class RiskScoreOutput(BaseModel):
     revenue_opportunity: Decimal = Field(..., description="Expected service revenue")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Prediction confidence")
     metadata: RiskScoreMetadata = Field(..., description="Calculation metadata")
+    academic_sources: Optional[str] = Field(None, description="Academic sources for validation")
+    cohort_comparison: Optional[str] = Field(None, description="Risk vs cohort average comparison")
     
     class Config:
         json_encoders = {

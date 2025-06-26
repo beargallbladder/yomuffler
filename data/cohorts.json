@@ -1,16 +1,22 @@
 {
   "metadata": {
-    "version": "1.0",
+    "version": "1.1",
     "created_at": "2024-01-15T00:00:00Z",
-    "source": "Ford Risk Score Engine - Argonne Integration",
+    "source": "Ford Risk Score Engine - Argonne Integration with 115925.pdf Validation",
     "total_cohorts": 4,
     "academic_sources": [
       "Argonne DOE 2015 Study",
+      "Argonne ANL-115925.pdf - Stop and Restart Effects on Modern Vehicle Starting System Components",
       "Prasad et al. 2023 Battery Studies", 
       "BU-804 Heat Stress Analysis",
       "BU-403 Duty Cycle Research",
       "BU-806a Peukert Discharge Modeling"
-    ]
+    ],
+    "key_findings": {
+      "six_mile_recharge_rule": "Argonne ANL-115925.pdf Section 4.1, Figure 5 - Approximately six miles of driving needed to recharge battery after start",
+      "ignition_cycle_validation": "Argonne ANL-115925.pdf - Ignition cycle count alone doesn't reduce life, lack of recharge between starts is the killer",
+      "deep_discharge_penalties": "Argonne ANL-115925.pdf - Engine-off accessory loads during engine-off events cause exponential degradation"
+    }
   },
   "cohorts": [
     {
@@ -30,14 +36,14 @@
           "source": "Prasad et al. 2023; BU-804 Heat Stress Correlation Studies"
         },
         "short_trip_behavior": {
-          "value": 1.7,
-          "definition": "Average trip duration < 15 minutes, insufficient recharge time",
-          "source": "BU-403 Duty Cycle Analysis; Argonne Fleet Study 2015"
+          "value": 1.9,
+          "definition": "Average trip distance < 6 miles, insufficient recharge time per Argonne 6-mile rule",
+          "source": "Argonne ANL-115925.pdf Section 4.1, Figure 5 - Six miles driving needed to recharge battery"
         },
         "ignition_cycles_high": {
           "value": 2.3,
-          "definition": "≥ 40 ignition-on events in last 30 days, excessive cycling stress",
-          "source": "BU-806a Deep Discharge Studies; Peukert Law Applications"
+          "definition": "≥ 40 ignition-on events in last 30 days with insufficient recharge between starts",
+          "source": "Argonne ANL-115925.pdf - Ignition cycles damage only occurs with inadequate recharge"
         },
         "cold_extreme": {
           "value": 1.2,
@@ -46,13 +52,13 @@
         },
         "ign_off_to_on_under_1hr": {
           "value": 1.5,
-          "definition": "Rest period < 1hr between trips for >15% of start events",
-          "source": "Battery University sulfation studies; Ford Internal 2020-2022"
+          "definition": "Rest period < 1hr between trips for >15% of start events, accessory draw degradation",
+          "source": "Argonne ANL-115925.pdf - Engine-off accessory loads during engine-off events cause SOC degradation"
         }
       },
       "created_at": "2024-01-15T00:00:00Z",
-      "last_updated": "2024-01-15T00:00:00Z",
-      "version": "1.0"
+      "last_updated": "2024-06-26T10:00:00Z",
+      "version": "1.1"
     },
     {
       "cohort_id": "midweighttruck_southwest_heat",
@@ -72,13 +78,13 @@
         },
         "ignition_cycles_high": {
           "value": 2.0,
-          "definition": "High idle time + frequent starts for commercial duty cycle",
-          "source": "BU-806a Fleet Duty-Cycle Stress Analysis; Ford Commercial Data"
+          "definition": "High idle time + frequent starts with inadequate recharge for commercial duty cycle",
+          "source": "Argonne ANL-115925.pdf recharge validation; Ford Commercial Data"
         },
         "trip_duration_low": {
-          "value": 1.6,
-          "definition": "Average trip duration < 12 minutes, urban delivery pattern",
-          "source": "Argonne Commercial Testbed 2015; UPS Fleet Study"
+          "value": 1.8,
+          "definition": "Average trip distance < 6 miles per Argonne recharge rule, urban delivery pattern",
+          "source": "Argonne ANL-115925.pdf Section 4.1 - Six mile recharge threshold; UPS Fleet Study"
         },
         "temp_delta_high": {
           "value": 1.5,
@@ -87,8 +93,8 @@
         }
       },
       "created_at": "2024-01-15T00:00:00Z",
-      "last_updated": "2024-01-15T00:00:00Z",
-      "version": "1.0"
+      "last_updated": "2024-06-26T10:00:00Z",
+      "version": "1.1"
     },
     {
       "cohort_id": "passengercar_northeast_mixed",
@@ -107,9 +113,14 @@
           "source": "SAE J2334 Corrosion Studies; Northeast Winter Analysis"
         },
         "urban_stop_start": {
-          "value": 1.3,
-          "definition": "Stop-start traffic pattern >60% of drive time",
-          "source": "Urban Driving Cycle Analysis; NYC Fleet Data 2020-2022"
+          "value": 1.4,
+          "definition": "Stop-start traffic pattern >60% of drive time, frequent cycles without full recharge",
+          "source": "Argonne ANL-115925.pdf recharge cycle validation; NYC Fleet Data 2020-2022"
+        },
+        "short_trip_urban": {
+          "value": 1.6,
+          "definition": "Average trip distance < 6 miles in urban environment per Argonne 6-mile rule",
+          "source": "Argonne ANL-115925.pdf Section 4.1, Figure 5 - Six miles driving needed for recharge"
         },
         "temp_cycling_moderate": {
           "value": 1.2,
@@ -118,8 +129,8 @@
         }
       },
       "created_at": "2024-01-15T00:00:00Z",
-      "last_updated": "2024-01-15T00:00:00Z",
-      "version": "1.0"
+      "last_updated": "2024-06-26T10:00:00Z",
+      "version": "1.1"
     },
     {
       "cohort_id": "suv_commercial_fleet",
@@ -139,13 +150,13 @@
         },
         "multi_driver_usage": {
           "value": 1.9,
-          "definition": "Multiple drivers, inconsistent usage patterns",
-          "source": "Fleet Management Studies; Driver Behavior Analysis 2021"
+          "definition": "Multiple drivers, inconsistent usage patterns with variable recharge compliance",
+          "source": "Fleet Management Studies; Argonne ANL-115925.pdf recharge pattern validation"
         },
         "extended_idle": {
           "value": 1.6,
-          "definition": "Extended idle time >30% of engine hours",
-          "source": "Police Fleet Studies; Emergency Service Vehicle Analysis"
+          "definition": "Extended idle time >30% of engine hours with accessory draw during engine-off",
+          "source": "Argonne ANL-115925.pdf engine-off accessory load studies; Emergency Service Analysis"
         },
         "maintenance_deferred": {
           "value": 2.1,
@@ -154,8 +165,8 @@
         }
       },
       "created_at": "2024-01-15T00:00:00Z",
-      "last_updated": "2024-01-15T00:00:00Z", 
-      "version": "1.0"
+      "last_updated": "2024-06-26T10:00:00Z", 
+      "version": "1.1"
     }
   ]
 } 

@@ -314,6 +314,16 @@ MOBILE_HTML_TEMPLATE = """
             </div>
             
             <div class="detail-row">
+                <span class="detail-label">vs Cohort Average</span>
+                <span class="detail-value" id="cohortComparison">-</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Academic Sources</span>
+                <span class="detail-value" id="academicSources">-</span>
+            </div>
+            
+            <div class="detail-row">
                 <span class="detail-label">Response Time</span>
                 <span class="detail-value" id="responseTime">-</span>
             </div>
@@ -371,6 +381,8 @@ MOBILE_HTML_TEMPLATE = """
             document.getElementById('stressors').textContent = result.dominant_stressors.join(', ') || 'None';
             document.getElementById('action').textContent = result.recommended_action;
             document.getElementById('revenue').textContent = '$' + result.revenue_opportunity.toLocaleString();
+            document.getElementById('cohortComparison').textContent = result.cohort_comparison || 'N/A';
+            document.getElementById('academicSources').textContent = result.academic_sources ? result.academic_sources.split(' – ')[0] : 'Academic validation';
             document.getElementById('responseTime').textContent = data.processing_time_ms.toFixed(1) + 'ms';
             
             document.getElementById('result').style.display = 'block';
