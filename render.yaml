@@ -1,13 +1,15 @@
 services:
-  # Ford Risk Score Engine - Standalone Service
+  # Ford Risk Score Engine - Academic Cohort System
   - type: web
     name: yomuffler
     env: python
     plan: starter
     buildCommand: pip install -r requirements-render.txt
-    startCommand: python start_render.py
+    startCommand: python start_production.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: ENVIRONMENT
-        value: production 
+        value: production
+      - key: HOST
+        value: 0.0.0.0 
