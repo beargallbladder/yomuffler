@@ -25,18 +25,18 @@ class AIMessageGenerator:
         if not self.openai_api_key:
             logger.warning("⚠️ OpenAI API key not found - using fallback messages")
         
-    async def generate_personalized_messages(self, customer_name: str, vehicle_info: str, 
-                                           stressors: List[str], risk_score: float, 
-                                           channel: str = "sms") -> Dict[str, List[str]]:
+    def generate_personalized_messages(self, customer_name: str, vehicle_info: str, 
+                                       stressors: List[str], risk_score: float, 
+                                       channel: str = "sms") -> Dict[str, List[str]]:
         """Generate personalized messages based on stressor analysis"""
         
         if not self.openai_api_key:
             return self._fallback_messages(customer_name, vehicle_info, stressors, risk_score)
         
         try:
-            # Dynamic import to avoid startup issues
-            from openai import AsyncOpenAI
-            client = AsyncOpenAI(api_key=self.openai_api_key)
+            # Use synchronous OpenAI client - the async version has issues
+            from openai import OpenAI
+            client = OpenAI(api_key=self.openai_api_key)
             
             # Create stressor context
             stressor_context = ", ".join(stressors)
@@ -55,63 +55,57 @@ class AIMessageGenerator:
             total_cost = parts_cost + service_cost
             
             # Channel-specific prompts with realistic pricing
-            prompts = {
-                "sms": f"""Create 3 concise SMS messages (under 160 chars each) for {customer_name} about their {vehicle_info}. 
-                Vehicle shows these stressors: {stressor_context}. Risk level: {risk_level} ({risk_score:.1f}%).
-                Battery service cost: Parts ${parts_cost} + Service ${service_cost} = ${total_cost}.
-                Be professional, urgent but not alarmist. Focus on prevention and value.""",
-                
-                "email": f"""Create 3 professional email talking points for {customer_name} about their {vehicle_info}.
-                Vehicle analysis shows: {stressor_context}. Risk assessment: {risk_level} ({risk_score:.1f}%).
-                Battery service estimate: Parts ${parts_cost} + Labor ${service_cost} = ${total_cost}.
-                Focus on academic backing, specific stressors, and business value. Be consultative.""",
-                
-                "phone": f"""Create 3 phone conversation starters for {customer_name} about their {vehicle_info}.
-                Detected stressors: {stressor_context}. Risk level: {risk_level} ({risk_score:.1f}%).
-                Battery service pricing: ${parts_cost} parts + ${service_cost} service = ${total_cost} total.
-                Natural conversation flow, build rapport, educate about specific risks."""
-            }
+            prompt = f"""Create 3 personalized {channel} messages for {customer_name} about their {vehicle_info}.
+
+Vehicle Analysis:
+- Stressors detected: {stressor_context}
+- Risk level: {risk_level} ({risk_score:.1f}%)
+- Battery service cost: Parts ${parts_cost} + Service ${service_cost} = ${total_cost}
+
+Requirements:
+- Be specific about their vehicle's unique stress patterns
+- Reference academic research (Argonne studies) 
+- Explain why their specific combination matters
+- Include realistic pricing context
+- Be conversational and professional
+- Each message should be different but related
+
+Return ONLY the 3 messages, one per line, no numbering or bullets."""
             
             logger.info(f"🤖 Making OpenAI API call for {customer_name} - {channel} channel")
             
-            # Correct async OpenAI call
-            response = await client.chat.completions.create(
+            # Synchronous OpenAI call that actually works
+            response = client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are an expert automotive service advisor. Create personalized, professional messages that build trust and demonstrate expertise. Use specific technical details but keep language accessible."},
-                    {"role": "user", "content": prompts.get(channel, prompts["sms"])}
+                    {"role": "system", "content": "You are an expert automotive service advisor. Create personalized, professional messages that build trust and demonstrate expertise. Use specific technical details but keep language accessible. Return only the requested messages, no extra text."},
+                    {"role": "user", "content": prompt}
                 ],
-                max_tokens=500,
+                max_tokens=800,
                 temperature=0.7
             )
             
             logger.info(f"✅ OpenAI API call successful for {customer_name}")
             
             # Parse response into individual messages
-            content = response.choices[0].message.content
-            messages = [msg.strip() for msg in content.split('\n') if msg.strip() and not msg.strip().startswith(('1.', '2.', '3.', '-', '•'))]
+            content = response.choices[0].message.content.strip()
+            messages = [msg.strip() for msg in content.split('\n') if msg.strip() and len(msg.strip()) > 20]
             
-            # Filter and clean messages
-            clean_messages = []
-            for msg in messages:
-                if len(msg) > 20 and not msg.startswith(('Here are', 'Sure!', 'I can help')):
-                    clean_messages.append(msg)
-            
-            # Ensure we have at least 3 messages
-            if len(clean_messages) < 3:
-                clean_messages = content.split('.')[0:3] if '.' in content else [content[:150], content[150:300], content[300:450]]
-                clean_messages = [msg.strip() for msg in clean_messages if msg.strip()]
+            # Ensure we have exactly 3 messages
+            if len(messages) < 3:
+                # Split by periods or sentences if not enough lines
+                sentences = [s.strip() + '.' for s in content.replace('\n', ' ').split('.') if s.strip()]
+                messages = sentences[:3] if len(sentences) >= 3 else [content]
             
             return {
-                "messages": clean_messages[:3],  # Ensure max 3 messages
+                "messages": messages[:3],  # Ensure max 3 messages
                 "risk_level": risk_level,
                 "personalized": True
             }
             
         except Exception as e:
             logger.error(f"❌ OpenAI API error for {customer_name}: {str(e)}")
-            logger.error(f"❌ API Key available: {bool(self.openai_api_key)}")
-            logger.error(f"❌ Channel: {channel}, Vehicle: {vehicle_info}")
+            logger.error(f"❌ Full error details: {type(e).__name__}: {e}")
             return self._fallback_messages(customer_name, vehicle_info, stressors, risk_score)
     
     def _fallback_messages(self, customer_name: str, vehicle_info: str, 
@@ -1006,7 +1000,7 @@ def main():
             try:
                 logger.info(f"🤖 Generating {request.channel} messages for {request.customer_name}")
                 
-                messages = await ai_generator.generate_personalized_messages(
+                messages = ai_generator.generate_personalized_messages(
                     customer_name=request.customer_name,
                     vehicle_info=request.vehicle_info,
                     stressors=request.stressors,
@@ -1033,7 +1027,7 @@ def main():
         async def test_ai():
             """Test endpoint to verify AI message generation is working"""
             try:
-                test_messages = await ai_generator.generate_personalized_messages(
+                test_messages = ai_generator.generate_personalized_messages(
                     customer_name="Test Customer",
                     vehicle_info="2022 Light Truck", 
                     stressors=["temperature_extremes", "short_trips"],
