@@ -709,35 +709,34 @@ CLEAN_INTERFACE_HTML = """
                 <div class="flip-indicator">Flip</div>
                 <div class="card-inner">
                     <div class="card-front">
-                        <div class="card-title">Cohort Intelligence Engine</div>
+                        <div class="card-title">Strategic Cohort Targeting</div>
                         <div class="card-description">
-                            Real-time analysis across millions of similar vehicles creates 
-                            predictive intelligence that transforms reactive maintenance 
-                            into proactive customer engagement opportunities.
+                            Four strategic vehicle cohorts designed specifically for dealer lead generation,
+                            using stressor analysis to identify imminent battery failure risks 
+                            and high-value service opportunities.
                         </div>
                     </div>
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>Cohort Analysis Framework:</strong><br/>
-                                Vehicle Type × Region × Usage × Environment<br/>
-                                = 847 distinct behavioral cohorts<br/>
-                                Sample sizes: 15,000-50,000 vehicles per cohort<br/>
-                                Updated: Real-time with 99.7% confidence intervals
+                                <strong>Strategic Cohorts for Dealer Leads:</strong><br/>
+                                • Light Truck + Winter: High-mileage commercial users<br/>
+                                • SUV + Heat: Fleet vehicles in hot climates<br/>
+                                • Sedan + Urban: Stop-start city driving patterns<br/>
+                                • Performance + Enthusiast: Track/aggressive use cases
                             </div>
                             <div class="math-formula">
-                                <strong>Outlier Detection Algorithm:</strong><br/>
-                                If Vehicle_Risk > (Cohort_Mean + 2σ):<br/>
-                                → Generate high-priority dealer lead<br/>
-                                If Vehicle_Risk < (Cohort_Mean - 1σ):<br/>
-                                → Retention messaging, premium services
+                                <strong>Imminent Threat Detection:</strong><br/>
+                                Stressor combo > 3 active + Risk > 50% = Immediate lead<br/>
+                                Stressor combo = 2 active + Risk > 30% = Weekly follow-up<br/>
+                                Cohort outlier > 85th percentile = Monthly check-in
                             </div>
                             <div class="math-formula">
-                                <strong>Business Intelligence Output:</strong><br/>
-                                • Daily cohort updates across dealer network<br/>
-                                • Automated high-value lead generation<br/>
-                                • Predictive service revenue optimization<br/>
-                                • Customer lifetime value forecasting
+                                <strong>Dealer Lead Generation Focus:</strong><br/>
+                                • Predictive failure windows: 2-6 weeks out<br/>
+                                • Revenue targeting: $300-500 service opportunities<br/>
+                                • Geographic dealer matching within 20-mile radius<br/>
+                                • Contact prioritization based on failure probability
                             </div>
                         </div>
                     </div>
