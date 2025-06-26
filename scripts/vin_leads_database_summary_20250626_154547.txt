@@ -1,0 +1,37 @@
+VIN STRESSORS LEAD DATABASE SUMMARY
+==================================================
+
+Generated using Argonne ANL-115925.pdf methodology
+Target: Southeast region, 2+ standard deviation stressors
+
+Total Leads Generated: 5000
+Generation Date: 2025-06-26 15:45:47
+
+GEOGRAPHIC DISTRIBUTION:
+  AL: 510 leads (10.2%)
+  FL: 992 leads (19.8%)
+  GA: 766 leads (15.3%)
+  LA: 468 leads (9.4%)
+  MS: 502 leads (10.0%)
+  NC: 762 leads (15.2%)
+  SC: 494 leads (9.9%)
+  TN: 506 leads (10.1%)
+
+VEHICLE MODEL DISTRIBUTION:
+  Expedition: 757 leads (15.1%)
+  Explorer: 857 leads (17.1%)
+  F-150: 854 leads (17.1%)
+  F-250: 848 leads (17.0%)
+  F-350: 863 leads (17.3%)
+  Ranger: 821 leads (16.4%)
+
+RISK DISTRIBUTION:
+  Low (0-30%): 930 leads (18.6%)
+  Medium (30-60%): 3204 leads (64.1%)
+  High (60%+): 866 leads (17.3%)
+
+BUSINESS INTELLIGENCE:
+  Total Revenue Opportunity: $1,066,415
+  Average Per Lead: $213.28
+  Immediate Action Leads: 866 (17.3%)
+  High Stressor Leads (2+ std dev): 2927 (58.5%)
