@@ -15,14 +15,22 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
-from openai import OpenAI
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize OpenAI client
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
+# Initialize OpenAI client (optional)
+client = None
+try:
+    from openai import OpenAI
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
+    logger.info("✅ OpenAI client initialized")
+except ImportError:
+    logger.warning("⚠️ OpenAI not available - using fallback messaging")
+except Exception as e:
+    logger.warning(f"⚠️ OpenAI initialization failed: {e}")
+    client = None
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -1303,6 +1311,11 @@ CONVERSATION REQUIREMENTS:
 Generate a natural conversation starter that a dealer would actually say to this customer:
 """
 
+        # Check if OpenAI client is available
+        if not client:
+            print("OpenAI client not available, using fallback")
+            raise Exception("OpenAI client not initialized")
+            
         print(f"Calling OpenAI with API key: {api_key[:10]}...")
         response = client.chat.completions.create(
             model="gpt-4",
