@@ -296,6 +296,8 @@ CLEAN_INTERFACE_HTML = """
             background: #f8fafc;
             z-index: 1;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;  /* iOS smooth scrolling */
+            touch-action: pan-y;  /* Allow vertical scrolling on mobile */
         }
         
         .flip-indicator { 
@@ -623,37 +625,39 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-front">
                         <div class="card-title">Academic Foundation</div>
                         <div class="card-description">
-                            Peer-reviewed research from Argonne National Laboratory, SAE International, 
-                            and Battery University creates mathematically rigorous vehicle stress analysis 
-                            across all makes and models.
+                            PRIMARY: Proprietary Ford data with real-world failure patterns and cohort analytics.
+                            FALLBACK: Peer-reviewed Argonne research provides scientifically-backed priors 
+                            and likelihood ratios. We're willing to be wrong for the sake of learning faster 
+                            in low wear-and-tear stressor scenarios.
                         </div>
                     </div>
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>Bayesian Posterior Calculation:</strong><br/>
-                                P(Failure|Evidence) = (Prior × ∏LR) / ((Prior × ∏LR) + (1-Prior))<br/>
-                                Where ∏LR = Product of all active likelihood ratios
+                                <strong>PRIMARY: Ford Proprietary Data</strong><br/>
+                                Real-world failure patterns from 50M+ vehicles<br/>
+                                Cohort-specific priors: 15%, 12%, 9%, 18%<br/>
+                                Actual stressor correlation matrices<br/>
+                                Live dealer service data integration
                             </div>
                             <div class="math-formula">
-                                <strong>Argonne ANL-115925.pdf Validation:</strong><br/>
+                                <strong>FALLBACK: Argonne Scientific Foundation</strong><br/>
                                 6-mile recharge rule: P(failure|&lt;6mi) = 1.9x baseline<br/>
                                 SOC decline patterns: LR = 6.50<br/>
                                 Temperature cycling: LR = 2.39<br/>
-                                Ignition frequency: LR = 2.16
+                                Ignition frequency: LR = 2.16 (ANL-115925.pdf)
                             </div>
                             <div class="math-formula">
-                                <strong>Cohort Prior Calculation:</strong><br/>
-                                Base Rate: 2.3% (Argonne 2015 Study)<br/>
-                                Vehicle Type Multiplier: 0.87-1.89<br/>
-                                Environmental Stressor: 1.2-2.8x<br/>
-                                Final Prior: Base × Vehicle × Environment
+                                <strong>Bayesian Framework (Universal):</strong><br/>
+                                P(Failure|Evidence) = (Prior × ∏LR) / ((Prior × ∏LR) + (1-Prior))<br/>
+                                Ford data = Primary, Argonne = Backup<br/>
+                                "Willing to be wrong to learn faster"
                             </div>
                             <div class="math-formula">
-                                <strong>Example: Light Truck Winter</strong><br/>
-                                Prior: 2.3% × 1.34 × 2.1 = 6.5%<br/>
-                                Active LRs: 6.50 × 2.39 × 2.16 = 33.6<br/>
-                                Posterior: 68.4% failure probability
+                                <strong>Learning Philosophy:</strong><br/>
+                                Low-risk scenarios: Use scientific approximations<br/>
+                                High-value customers: Ford proprietary precision<br/>
+                                Continuous model improvement via feedback loops
                             </div>
                         </div>
                     </div>
