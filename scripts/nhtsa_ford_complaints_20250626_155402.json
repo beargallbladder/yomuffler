@@ -1,0 +1,484 @@
+{
+  "collection_date": "2025-06-26T15:54:02.661288",
+  "data_source": "NHTSA Vehicle Complaints Database",
+  "batches_processed": 7,
+  "total_complaints_processed": 600,
+  "models_targeted": [
+    "F-150",
+    "F-250",
+    "F-350",
+    "Ranger",
+    "Explorer",
+    "Expedition"
+  ],
+  "total_battery_complaints": 20,
+  "analysis": {
+    "total_complaints": 20,
+    "geographic_distribution": {
+      "CA": 1,
+      "TX": 3,
+      "WA": 1,
+      "FL": 4,
+      "SC": 1,
+      "MT": 1,
+      "MI": 2,
+      "TN": 1,
+      "NH": 1,
+      "NV": 1,
+      "NC": 1,
+      "MA": 1,
+      "GA": 1,
+      "MO": 1
+    },
+    "vehicle_year_distribution": {
+      "2021": 2,
+      "2020": 2,
+      "2022": 2,
+      "2024": 1,
+      "2023": 1
+    },
+    "seasonal_patterns": {
+      "6": 10,
+      "4": 2,
+      "12": 2,
+      "8": 2,
+      "3": 1,
+      "9": 1,
+      "5": 1,
+      "11": 1
+    },
+    "safety_incidents": {
+      "crashes": 0,
+      "fires": 0,
+      "injuries": 0,
+      "deaths": 0
+    },
+    "keyword_frequency": {
+      "electrical": 5,
+      "battery": 4,
+      "voltage": 1,
+      "starting": 8,
+      "cold start": 3
+    },
+    "sample_complaints": [
+      {
+        "nhtsa_id": 11669024,
+        "artemis_id": 2560203,
+        "date_received": "2025-06-24T00:00:00Z",
+        "incident_date": "2025-06-20T00:00:00Z",
+        "state": "CA",
+        "city": null,
+        "consumer_location": "Unknown",
+        "vin": "3FMCR9C6XMR",
+        "crash": false,
+        "fire": false,
+        "injured": 0,
+        "deaths": 0,
+        "description": "Vehicle: 2021 Ford Bronco VIN: [XXX]  Mileage: Approximately 88,000 miles  Complaint:  I am reporting major safety and drivability concerns with my 2021 Ford Bronco, which is currently undrivable and in the shop at Ron DuPrat Ford in Dixon, California. Despite experiencing issues nearly identical to those covered under existing recalls, my vehicle\u2019s VIN is not currently included.  While driving on the freeway, the vehicle suddenly malfunctioned. Without warning, it dropped into first gear at hig",
+        "battery_related_keywords": [
+          "electrical"
+        ]
+      },
+      {
+        "nhtsa_id": 11668789,
+        "artemis_id": 2559968,
+        "date_received": "2025-06-24T00:00:00Z",
+        "incident_date": "2025-06-19T00:00:00Z",
+        "state": "TX",
+        "city": "SUDAN",
+        "consumer_location": "SUDAN, TX",
+        "vin": "1FTRX12W84N",
+        "crash": false,
+        "fire": false,
+        "injured": 0,
+        "deaths": 0,
+        "description": "Electrical malfunction with fuses , problems with brake light, engine light and air bag light . Some fuses blown out after brake light fuse popped wipers don't work at all air bog turns on and off every day not sure why",
+        "battery_related_keywords": [
+          "electrical"
+        ]
+      },
+      {
+        "nhtsa_id": 11669053,
+        "artemis_id": 2560232,
+        "date_received": "2025-06-24T00:00:00Z",
+        "incident_date": "2025-04-19T00:00:00Z",
+        "state": "WA",
+        "city": "BATTLE GROUND",
+        "consumer_location": "BATTLE GROUND, WA",
+        "vin": "1FADP3R43JL",
+        "crash": false,
+        "fire": false,
+        "injured": 0,
+        "deaths": 0,
+        "description": "While driving the vehicle at 60 mph in traffic, all propulsion was lost and the car displayed \"stop safely now.\" Fortunately,  I had enough momentum to drift to the side of the road, but this was a very unsafe situation.   The vehicle was towed to a dealership where they diagnosed the high voltage battery to have experienced a sudden failure.  The vehicle has approximately 60k miles, and searching online indicates that this is a common problem at this mileage.  The replacement batteries are jow ",
+        "battery_related_keywords": [
+          "battery",
+          "voltage"
+        ]
+      }
+    ]
+  },
+  "raw_complaints": [
+    {
+      "nhtsa_id": 11669024,
+      "artemis_id": 2560203,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-06-20T00:00:00Z",
+      "state": "CA",
+      "city": null,
+      "consumer_location": "Unknown",
+      "vin": "3FMCR9C6XMR",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "Vehicle: 2021 Ford Bronco VIN: [XXX]  Mileage: Approximately 88,000 miles  Complaint:  I am reporting major safety and drivability concerns with my 2021 Ford Bronco, which is currently undrivable and in the shop at Ron DuPrat Ford in Dixon, California. Despite experiencing issues nearly identical to those covered under existing recalls, my vehicle\u2019s VIN is not currently included.  While driving on the freeway, the vehicle suddenly malfunctioned. Without warning, it dropped into first gear at hig",
+      "battery_related_keywords": [
+        "electrical"
+      ]
+    },
+    {
+      "nhtsa_id": 11668789,
+      "artemis_id": 2559968,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-06-19T00:00:00Z",
+      "state": "TX",
+      "city": "SUDAN",
+      "consumer_location": "SUDAN, TX",
+      "vin": "1FTRX12W84N",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "Electrical malfunction with fuses , problems with brake light, engine light and air bag light . Some fuses blown out after brake light fuse popped wipers don't work at all air bog turns on and off every day not sure why",
+      "battery_related_keywords": [
+        "electrical"
+      ]
+    },
+    {
+      "nhtsa_id": 11669053,
+      "artemis_id": 2560232,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-04-19T00:00:00Z",
+      "state": "WA",
+      "city": "BATTLE GROUND",
+      "consumer_location": "BATTLE GROUND, WA",
+      "vin": "1FADP3R43JL",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "While driving the vehicle at 60 mph in traffic, all propulsion was lost and the car displayed \"stop safely now.\" Fortunately,  I had enough momentum to drift to the side of the road, but this was a very unsafe situation.   The vehicle was towed to a dealership where they diagnosed the high voltage battery to have experienced a sudden failure.  The vehicle has approximately 60k miles, and searching online indicates that this is a common problem at this mileage.  The replacement batteries are jow ",
+      "battery_related_keywords": [
+        "battery",
+        "voltage"
+      ]
+    },
+    {
+      "nhtsa_id": 11668804,
+      "artemis_id": 2559983,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-06-24T00:00:00Z",
+      "state": "FL",
+      "city": "MELBOURNE",
+      "consumer_location": "MELBOURNE, FL",
+      "vin": "1FT7W2BT7ME",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "ON YOUR VEHICLE, IT MAY BE POSSIBLE FOR AGED BIODIESEL DEPOSITS TO ACCUMULATE IN THE HIGH PRESSURE FUEL PUMP. THIS MAY RESULT IN EXTENDED CRANKING WITHOUT STARTING WHILE THE VEHICLE IS PARKED, OR LOSS OF MOTIVE POWER WHILE DRIVING.  My vehicle has been inoperative for MONTHS due to this recall, per the manufacturer. We had no warning lights or problems prior to trying to start the vehicle and that failing. We took it to the manufacturer, and they said it was because of the recall.  The recall da",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668842,
+      "artemis_id": 2560021,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-06-18T00:00:00Z",
+      "state": "TX",
+      "city": "SMILEY",
+      "consumer_location": "SMILEY, TX",
+      "vin": "1FTEW1E43KK",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2019 Ford F-150. The contact stated that the vehicle was making an abnormal rattling sound on cold starts and while idling. There was no warning light illuminated. The dealer was notified of the failure and informed the contact that the VIN was not included in a recall. The vehicle was not diagnosed or repaired. The manufacturer was not notified of the failure and referred the contact to the NHTSA Hotline for assistance. The failure mileage was approximately 108,000.",
+      "battery_related_keywords": [
+        "cold start"
+      ]
+    },
+    {
+      "nhtsa_id": 11668940,
+      "artemis_id": 2560119,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-06-24T00:00:00Z",
+      "state": "SC",
+      "city": "TRAVELERS REST",
+      "consumer_location": "TRAVELERS REST, SC",
+      "vin": "2FMPK3J91HB",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "Bought this car a couple of years ago.  In the past 6 months we have had to have brakes/rotors fixed ($650), spark plugs, etc ($780). It's had issues with not starting after fueling up with gas. It's been riding rough and rattling/vibrating. Took it to mechanic and he told me it was a manufacturer issue with cylinder 3. Coolant has been leaking and causing misfires. Basically needs a engine rebuild. Recommended we call Ford dealership because it has had several reports filed for this reason. We ",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668953,
+      "artemis_id": 2560132,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2024-12-30T00:00:00Z",
+      "state": "MT",
+      "city": "MISSOULA",
+      "consumer_location": "MISSOULA, MT",
+      "vin": "1FTFW1EG3JK",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "This vehicle started rattling upon cold start. It has only 43K miles on it. When looking into the situation it has been a defect of this vehicle as well as many other years that Ford has failed to own up to. This rattle is due to a cam phaser pin that breaks loose and can dislodge at any time and cause the vehicle to seize up. Another owner had this happen on the freeway at 70 mph. Ford claims it is \u201cnot dangerous\u201d but obviously it is. It costs the owners anywhere from $4500-$6500 to fix. Our lo",
+      "battery_related_keywords": [
+        "cold start"
+      ]
+    },
+    {
+      "nhtsa_id": 11668967,
+      "artemis_id": 2560146,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2023-08-01T00:00:00Z",
+      "state": "MI",
+      "city": "FREE SOIL",
+      "consumer_location": "FREE SOIL, MI",
+      "vin": "1FTEW1E52LF",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2020 Ford F-150. The contact stated while driving at various speeds, the transmission was not shifting correctly. The contact stated that the transmission was shifting hard, and the vehicle jerked abnormally. The contact stated that the engine revved high during the failure. The contact stated that while starting the vehicle there was an abnormal clunking sound coming from the vehicle. There were no warning lights illuminated. The vehicle was taken to the local dealer and was ",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668990,
+      "artemis_id": 2560169,
+      "date_received": "2025-06-24T00:00:00Z",
+      "incident_date": "2025-06-21T00:00:00Z",
+      "state": "TN",
+      "city": "MARYVILLE",
+      "consumer_location": "MARYVILLE, TN",
+      "vin": "1FT7W2B67LE",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2020 Ford F-250. The contact stated while driving at an undisclosed speed, the brake pedal was depressed; however, the vehicle failed to stop. No warning light was illuminated. In addition, the contact stated that a trailer was hitched to the vehicle during the failure. The contact stated that the trailer brakes was inoperable. The contact stated that the failure occurred while driving in the driveway. The contact was able to safely stop and park the vehicle. The vehicle was n",
+      "battery_related_keywords": [
+        "electrical"
+      ]
+    },
+    {
+      "nhtsa_id": 11668578,
+      "artemis_id": 2559757,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2020-08-23T00:00:00Z",
+      "state": "TX",
+      "city": "WYLIE",
+      "consumer_location": "WYLIE, TX",
+      "vin": "1FTEW1EG2HF",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2017 Ford F-150. The contact stated that the vehicle was making an abnormal rattling sound on cold starts. There was no warning light illuminated. The vehicle was taken to the dealer, where it was diagnosed that the cam phasers needed to be replaced. The dealer replaced the cam phasers; however, the failure recurred. The vehicle was not repaired. The contact related to the failure to Ford Campaign Number: 21N03. The manufacturer was notified of the failure, but no assistance w",
+      "battery_related_keywords": [
+        "cold start"
+      ]
+    },
+    {
+      "nhtsa_id": 11668586,
+      "artemis_id": 2559765,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-03-15T00:00:00Z",
+      "state": "FL",
+      "city": "TITUSVILLE",
+      "consumer_location": "TITUSVILLE, FL",
+      "vin": "1FMHK7D81BG",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2011 Ford Explorer. The contact stated while driving 35 MPH and attempting to make a left turn, the steering wheel failed to respond as intended. No warning light was illuminated. The vehicle was serviced under NHTSA Campaign Number: 14V286000 (STEERING) by the previous owner; however, the repair failed to repair the vehicle. The contact replaced the battery after the recall repair. The manufacturer was notified of the failure and offered no assistance. The failure mileage was",
+      "battery_related_keywords": [
+        "battery"
+      ]
+    },
+    {
+      "nhtsa_id": 11668598,
+      "artemis_id": 2559777,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-06-23T00:00:00Z",
+      "state": "FL",
+      "city": "KISSIMMEE",
+      "consumer_location": "KISSIMMEE, FL",
+      "vin": "3FTTW8A97NR",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2022 Ford Maverick. The contact stated that after driving the vehicle and parking, the vehicle failed to restart. The vehicle was jump-started. There were no warning lights illuminated. The vehicle was taken to the local dealer, where it was diagnosed and determined that the battery needed to be replaced. The vehicle was repaired. The manufacturer was contacted and referred the contact to the NHTSA Hotline. The failure mileage was approximately 36,000. The VIN was invalid.",
+      "battery_related_keywords": [
+        "battery"
+      ]
+    },
+    {
+      "nhtsa_id": 11668601,
+      "artemis_id": 2559780,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2024-09-01T00:00:00Z",
+      "state": "NH",
+      "city": "NEW BOSTON",
+      "consumer_location": "NEW BOSTON, NH",
+      "vin": "1FTFW5L82RF",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2024 Ford F-150. The contact stated while driving at various speeds, or while the vehicle was idling at a stop, the vehicle failed to accelerate while depressing the accelerator pedal. There was no warning light illuminated. The contact stated that the accelerator pedal had to be depressed to the floorboard for the vehicle to accelerate as intended. The vehicle was taken to the dealer on several occasions before the dealer was able to duplicate the failure. The contact stated ",
+      "battery_related_keywords": [
+        "electrical"
+      ]
+    },
+    {
+      "nhtsa_id": 11668654,
+      "artemis_id": 2559833,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-06-04T00:00:00Z",
+      "state": "NV",
+      "city": "LAS VEGAS",
+      "consumer_location": "LAS VEGAS, NV",
+      "vin": "1FMCU0GD3HU",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact's mother-in-law owns a 2017 Ford Escape. The contact stated that upon starting the vehicle and while driving at various speeds, the vehicle was shuddering. The check engine warning light was illuminated. The vehicle was taken to the dealer, where it was diagnosed with cylinder #2 failure, and that there were metal shavings inside the engine oil. The dealer determined that the engine needed to be replaced. The vehicle was not repaired. The manufacturer was notified of the failure and ",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668674,
+      "artemis_id": 2559853,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-04-04T00:00:00Z",
+      "state": "FL",
+      "city": null,
+      "consumer_location": "Unknown",
+      "vin": "5LMJJ2LT0KE",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "Purchased a 2019 Lincoln navigator in 2024 used at a dealership in Orange Park Florida. The vehicle was taken to the same dealership for an oil change, which is a Volkswagen dealership. I started to hear a loud shaking noise after starting it up. I took it to O\u2019Reilly\u2018s auto parts and had to put on a machine and I also took it to Paul, Clark Ford and Yulee Florida. I was told by both that it was the cam phaser. The vehicle was also leaking coolant, and now the engine has completely blown in the ",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668691,
+      "artemis_id": 2559870,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-05-23T00:00:00Z",
+      "state": "MI",
+      "city": "SAINT CLAIR SHORES",
+      "consumer_location": "SAINT CLAIR SHORES, MI",
+      "vin": "2FMPK4J91JB",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2018 Ford Edge. The contact stated that upon starting the vehicle, the engine was misfiring, and there was white smoke coming out of the exhaust pipe. The vehicle was taken to AutoZone, then to an independent mechanic, where it was diagnosed and determined that there was a misfire in cylinder #1. The mechanic replaced the spark plugs and ignition coils; however, the failure recurred. The check engine warning light was illuminated. The vehicle was taken back to the independent ",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668692,
+      "artemis_id": 2559871,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2024-12-23T00:00:00Z",
+      "state": "NC",
+      "city": "DALLAS",
+      "consumer_location": "DALLAS, NC",
+      "vin": "1FTFW1E43KF",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2019 Ford F-150. The contact stated that while starting the vehicle, there was an abnormal rumbling and vibrating sound coming from underneath the vehicle. There were no warning lights illuminated. The vehicle was taken to a certified mechanic, who diagnosed that the cam phasers had failed and needed to be replaced. The vehicle was not repaired. The manufacturer was informed of the failure. The manufacturer referred the contact to the NHTSA Hotline to file a complaint. The fai",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668765,
+      "artemis_id": 2559944,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-06-22T00:00:00Z",
+      "state": "MA",
+      "city": "HADLEY",
+      "consumer_location": "HADLEY, MA",
+      "vin": "3FTTW8E32PR",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "While traveling at speed there was a severe malfunction of the vehicle's stereo system. While driving the stereo was initially silent but later began to produce extremely loud noise/static. The volume of the noise was so extreme I had to take my hands off the steering wheel to cover my ears. The stereo did not respond to any power or volume input to stop the sound and I was forced to quickly pull over to the side of the road to turn off and exit the vehicle. The sound only stopped after exiting ",
+      "battery_related_keywords": [
+        "starting"
+      ]
+    },
+    {
+      "nhtsa_id": 11668532,
+      "artemis_id": 2559711,
+      "date_received": "2025-06-23T00:00:00Z",
+      "incident_date": "2025-06-20T00:00:00Z",
+      "state": "GA",
+      "city": "ATLANTA",
+      "consumer_location": "ATLANTA, GA",
+      "vin": "3FMCR9A69NR",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "The contact owns a 2022 Ford Bronco Sport. The contact stated that the vehicle slightly hesitated while depressing the start button. There was no warning light illuminated. The contact then received notification of NHTSA Campaign Number: 25V019000 (Electrical System). The contact scheduled an appointment to have the vehicle serviced; however, the dealer informed the contact that the vehicle needed to be kept overnight for the repair. Due to other commitments, the contact was unable to leave the ",
+      "battery_related_keywords": [
+        "electrical"
+      ]
+    },
+    {
+      "nhtsa_id": 11668404,
+      "artemis_id": 2559583,
+      "date_received": "2025-06-22T00:00:00Z",
+      "incident_date": "2024-11-02T00:00:00Z",
+      "state": "MO",
+      "city": "IMPERIAL",
+      "consumer_location": "IMPERIAL, MO",
+      "vin": "3FA6P0T9XFR",
+      "crash": false,
+      "fire": false,
+      "injured": 0,
+      "deaths": 0,
+      "description": "I changed my battery at 105,000 miles with everything working fine electronically for my 2015 Fusion. Been a great car up to this issue. After installing the correct battery, the power steering turned off and hasn't come back on.  Took to dealership, they replaced a connection cable at their suggestion and still were unable to reset the power steering.  That's where it should have ended tho. They want me to further come back to run more tests??? Something seems very defective to me and from soci",
+      "battery_related_keywords": [
+        "battery"
+      ]
+    }
+  ]
+}
