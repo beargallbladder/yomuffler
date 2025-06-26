@@ -710,32 +710,40 @@ CLEAN_INTERFACE_HTML = """
                         <div class="card-title">OEM Data Advantage</div>
                         <div class="card-description">
                             Proprietary access to manufacturer cohort data, vehicle telemetry, 
-                            and dealer network insights creates unmatched competitive intelligence 
-                            that independent shops simply cannot replicate.
+                            dealer network insights, and DIRECT Ford Parts API integration.
+                            Real-time pricing, availability, and internal team alerts on lead activity
+                            create unmatched competitive intelligence that independent shops cannot replicate.
                         </div>
                     </div>
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>Exclusive OEM Intelligence:</strong><br/>
+                                <strong>FORD PARTS API INTEGRATION:</strong><br/>
+                                • Real-time parts pricing and availability<br/>
+                                • Internal team alerts on lead parts demand<br/>
+                                • Inventory optimization based on stressor predictions<br/>
+                                • Lead-to-parts correlation tracking
+                            </div>
+                            <div class="math-formula">
+                                <strong>Operational Intelligence:</strong><br/>
                                 • Vehicle-specific failure patterns by region<br/>
-                                • Real-time cohort benchmarking across 50+ million vehicles<br/>
+                                • Real-time cohort benchmarking (50+ million vehicles)<br/>
                                 • Dealer network performance analytics<br/>
-                                • Proprietary stressor correlation matrices
+                                • Parts demand forecasting via stressor analysis
                             </div>
                             <div class="math-formula">
-                                <strong>Competitive Moats:</strong><br/>
-                                Independent shops: Generic maintenance schedules<br/>
-                                Chain shops: One-size-fits-all approaches<br/>
-                                OEM dealers: Vehicle-specific intelligence + cohort data<br/>
-                                Our advantage: Academic validation + personalization
+                                <strong>Competitive Moats vs Independent Shops:</strong><br/>
+                                Independent: Generic parts catalogs, no API access<br/>
+                                Chain shops: Limited OEM integration<br/>
+                                Ford dealers: Direct API + stressor intelligence<br/>
+                                Our advantage: Real-time operations + predictive analytics
                             </div>
                             <div class="math-formula">
-                                <strong>Data Sources Independent Shops Lack:</strong><br/>
-                                • Manufacturing quality control data<br/>
-                                • Regional deployment patterns<br/>
-                                • Warranty claim analytics by cohort<br/>
-                                • Cross-dealer failure correlation analysis
+                                <strong>Internal Team Benefits:</strong><br/>
+                                • Parts managers get demand alerts<br/>
+                                • Service advisors see real-time pricing<br/>
+                                • Inventory teams optimize based on predictions<br/>
+                                • Management dashboards track lead conversion
                             </div>
                         </div>
                     </div>
