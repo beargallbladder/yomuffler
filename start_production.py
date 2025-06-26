@@ -1170,10 +1170,12 @@ def main():
         
         # Import after path setup
         import uvicorn
-        from fastapi import FastAPI, HTTPException
+        from fastapi import FastAPI, HTTPException, Depends
         from fastapi.responses import HTMLResponse
+        from fastapi.security import HTTPBasic, HTTPBasicCredentials
         from pydantic import BaseModel
         from typing import List
+        import secrets
         
         # Get configuration from environment
         host = os.getenv("HOST", "0.0.0.0")
@@ -1183,6 +1185,21 @@ def main():
         
         # Create FastAPI app
         app = FastAPI(title="VIN Stressors Platform")
+        
+        # Security setup
+        security = HTTPBasic()
+        
+        def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
+            """Simple authentication for demo protection"""
+            correct_username = secrets.compare_digest(credentials.username, "dealer")
+            correct_password = secrets.compare_digest(credentials.password, "stressors2024")
+            if not (correct_username and correct_password):
+                raise HTTPException(
+                    status_code=401,
+                    detail="Invalid credentials",
+                    headers={"WWW-Authenticate": "Basic"},
+                )
+            return credentials.username
         
         # Request models
         class MessageRequest(BaseModel):
@@ -1194,11 +1211,11 @@ def main():
             message_type: str = "integrated"  # "integrated" or "proactive"
         
         @app.get("/")
-        async def root():
+        async def root(username: str = Depends(authenticate)):
             return HTMLResponse(content=CLEAN_INTERFACE_HTML)
         
         @app.post("/api/generate-messages")
-        async def generate_messages(request: MessageRequest):
+        async def generate_messages(request: MessageRequest, username: str = Depends(authenticate)):
             """Generate AI-powered personalized messages"""
             try:
                 logger.info(f"🤖 Generating {request.message_type} {request.channel} messages for {request.customer_name}")
@@ -1228,7 +1245,7 @@ def main():
             }
         
         @app.get("/api/test-ai")
-        async def test_ai():
+        async def test_ai(username: str = Depends(authenticate)):
             """Test endpoint to verify AI message generation is working"""
             try:
                 test_messages = ai_generator.generate_personalized_messages(
