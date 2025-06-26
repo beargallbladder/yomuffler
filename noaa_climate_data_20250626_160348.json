@@ -1,0 +1,23 @@
+{
+  "collection_date": "2025-06-26T16:03:48.081584",
+  "data_source": "NOAA National Centers for Environmental Information",
+  "locations_processed": 5,
+  "successful_locations": 0,
+  "climate_data": {
+    "33101": {
+      "error": "No data available for Miami"
+    },
+    "32801": {
+      "error": "No data available for Orlando"
+    },
+    "33602": {
+      "error": "No data available for Tampa"
+    },
+    "32501": {
+      "error": "No data available for Pensacola"
+    },
+    "30309": {
+      "error": "No data available for Atlanta"
+    }
+  }
+}

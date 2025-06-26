@@ -1,0 +1,48 @@
+REAL VIN DATA TEMPLATE DOCUMENTATION
+==================================================
+
+REQUIRED FIELDS:
+  ✅ vin
+  ✅ customer_name
+  ✅ current_mileage
+  ✅ zip_code
+  ✅ year
+  ✅ make
+  ✅ model
+  ✅ city
+  ✅ state
+
+OPTIONAL FIELDS (auto-calculated if missing):
+  🔄 vehicle_age
+  🔄 climate_zone
+  🔄 temp_winter
+  🔄 temp_summer
+  🔄 temperature_delta
+
+CALCULATED FIELDS (automatic):
+  🤖 start_cycles_annual
+  🤖 start_cycle_deviation
+  🤖 temperature_stress
+  🤖 short_trip_percentage
+  🤖 estimated_cold_starts
+  🤖 base_prior
+  🤖 adjusted_prior
+  🤖 active_lrs
+  🤖 combined_lr
+  🤖 posterior_probability
+  🤖 risk_percentile
+  🤖 urgency_score
+  🤖 primary_service
+  🤖 parts_cost
+  🤖 service_cost
+  🤖 total_opportunity
+  🤖 contact_urgency
+  🤖 cohort_assignment
+
+
+DATA REQUIREMENTS:
+  • VIN: 17-character alphanumeric Ford VIN
+  • Mileage: 1-500,000 miles
+  • ZIP Code: 5-digit US ZIP code
+  • Customer Name: Any format
+  • Year/Make/Model: Can be decoded from VIN if missing

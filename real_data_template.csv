@@ -1,0 +1,4 @@
+vin,customer_name,current_mileage,zip_code,year,make,model,city,state
+1FTFW1E43MKF12345,John Smith,45000,33101,2022,Ford,F-150,Miami,FL
+1FTFW1E43MKF67890,Sarah Johnson,62000,30309,2021,Ford,F-250,Atlanta,GA
+1FMCU0GD3HU123456,Mike Rodriguez,38000,28202,2023,Ford,Explorer,Charlotte,NC
