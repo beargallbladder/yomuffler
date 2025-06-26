@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
 VIN Stressors - Universal Vehicle Intelligence Platform
-Clean, professional interface for dealer-customer engagement
+Clean, professional interface with AI-powered personalized messaging  
 """
 
 import os
 import sys
 import logging
+import json
+from typing import Dict, List, Optional
 
 # Add current directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,7 +18,88 @@ sys.path.insert(0, current_dir)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Clean, professional HTML template
+# AI-powered messaging system
+class AIMessageGenerator:
+    def __init__(self):
+        self.openai_api_key = os.getenv("OPENAI_API_KEY")
+        if not self.openai_api_key:
+            logger.warning("⚠️ OpenAI API key not found - using fallback messages")
+        
+    async def generate_personalized_messages(self, customer_name: str, vehicle_info: str, 
+                                           stressors: List[str], risk_score: float, 
+                                           channel: str = "sms") -> Dict[str, List[str]]:
+        """Generate personalized messages based on stressor analysis"""
+        
+        if not self.openai_api_key:
+            return self._fallback_messages(customer_name, vehicle_info, stressors, risk_score)
+        
+        try:
+            # Dynamic import to avoid startup issues
+            from openai import OpenAI
+            client = OpenAI(api_key=self.openai_api_key)
+            
+            # Create stressor context
+            stressor_context = ", ".join(stressors)
+            risk_level = "CRITICAL" if risk_score >= 50 else "HIGH" if risk_score >= 30 else "MODERATE"
+            
+            # Channel-specific prompts
+            prompts = {
+                "sms": f"""Create 3 concise SMS messages (under 160 chars each) for {customer_name} about their {vehicle_info}. 
+                Vehicle shows these stressors: {stressor_context}. Risk level: {risk_level} ({risk_score:.1f}%).
+                Be professional, urgent but not alarmist. Focus on prevention and value.""",
+                
+                "email": f"""Create 3 professional email talking points for {customer_name} about their {vehicle_info}.
+                Vehicle analysis shows: {stressor_context}. Risk assessment: {risk_level} ({risk_score:.1f}%).
+                Focus on academic backing, specific stressors, and business value. Be consultative.""",
+                
+                "phone": f"""Create 3 phone conversation starters for {customer_name} about their {vehicle_info}.
+                Detected stressors: {stressor_context}. Risk level: {risk_level} ({risk_score:.1f}%).
+                Natural conversation flow, build rapport, educate about specific risks."""
+            }
+            
+            response = await client.chat.completions.acreate(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are an expert automotive service advisor. Create personalized, professional messages that build trust and demonstrate expertise. Use specific technical details but keep language accessible."},
+                    {"role": "user", "content": prompts.get(channel, prompts["sms"])}
+                ],
+                max_tokens=500,
+                temperature=0.7
+            )
+            
+            # Parse response into individual messages
+            content = response.choices[0].message.content
+            messages = [msg.strip() for msg in content.split('\n') if msg.strip() and not msg.strip().startswith(('1.', '2.', '3.', '-', '•'))]
+            
+            return {
+                "messages": messages[:3],  # Ensure max 3 messages
+                "risk_level": risk_level,
+                "personalized": True
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ OpenAI API error: {str(e)}")
+            return self._fallback_messages(customer_name, vehicle_info, stressors, risk_score)
+    
+    def _fallback_messages(self, customer_name: str, vehicle_info: str, 
+                          stressors: List[str], risk_score: float) -> Dict[str, List[str]]:
+        """Fallback messages when AI is unavailable"""
+        risk_level = "CRITICAL" if risk_score >= 50 else "HIGH" if risk_score >= 30 else "MODERATE"
+        
+        return {
+            "messages": [
+                f"{customer_name}, your {vehicle_info} shows {len(stressors)} stress factors that need attention",
+                f"Our analysis indicates {risk_score:.1f}% failure risk - let's prevent a breakdown",
+                f"Academic research shows this pattern leads to issues within weeks"
+            ],
+            "risk_level": risk_level,
+            "personalized": False
+        }
+
+# Initialize AI message generator
+ai_generator = AIMessageGenerator()
+
+# Clean, professional HTML template with AI integration
 CLEAN_INTERFACE_HTML = """
 <!DOCTYPE html>
 <html lang="en">
@@ -316,7 +399,7 @@ CLEAN_INTERFACE_HTML = """
             font-size: 14px;
         }
         
-        /* Engagement Portal */
+        /* AI-Enhanced Engagement Portal */
         .lead-card { 
             background: white;
             border: 1px solid #e2e8f0;
@@ -396,35 +479,55 @@ CLEAN_INTERFACE_HTML = """
             background: #f8fafc;
         }
         
-        .talking-points { 
+        .channel-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .ai-messages { 
             background: #f8fafc;
             border-radius: 8px;
             padding: 16px;
             margin-top: 12px;
+            min-height: 80px;
         }
         
-        .talking-points-title { 
+        .ai-messages-title { 
             font-size: 12px;
             font-weight: 600;
             color: #374151;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
-        .talking-point { 
+        .ai-badge {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .ai-message { 
             font-size: 12px;
             color: #4b5563;
             margin-bottom: 6px;
-            padding-left: 16px;
-            position: relative;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
             line-height: 1.4;
         }
         
-        .talking-point:before { 
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
+        .loading-messages {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            padding: 20px;
         }
         
         .revenue-estimate { 
@@ -443,7 +546,7 @@ CLEAN_INTERFACE_HTML = """
     <div class="container">
         <div class="header">
             <div class="logo">VIN Stressors</div>
-            <div class="subtitle">Universal Vehicle Intelligence Platform</div>
+            <div class="subtitle">AI-Powered Vehicle Intelligence Platform</div>
         </div>
         
         <div class="tab-nav">
@@ -487,24 +590,20 @@ CLEAN_INTERFACE_HTML = """
                 <div class="flip-indicator">Flip</div>
                 <div class="card-inner">
                     <div class="card-front">
-                        <div class="card-title">Bayesian Intelligence</div>
+                        <div class="card-title">AI-Powered Messaging</div>
                         <div class="card-description">
-                            Mathematical framework updates base probabilities with 
-                            real-world evidence for any vehicle.
+                            Large language models create personalized, contextual messages 
+                            based on specific stressor analysis for each vehicle.
                         </div>
                     </div>
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>Core Formula:</strong><br/>
-                                P(Failure|Evidence) = (Prior × LR) / ((Prior × LR) + (1 - Prior))
-                            </div>
-                            <div class="math-formula">
-                                <strong>Example:</strong><br/>
-                                Vehicle Type Prior: 12%<br/>
-                                Active Stressors: 3<br/>
-                                Combined Likelihood: 8.74x<br/>
-                                Final Risk: 58.2%
+                                <strong>Dynamic Generation:</strong><br/>
+                                • SMS: Concise, urgent messaging<br/>
+                                • Email: Professional, detailed<br/>
+                                • Phone: Conversational starters<br/>
+                                • Context-aware personalization
                             </div>
                         </div>
                     </div>
@@ -549,7 +648,7 @@ CLEAN_INTERFACE_HTML = """
             </div>
         </div>
         
-        <!-- Engagement Tab -->
+        <!-- AI-Enhanced Engagement Tab -->
         <div id="engagement-tab" class="tab-content">
             <div class="lead-card">
                 <div class="lead-header">
@@ -560,16 +659,17 @@ CLEAN_INTERFACE_HTML = """
                 <div class="issue-type">Battery Risk: 3.3x Above Category Average</div>
                 
                 <div class="engagement-channels">
-                    <div class="channel-btn">📱 SMS</div>
-                    <div class="channel-btn">📧 Email</div>
-                    <div class="channel-btn">📞 Call</div>
+                    <div class="channel-btn active" onclick="switchChannel(this, 'sms', 'sarah')">📱 SMS</div>
+                    <div class="channel-btn" onclick="switchChannel(this, 'email', 'sarah')">📧 Email</div>
+                    <div class="channel-btn" onclick="switchChannel(this, 'phone', 'sarah')">📞 Call</div>
                 </div>
                 
-                <div class="talking-points">
-                    <div class="talking-points-title">Engagement Messages:</div>
-                    <div class="talking-point">Sarah, your vehicle shows 3 stress factors that most similar vehicles don't have</div>
-                    <div class="talking-point">Winter patterns indicate battery decline - we can prevent a breakdown</div>
-                    <div class="talking-point">Research shows this pattern leads to failure within 6 weeks</div>
+                <div class="ai-messages" id="sarah-messages">
+                    <div class="ai-messages-title">
+                        <span>AI-Generated Messages</span>
+                        <span class="ai-badge">GPT-4</span>
+                    </div>
+                    <div class="loading-messages">Generating personalized messages...</div>
                 </div>
                 <div class="revenue-estimate">Service Opportunity: $1,960 • Contact Within: 24 hours</div>
             </div>
@@ -583,16 +683,17 @@ CLEAN_INTERFACE_HTML = """
                 <div class="issue-type">Commercial Usage: 2.1x Risk Multiplier</div>
                 
                 <div class="engagement-channels">
-                    <div class="channel-btn">📱 SMS</div>
-                    <div class="channel-btn">📧 Email</div>
-                    <div class="channel-btn">📞 Call</div>
+                    <div class="channel-btn active" onclick="switchChannel(this, 'sms', 'mike')">📱 SMS</div>
+                    <div class="channel-btn" onclick="switchChannel(this, 'email', 'mike')">📧 Email</div>
+                    <div class="channel-btn" onclick="switchChannel(this, 'phone', 'mike')">📞 Call</div>
                 </div>
                 
-                <div class="talking-points">
-                    <div class="talking-points-title">Engagement Messages:</div>
-                    <div class="talking-point">Mike, your SUV's usage puts it in the 91st percentile for wear patterns</div>
-                    <div class="talking-point">Multiple drivers create unique stress factors we can address</div>
-                    <div class="talking-point">Frame as business continuity: "Keep your operation running smoothly"</div>
+                <div class="ai-messages" id="mike-messages">
+                    <div class="ai-messages-title">
+                        <span>AI-Generated Messages</span>
+                        <span class="ai-badge">GPT-4</span>
+                    </div>
+                    <div class="loading-messages">Generating personalized messages...</div>
                 </div>
                 <div class="revenue-estimate">Service Opportunity: $2,520 • Contact Within: 48 hours</div>
             </div>
@@ -600,11 +701,20 @@ CLEAN_INTERFACE_HTML = """
     </div>
 
     <script>
+        // AI message cache to avoid redundant API calls
+        const messageCache = {};
+        
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabName + '-tab').classList.add('active');
             event.target.classList.add('active');
+            
+            // Load AI messages when engagement tab is opened
+            if (tabName === 'engagement') {
+                loadAIMessages('sarah', 'sms');
+                loadAIMessages('mike', 'sms');
+            }
         }
         
         function flipCard(card) {
@@ -668,6 +778,111 @@ CLEAN_INTERFACE_HTML = """
             }
         }
         
+        async function switchChannel(button, channel, customer) {
+            // Update active channel button
+            button.parentElement.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Load AI messages for this channel
+            await loadAIMessages(customer, channel);
+        }
+        
+        async function loadAIMessages(customer, channel) {
+            const cacheKey = `${customer}-${channel}`;
+            const messagesContainer = document.getElementById(`${customer}-messages`);
+            
+            // Check cache first
+            if (messageCache[cacheKey]) {
+                displayMessages(messagesContainer, messageCache[cacheKey]);
+                return;
+            }
+            
+            // Show loading state
+            messagesContainer.innerHTML = `
+                <div class="ai-messages-title">
+                    <span>AI-Generated Messages</span>
+                    <span class="ai-badge">GPT-4</span>
+                </div>
+                <div class="loading-messages">Generating personalized ${channel.toUpperCase()} messages...</div>
+            `;
+            
+            try {
+                // Get customer-specific data
+                const customerData = getCustomerData(customer);
+                
+                // Call AI message generation API
+                const response = await fetch('/api/generate-messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customer_name: customerData.name,
+                        vehicle_info: customerData.vehicle,
+                        stressors: customerData.stressors,
+                        risk_score: customerData.riskScore,
+                        channel: channel
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Cache the result
+                messageCache[cacheKey] = data;
+                
+                // Display messages
+                displayMessages(messagesContainer, data);
+                
+            } catch (error) {
+                console.error('Error loading AI messages:', error);
+                
+                // Fallback to static messages
+                const fallbackData = {
+                    messages: [
+                        `${customer === 'sarah' ? 'Sarah' : 'Mike'}, your vehicle shows stress factors that need attention`,
+                        `Our analysis indicates high failure risk - let's prevent a breakdown`,
+                        `Research shows this pattern leads to issues within weeks`
+                    ],
+                    personalized: false
+                };
+                
+                displayMessages(messagesContainer, fallbackData);
+            }
+        }
+        
+        function displayMessages(container, data) {
+            const personalizedBadge = data.personalized ? 
+                '<span class="ai-badge">GPT-4</span>' : 
+                '<span class="ai-badge">Fallback</span>';
+            
+            container.innerHTML = `
+                <div class="ai-messages-title">
+                    <span>AI-Generated Messages</span>
+                    ${personalizedBadge}
+                </div>
+                ${data.messages.map(msg => `<div class="ai-message">${msg}</div>`).join('')}
+            `;
+        }
+        
+        function getCustomerData(customer) {
+            const customerData = {
+                sarah: {
+                    name: "Sarah Johnson",
+                    vehicle: "2022 Light Truck",
+                    stressors: ["temperature_extremes", "short_trip_cycles", "high_ignition_frequency"],
+                    riskScore: 49.3
+                },
+                mike: {
+                    name: "Mike Rodriguez", 
+                    vehicle: "2023 SUV",
+                    stressors: ["commercial_usage", "multiple_drivers", "high_mileage"],
+                    riskScore: 68.6
+                }
+            };
+            
+            return customerData[customer];
+        }
+        
         document.getElementById('riskForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const vin = document.getElementById('vin').value.trim().toUpperCase();
@@ -677,21 +892,34 @@ CLEAN_INTERFACE_HTML = """
                 alert('Please enter a valid 17-character VIN');
             }
         });
+        
+        // Initialize AI messages on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-load messages for first customer on SMS channel
+            setTimeout(() => {
+                if (document.getElementById('engagement-tab').classList.contains('active')) {
+                    loadAIMessages('sarah', 'sms');
+                    loadAIMessages('mike', 'sms');
+                }
+            }, 1000);
+        });
     </script>
 </body>
 </html>
 """
 
 def main():
-    """Start VIN Stressors platform with clean, professional interface"""
+    """Start VIN Stressors platform with AI-powered messaging"""
     try:
-        logger.info("🚀 Starting VIN Stressors - Universal Vehicle Intelligence Platform")
+        logger.info("🚀 Starting VIN Stressors - AI-Powered Vehicle Intelligence Platform")
         logger.info(f"📁 Working directory: {os.getcwd()}")
         
         # Import after path setup
         import uvicorn
-        from fastapi import FastAPI
+        from fastapi import FastAPI, HTTPException
         from fastapi.responses import HTMLResponse
+        from pydantic import BaseModel
+        from typing import List
         
         # Get configuration from environment
         host = os.getenv("HOST", "0.0.0.0")
@@ -702,13 +930,46 @@ def main():
         # Create FastAPI app
         app = FastAPI(title="VIN Stressors Platform")
         
+        # Request models
+        class MessageRequest(BaseModel):
+            customer_name: str
+            vehicle_info: str
+            stressors: List[str]
+            risk_score: float
+            channel: str = "sms"
+        
         @app.get("/")
         async def root():
             return HTMLResponse(content=CLEAN_INTERFACE_HTML)
         
+        @app.post("/api/generate-messages")
+        async def generate_messages(request: MessageRequest):
+            """Generate AI-powered personalized messages"""
+            try:
+                logger.info(f"🤖 Generating {request.channel} messages for {request.customer_name}")
+                
+                messages = await ai_generator.generate_personalized_messages(
+                    customer_name=request.customer_name,
+                    vehicle_info=request.vehicle_info,
+                    stressors=request.stressors,
+                    risk_score=request.risk_score,
+                    channel=request.channel
+                )
+                
+                return messages
+                
+            except Exception as e:
+                logger.error(f"❌ Message generation failed: {str(e)}")
+                raise HTTPException(status_code=500, detail="Message generation failed")
+        
         @app.get("/health")
         async def health():
-            return {"status": "healthy", "service": "vin-stressors", "version": "2.0"}
+            return {
+                "status": "healthy", 
+                "service": "vin-stressors", 
+                "version": "2.1",
+                "ai_enabled": bool(ai_generator.openai_api_key)
+            }
         
         # Start the server
         uvicorn.run(
