@@ -185,6 +185,31 @@ CLEAN_INTERFACE_HTML = """
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
         }
         
+        /* DESKTOP RESPONSIVE OVERRIDES */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                padding: 0 32px;
+                border-radius: 16px;
+                margin: 20px auto;
+            }
+            
+            .header {
+                padding: 40px 32px 32px;
+            }
+            
+            .tab-content {
+                padding: 0 32px 40px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1400px;
+                padding: 0 48px;
+            }
+        }
+        
         .header { 
             background: transparent;
             padding: 60px 32px 40px;
@@ -294,6 +319,30 @@ CLEAN_INTERFACE_HTML = """
             height: 220px;
             perspective: 1000px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+        }
+        
+        /* Desktop Grid Layout for Learning Cards */
+        @media (min-width: 768px) {
+            #intelligence-tab {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+            
+            .learning-card {
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            #intelligence-tab {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 32px;
+            }
+            
+            .learning-card {
+                height: 200px;
+            }
         }
         
         .learning-card:hover {
@@ -437,6 +486,36 @@ CLEAN_INTERFACE_HTML = """
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-top: 16px;
+        }
+        
+        /* Desktop Layout for Calculator Tab */
+        @media (min-width: 968px) {
+            #calculator-tab {
+                display: grid;
+                grid-template-columns: 400px 1fr;
+                gap: 32px;
+                align-items: start;
+            }
+            
+            .demo-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Desktop Layout for Engagement Tab */
+        @media (min-width: 768px) {
+            #engagement-tab {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            #engagement-tab {
+                grid-template-columns: 1fr 1fr 300px;
+                gap: 32px;
+            }
         }
         
         .demo-btn { 
