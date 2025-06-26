@@ -15,14 +15,14 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
-import openai
+from openai import OpenAI
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize OpenAI client
-openai.api_key = os.environ.get("OPENAI_API_KEY", "")
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -1263,6 +1263,12 @@ async def health_check():
 async def generate_dealer_conversation(vehicle_data: Dict, stressor_analysis: Dict, risk_summary: Dict, cohort_comparison: Dict) -> str:
     """Generate personalized dealer conversation using OpenAI"""
     try:
+        # Check if API key is available
+        api_key = os.environ.get("OPENAI_API_KEY", "")
+        if not api_key:
+            print("No OpenAI API key found, using fallback")
+            raise Exception("No API key")
+            
         # Create detailed prompt with stressor data
         stressor_details = []
         for stressor, value in stressor_analysis.items():
@@ -1297,7 +1303,8 @@ CONVERSATION REQUIREMENTS:
 Generate a natural conversation starter that a dealer would actually say to this customer:
 """
 
-        response = openai.ChatCompletion.create(
+        print(f"Calling OpenAI with API key: {api_key[:10]}...")
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are an expert Ford dealer service advisor who creates personalized, data-driven customer conversations."},
@@ -1307,9 +1314,11 @@ Generate a natural conversation starter that a dealer would actually say to this
             temperature=0.7
         )
         
+        print("OpenAI response received successfully")
         return response.choices[0].message.content.strip()
     
     except Exception as e:
+        print(f"OpenAI error: {str(e)}")
         # Fallback to template-based message if OpenAI fails
         severity = risk_summary['severity']
         model = vehicle_data['model']
