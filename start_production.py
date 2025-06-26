@@ -35,8 +35,8 @@ class AIMessageGenerator:
         
         try:
             # Dynamic import to avoid startup issues
-            from openai import OpenAI
-            client = OpenAI(api_key=self.openai_api_key)
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI(api_key=self.openai_api_key)
             
             # Create stressor context
             stressor_context = ", ".join(stressors)
@@ -72,7 +72,10 @@ class AIMessageGenerator:
                 Natural conversation flow, build rapport, educate about specific risks."""
             }
             
-            response = await client.chat.completions.acreate(
+            logger.info(f"🤖 Making OpenAI API call for {customer_name} - {channel} channel")
+            
+            # Correct async OpenAI call
+            response = await client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "You are an expert automotive service advisor. Create personalized, professional messages that build trust and demonstrate expertise. Use specific technical details but keep language accessible."},
@@ -82,18 +85,33 @@ class AIMessageGenerator:
                 temperature=0.7
             )
             
+            logger.info(f"✅ OpenAI API call successful for {customer_name}")
+            
             # Parse response into individual messages
             content = response.choices[0].message.content
             messages = [msg.strip() for msg in content.split('\n') if msg.strip() and not msg.strip().startswith(('1.', '2.', '3.', '-', '•'))]
             
+            # Filter and clean messages
+            clean_messages = []
+            for msg in messages:
+                if len(msg) > 20 and not msg.startswith(('Here are', 'Sure!', 'I can help')):
+                    clean_messages.append(msg)
+            
+            # Ensure we have at least 3 messages
+            if len(clean_messages) < 3:
+                clean_messages = content.split('.')[0:3] if '.' in content else [content[:150], content[150:300], content[300:450]]
+                clean_messages = [msg.strip() for msg in clean_messages if msg.strip()]
+            
             return {
-                "messages": messages[:3],  # Ensure max 3 messages
+                "messages": clean_messages[:3],  # Ensure max 3 messages
                 "risk_level": risk_level,
                 "personalized": True
             }
             
         except Exception as e:
-            logger.error(f"❌ OpenAI API error: {str(e)}")
+            logger.error(f"❌ OpenAI API error for {customer_name}: {str(e)}")
+            logger.error(f"❌ API Key available: {bool(self.openai_api_key)}")
+            logger.error(f"❌ Channel: {channel}, Vehicle: {vehicle_info}")
             return self._fallback_messages(customer_name, vehicle_info, stressors, risk_score)
     
     def _fallback_messages(self, customer_name: str, vehicle_info: str, 
@@ -1010,6 +1028,31 @@ def main():
                 "version": "2.1",
                 "ai_enabled": bool(ai_generator.openai_api_key)
             }
+        
+        @app.get("/api/test-ai")
+        async def test_ai():
+            """Test endpoint to verify AI message generation is working"""
+            try:
+                test_messages = await ai_generator.generate_personalized_messages(
+                    customer_name="Test Customer",
+                    vehicle_info="2022 Light Truck", 
+                    stressors=["temperature_extremes", "short_trips"],
+                    risk_score=45.0,
+                    channel="sms"
+                )
+                
+                return {
+                    "status": "success",
+                    "ai_working": test_messages.get("personalized", False),
+                    "sample_message": test_messages.get("messages", ["No messages generated"])[0] if test_messages.get("messages") else "No messages",
+                    "api_key_found": bool(ai_generator.openai_api_key)
+                }
+            except Exception as e:
+                return {
+                    "status": "error",
+                    "error": str(e),
+                    "api_key_found": bool(ai_generator.openai_api_key)
+                }
         
         # Start the server
         uvicorn.run(
