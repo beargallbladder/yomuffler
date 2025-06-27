@@ -892,117 +892,145 @@ CLEAN_INTERFACE_HTML = """
         
         <!-- Intelligence Tab -->
         <div id="intelligence-tab" class="tab-content active">
-            <div style="padding: 20px;">
+            <div style="padding: 32px; background: #f8fafb; min-height: 100vh;">
                 <!-- LIVE DATA ENGINE STATUS -->
-                <div style="background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); color: white; padding: 24px; border-radius: 16px; margin-bottom: 24px; border: 1px solid #333;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span style="font-size: 28px;">⚡</span>
-                            <span style="font-size: 20px; font-weight: 600;">LIVE DATA ENGINE</span>
-                            <span style="background: #00ff00; color: #000; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">ACTIVE</span>
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="background: #3b82f6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">⚡</div>
+                            <div>
+                                <h2 style="font-size: 24px; font-weight: 600; margin: 0; color: #111827;">Live Data Engine</h2>
+                                <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                                    <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                                    <span style="font-size: 14px; color: #6b7280;">Active • System Health: 97%</span>
+                                </div>
+                            </div>
                         </div>
-                        <div style="text-align: right; font-family: 'Courier New', monospace; font-size: 12px;">
-                            <div style="color: #00ff00;">System Health: 97%</div>
-                            <div style="opacity: 0.7;">Uptime: 847 hours</div>
+                        <div style="text-align: right; font-size: 14px; color: #6b7280;">
+                            <div style="font-weight: 500; color: #10b981;">Uptime: 847 hours</div>
+                            <div>Last refresh: 2 hours ago</div>
                         </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
-                        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px; border-left: 4px solid #ff6b6b;">
-                            <div style="font-weight: 600; margin-bottom: 8px; color: #ff6b6b;">🏛️ NHTSA Database</div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.4;">
-                                <span style="color: #00ff00;">● CONNECTED</span><br/>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #dc2626;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 18px;">🏛️</span>
+                                <span style="font-weight: 600; color: #111827;">NHTSA Database</span>
+                            </div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.5;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></div>
+                                    <span style="font-weight: 500;">Connected</span>
+                                </div>
                                 Last sync: 14:23:47 EST<br/>
-                                Complaints: 20 analyzed<br/>
-                                Pattern match: 78% accuracy<br/>
-                                API status: gov.nhtsa.dot
+                                Complaints analyzed: 20<br/>
+                                Pattern match accuracy: 78%<br/>
+                                <span style="font-family: monospace; font-size: 11px; color: #6b7280;">gov.nhtsa.dot</span>
                             </div>
                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px; border-left: 4px solid #feca57;">
-                            <div style="font-weight: 600; margin-bottom: 8px; color: #feca57;">🌡️ NOAA Weather</div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.4;">
-                                <span style="color: #00ff00;">● STREAMING</span><br/>
-                                Stations: 1,247 active<br/>
-                                Accuracy: ±3.9°F<br/>
-                                Cold alerts: 421 today<br/>
-                                Feed: weather.gov/api
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 18px;">🌡️</span>
+                                <span style="font-weight: 600; color: #111827;">NOAA Weather</span>
+                            </div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.5;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></div>
+                                    <span style="font-weight: 500;">Streaming</span>
+                                </div>
+                                Weather stations: 1,247 active<br/>
+                                Temperature accuracy: ±3.9°F<br/>
+                                Cold start alerts today: 421<br/>
+                                <span style="font-family: monospace; font-size: 11px; color: #6b7280;">weather.gov/api</span>
                             </div>
                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px; border-left: 4px solid #48dbfb;">
-                            <div style="font-weight: 600; margin-bottom: 8px; color: #48dbfb;">🔬 Argonne Engine</div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.4;">
-                                <span style="color: #00ff00;">● VALIDATED</span><br/>
-                                Paper: ANL-115925.pdf<br/>
-                                6-mile rule: ENFORCED<br/>
-                                Models: Cold crank active<br/>
-                                Source: DOE academic
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 18px;">🔬</span>
+                                <span style="font-weight: 600; color: #111827;">Argonne Research</span>
+                            </div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.5;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></div>
+                                    <span style="font-weight: 500;">Validated</span>
+                                </div>
+                                Research paper: ANL-115925.pdf<br/>
+                                6-mile recharge rule: Enforced<br/>
+                                Cold crank models: Active<br/>
+                                <span style="font-family: monospace; font-size: 11px; color: #6b7280;">DOE academic source</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- AI SWARM ORCHESTRATION -->
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 16px; margin-bottom: 24px;">
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 24px;">🤖</span>
-                        <span>AI SWARM: 4 SPECIALIZED WORKERS</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 10px;">ORCHESTRATED</span>
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #8b5cf6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🤖</div>
+                        <div>
+                            <h2 style="font-size: 24px; font-weight: 600; margin: 0; color: #111827;">AI Swarm: 4 Specialized Workers</h2>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                                <div style="background: #10b981; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; color: white;">ORCHESTRATED</div>
+                                <span style="font-size: 14px; color: #6b7280;">Processing 5,000 VINs every 6 hours</span>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 8px;">
-                            <div style="font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="color: #00ff00;">●</span>
-                                <span>NHTSA Intelligence Worker</span>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                                <span style="font-weight: 600; color: #111827;">NHTSA Intelligence Worker</span>
                             </div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.3;">
-                                Processing: Complaint #11364826<br/>
-                                Queue: 23 pending analysis<br/>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                Currently processing: Complaint #11364826<br/>
+                                Analysis queue: 23 pending<br/>
                                 Pattern matching: F-150 SuperCrew<br/>
                                 Last cycle: 47 minutes ago<br/>
                                 Success rate: 78.3%
                             </div>
                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 8px;">
-                            <div style="font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="color: #00ff00;">●</span>
-                                <span>Predictive Cliff Worker</span>
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                                <span style="font-weight: 600; color: #111827;">Predictive Cliff Worker</span>
                             </div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.3;">
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
                                 Modeling: Cold start degradation<br/>
                                 VINs processed: 5,000<br/>
-                                Risk flags: 866 priority<br/>
-                                Bayesian engine: RUNNING<br/>
-                                Next prediction: 2.1 hours
+                                Priority flags: 866 identified<br/>
+                                Bayesian engine: Running<br/>
+                                Next prediction cycle: 2.1 hours
                             </div>
                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 8px;">
-                            <div style="font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="color: #00ff00;">●</span>
-                                <span>VIN Decoder Worker</span>
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                                <span style="font-weight: 600; color: #111827;">VIN Decoder Worker</span>
                             </div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.3;">
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
                                 Decode accuracy: 99.7%<br/>
-                                Cohort assignments: COMPLETE<br/>
-                                Parts pricing: SYNCHRONIZED<br/>
-                                API calls: 2,847 today<br/>
+                                Cohort assignments: Complete<br/>
+                                Parts pricing: Synchronized<br/>
+                                API calls today: 2,847<br/>
                                 Status: Real-time processing
                             </div>
                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 8px;">
-                            <div style="font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                                <span style="color: #00ff00;">●</span>
-                                <span>Privacy Worker</span>
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                                <span style="font-weight: 600; color: #111827;">Privacy Protection Worker</span>
                             </div>
-                            <div style="font-size: 11px; opacity: 0.9; font-family: 'Courier New', monospace; line-height: 1.3;">
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
                                 GDPR compliance: 100%<br/>
-                                Data masking: ENFORCED<br/>
-                                Audit trail: COMPLETE<br/>
+                                Data masking: Enforced<br/>
+                                Audit trail: Complete<br/>
                                 Encryption: AES-256<br/>
                                 Privacy violations: 0
                             </div>
@@ -1011,41 +1039,56 @@ CLEAN_INTERFACE_HTML = """
                 </div>
 
                 <!-- LIVE BAYESIAN CALCULATION ENGINE -->
-                <div style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; padding: 24px; border-radius: 16px;">
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 24px;">🧮</span>
-                        <span>LIVE BAYESIAN CALCULATION ENGINE</span>
+                <div style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #10b981; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🧮</div>
+                        <div>
+                            <h2 style="font-size: 24px; font-weight: 600; margin: 0; color: #111827;">Live Bayesian Calculation Engine</h2>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Real-time stressor analysis and risk scoring</div>
+                        </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px;">
-                            <div style="font-weight: 600; margin-bottom: 12px; color: #000; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">🔋 PROCESSING: Robert Martinez (VIN: 1FTFW1ET2LFA...)</div>
-                            <div style="font-size: 12px; opacity: 0.95; font-family: 'Courier New', monospace; line-height: 1.5;">
-                                <strong>P(Failure) = Prior × ∏ Stress_Factors</strong><br/>
-                                <br/>
-                                <span style="color: #ffe6e6;">├─</span> Base Cohort Prior: <strong>15%</strong> (Light Truck Midwest Winter)<br/>
-                                <span style="color: #ffe6e6;">├─</span> Short Trip Factor: <strong>3.2x</strong> (847 trips < 6 miles)<br/>
-                                <span style="color: #ffe6e6;">├─</span> Cold Crank Factor: <strong>2.1x</strong> (avg 3.2 attempts)<br/>
-                                <span style="color: #ffe6e6;">└─</span> Recharge Deficit: <strong>1.8x</strong> (73% insufficient)<br/>
-                                <br/>
-                                <strong style="background: rgba(255,107,107,0.3); padding: 4px;">Final Risk: 87.4% (TOP 1%)</strong><br/>
-                                <span style="color: #ffeb3b;">Calculated: 2 minutes ago</span>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                        <div style="background: #f9fafb; padding: 24px; border-radius: 8px;">
+                            <div style="background: #3b82f6; color: white; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-weight: 600;">
+                                🔋 Currently Processing: Robert Martinez (VIN: 1FTFW1ET2LFA...)
+                            </div>
+                            <div style="font-size: 14px; color: #374151; line-height: 1.6;">
+                                <div style="font-weight: 600; margin-bottom: 12px; font-family: monospace;">P(Failure) = Prior × ∏ Stress_Factors</div>
+                                
+                                <div style="margin-bottom: 8px;">
+                                    <span style="color: #6b7280;">├─</span> <strong>Base Cohort Prior:</strong> 15% (Light Truck Midwest Winter)
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <span style="color: #6b7280;">├─</span> <strong>Short Trip Factor:</strong> 3.2x (847 trips under 6 miles)
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <span style="color: #6b7280;">├─</span> <strong>Cold Crank Factor:</strong> 2.1x (average 3.2 attempts per start)
+                                </div>
+                                <div style="margin-bottom: 16px;">
+                                    <span style="color: #6b7280;">└─</span> <strong>Recharge Deficit:</strong> 1.8x (73% insufficient cycles)
+                                </div>
+                                
+                                <div style="background: #fee2e2; border: 1px solid #fecaca; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                                    <strong style="color: #dc2626;">Final Risk Score: 87.4% (TOP 1%)</strong>
+                                </div>
+                                <div style="font-size: 12px; color: #6b7280;">Calculated: 2 minutes ago</div>
                             </div>
                         </div>
                         
-                        <div style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                            <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px; color: #ff6b6b;">866</div>
-                            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">PRIORITY VINs</div>
-                            <div style="font-size: 10px; opacity: 0.9; margin-bottom: 16px;">Flagged for immediate contact</div>
+                        <div style="text-align: center; background: #f9fafb; padding: 24px; border-radius: 8px;">
+                            <div style="font-size: 48px; font-weight: 700; margin-bottom: 8px; color: #dc2626;">866</div>
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #111827;">Priority VINs</div>
+                            <div style="font-size: 14px; color: #6b7280; margin-bottom: 24px;">Flagged for immediate contact</div>
                             
-                            <div style="font-size: 24px; font-weight: 700; color: #feca57;">$1.06M</div>
-                            <div style="font-size: 10px; opacity: 0.9;">Revenue Opportunity</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #f59e0b; margin-bottom: 4px;">$1.06M</div>
+                            <div style="font-size: 14px; color: #6b7280; margin-bottom: 24px;">Revenue Opportunity</div>
                             
-                            <div style="margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                                <div style="font-size: 11px; font-weight: 600;">SYSTEM PERFORMANCE</div>
-                                <div style="font-size: 10px; opacity: 0.9; line-height: 1.3;">
+                            <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                                <div style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">System Performance</div>
+                                <div style="font-size: 12px; color: #6b7280; line-height: 1.4;">
                                     Processing: 5,000 VINs<br/>
-                                    Refresh: Every 6 hours<br/>
+                                    Refresh cycle: Every 6 hours<br/>
                                     Accuracy: 97.3%<br/>
                                     Next cycle: 4.2 hours
                                 </div>
@@ -1060,123 +1103,135 @@ CLEAN_INTERFACE_HTML = """
         
         <!-- Analytics Dashboard Tab -->
         <div id="analytics-tab" class="tab-content">
-            <!-- HERO: LIVE VIN INTELLIGENCE -->
-            <div style="background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); color: white; padding: 40px 20px; margin-bottom: 0;">
-                <div style="text-align: center; margin-bottom: 32px;">
-                    <div style="font-size: 48px; font-weight: 700; margin-bottom: 8px;">
-                        <span style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">5,000</span>
-                        <span style="font-size: 24px; opacity: 0.8; margin-left: 12px;">VINs Analyzed</span>
+            <div style="padding: 32px; background: #f8fafb; min-height: 100vh;">
+                <!-- HERO: VIN INTELLIGENCE OVERVIEW -->
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <div style="font-size: 48px; font-weight: 700; margin-bottom: 8px; color: #3b82f6;">5,000</div>
+                        <div style="font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #111827;">VINs Analyzed</div>
+                        <div style="font-size: 16px; color: #6b7280;">Real-time intelligence • Last update: 2 hours ago</div>
                     </div>
-                    <div style="font-size: 16px; opacity: 0.7;">Real-time intelligence • Last update: 2 hours ago</div>
+                    
+                    <!-- COHORT PERFORMANCE OVERVIEW -->
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                            <div style="background: #dc2626; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🏆</div>
+                            <div>
+                                <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Cohort Performance Analysis</h3>
+                                <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Priority targets ranked by failure rate</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                            <div style="background: #fee2e2; border: 1px solid #fecaca; padding: 20px; border-radius: 8px; text-align: center; position: relative;">
+                                <div style="position: absolute; top: 8px; right: 8px; background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;">#1</div>
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px; color: #dc2626;">15%</div>
+                                <div style="font-size: 13px; color: #111827; font-weight: 500; line-height: 1.3;">Light Truck<br/>Midwest Winter</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-top: 8px; color: #dc2626;">298 VINs</div>
+                                <div style="font-size: 11px; color: #6b7280;">priority contact</div>
+                            </div>
+                            
+                            <div style="background: #fef3c7; border: 1px solid #fcd34d; padding: 20px; border-radius: 8px; text-align: center; position: relative;">
+                                <div style="position: absolute; top: 8px; right: 8px; background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;">#2</div>
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px; color: #f59e0b;">12%</div>
+                                <div style="font-size: 13px; color: #111827; font-weight: 500; line-height: 1.3;">SUV Commercial<br/>Southwest Heat</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-top: 8px; color: #f59e0b;">237 VINs</div>
+                                <div style="font-size: 11px; color: #6b7280;">fleet priority</div>
+                            </div>
+                            
+                            <div style="background: #dbeafe; border: 1px solid #93c5fd; padding: 20px; border-radius: 8px; text-align: center; position: relative;">
+                                <div style="position: absolute; top: 8px; right: 8px; background: #3b82f6; color: white; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;">#3</div>
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px; color: #3b82f6;">9%</div>
+                                <div style="font-size: 13px; color: #111827; font-weight: 500; line-height: 1.3;">Passenger Sedan<br/>Northeast Mixed</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-top: 8px; color: #3b82f6;">142 VINs</div>
+                                <div style="font-size: 11px; color: #6b7280;">urban stress</div>
+                            </div>
+                            
+                            <div style="background: #dcfce7; border: 1px solid #86efac; padding: 20px; border-radius: 8px; text-align: center; position: relative;">
+                                <div style="position: absolute; top: 8px; right: 8px; background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;">#4</div>
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px; color: #10b981;">6%</div>
+                                <div style="font-size: 13px; color: #111827; font-weight: 500; line-height: 1.3;">SUV Personal<br/>Moderate Climate</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-top: 8px; color: #10b981;">189 VINs</div>
+                                <div style="font-size: 11px; color: #6b7280;">routine monitoring</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; text-align: center; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #111827;">Your Customers Rank in Top 25% Risk Nationally</div>
+                            <div style="font-size: 14px; color: #6b7280;">866 total VINs exceed cohort thresholds • $1.06M revenue opportunity • Average 68% above peer performance</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- LIVE COHORT LEADERBOARD -->
-                <div style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 24px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);">
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
-                        <span style="background: #ff6b6b; padding: 8px; border-radius: 50%; font-size: 16px;">🏆</span>
-                        <span>WORST PERFORMING COHORTS</span>
-                        <span style="background: rgba(255,107,107,0.2); padding: 4px 8px; border-radius: 12px; font-size: 11px; color: #ff6b6b;">PRIORITY TARGETS</span>
+                <!-- CUSTOMER RISK PROFILES -->
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #8b5cf6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">📍</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Geographic Risk Distribution</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Customer risk profiles across 8 states • Real-time stressor analysis</div>
+                        </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
-                        <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%); padding: 20px; border-radius: 12px; text-align: center; position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600;">#1 WORST</div>
-                            <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">15%</div>
-                            <div style="font-size: 11px; opacity: 0.9; line-height: 1.3;">Light Truck<br/>Midwest Winter</div>
-                            <div style="font-size: 18px; font-weight: 700; margin-top: 8px;">298 VINs</div>
-                            <div style="font-size: 9px; opacity: 0.8;">need immediate contact</div>
+                        <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; border-left: 4px solid #dc2626;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 20px;">🔋</span>
+                                <span style="font-weight: 600; color: #111827;">Robert Martinez</span>
+                            </div>
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px; color: #dc2626;">87.4%</div>
+                            <div style="font-size: 13px; color: #111827; margin-bottom: 8px;">Tampa, FL • F-150 SuperCrew</div>
+                            <div style="font-size: 12px; color: #6b7280; line-height: 1.3;">847 short trips • 3.2 avg cranks</div>
                         </div>
                         
-                        <div style="background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%); padding: 20px; border-radius: 12px; text-align: center; position: relative;">
-                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600;">#2</div>
-                            <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">12%</div>
-                            <div style="font-size: 11px; opacity: 0.9; line-height: 1.3;">SUV Commercial<br/>Southwest Heat</div>
-                            <div style="font-size: 18px; font-weight: 700; margin-top: 8px;">237 VINs</div>
-                            <div style="font-size: 9px; opacity: 0.8;">fleet priority</div>
+                        <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 20px;">🚗</span>
+                                <span style="font-weight: 600; color: #111827;">Jennifer Chen</span>
+                            </div>
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px; color: #f59e0b;">73.2%</div>
+                            <div style="font-size: 13px; color: #111827; margin-bottom: 8px;">Charlotte, NC • Explorer Limited</div>
+                            <div style="font-size: 12px; color: #6b7280; line-height: 1.3;">632 trips < 6 miles • 68% no recharge</div>
                         </div>
                         
-                        <div style="background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%); padding: 20px; border-radius: 12px; text-align: center; position: relative;">
-                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600;">#3</div>
-                            <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">9%</div>
-                            <div style="font-size: 11px; opacity: 0.9; line-height: 1.3;">Passenger Sedan<br/>Northeast Mixed</div>
-                            <div style="font-size: 18px; font-weight: 700; margin-top: 8px;">142 VINs</div>
-                            <div style="font-size: 9px; opacity: 0.8;">urban stress</div>
+                        <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 20px;">❄️</span>
+                                <span style="font-weight: 600; color: #111827;">Michael Thompson</span>
+                            </div>
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px; color: #3b82f6;">68.9%</div>
+                            <div style="font-size: 13px; color: #111827; margin-bottom: 8px;">Detroit, MI • Fusion SE</div>
+                            <div style="font-size: 12px; color: #6b7280; line-height: 1.3;">421 cold starts • -28°F overnight</div>
                         </div>
                         
-                        <div style="background: linear-gradient(135deg, #a55eea 0%, #26de81 100%); padding: 20px; border-radius: 12px; text-align: center; position: relative;">
-                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600;">#4</div>
-                            <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">6%</div>
-                            <div style="font-size: 11px; opacity: 0.9; line-height: 1.3;">SUV Personal<br/>Moderate Climate</div>
-                            <div style="font-size: 18px; font-weight: 700; margin-top: 8px;">189 VINs</div>
-                            <div style="font-size: 9px; opacity: 0.8;">routine monitoring</div>
+                        <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; border-left: 4px solid #10b981;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                <span style="font-size: 20px;">⚡</span>
+                                <span style="font-weight: 600; color: #111827;">Lisa Rodriguez</span>
+                            </div>
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px; color: #10b981;">64.1%</div>
+                            <div style="font-size: 13px; color: #111827; margin-bottom: 8px;">Austin, TX • Mustang GT</div>
+                            <div style="font-size: 12px; color: #6b7280; line-height: 1.3;">289 short bursts • 4.1 avg cranks</div>
                         </div>
-                    </div>
-                    
-                    <div style="margin-top: 20px; text-align: center; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px;">
-                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">YOUR CUSTOMERS RANK IN TOP 25% RISK NATIONALLY</div>
-                        <div style="font-size: 12px; opacity: 0.8;">866 total VINs exceed cohort thresholds • $1.06M revenue opportunity • Average 68% above peer performance</div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- GEOGRAPHIC HEAT MAP -->
-            <div style="background: #f8f9fa; padding: 32px 20px;">
-                <div style="max-width: 1200px; margin: 0 auto;">
-                    <div style="text-align: center; margin-bottom: 32px;">
-                        <div style="font-size: 28px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">GEOGRAPHIC INTELLIGENCE</div>
-                        <div style="font-size: 14px; color: #6c757d;">Real-time risk distribution across 8 states • NOAA weather correlation • NHTSA complaint mapping</div>
+                
+                <!-- THE SCIENCE BREAKDOWN -->
+                <div style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #10b981; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🧬</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">The Science: Why Robert Martinez is #1 of 5,000</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Multi-factor risk analysis • Government data correlation • Bayesian mathematics</div>
+                        </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px;">
-                                                 <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">🔋</div>
-                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">87.4%</div>
-                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Robert Martinez</div>
-                             <div style="font-size: 11px; opacity: 0.9;">Tampa, FL • F-150 SuperCrew</div>
-                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">847 short trips • 3.2 avg cranks</div>
-                         </div>
-                         
-                         <div style="background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">🚗</div>
-                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">73.2%</div>
-                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Jennifer Chen</div>
-                             <div style="font-size: 11px; opacity: 0.9;">Charlotte, NC • Explorer Limited</div>
-                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">632 trips < 6 miles • 68% no recharge</div>
-                         </div>
-                         
-                         <div style="background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">❄️</div>
-                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">68.9%</div>
-                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Michael Thompson</div>
-                             <div style="font-size: 11px; opacity: 0.9;">Detroit, MI • Fusion SE</div>
-                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">421 cold starts • -28°F overnight</div>
-                         </div>
-                         
-                         <div style="background: linear-gradient(135deg, #a55eea 0%, #26de81 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">⚡</div>
-                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">64.1%</div>
-                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Lisa Rodriguez</div>
-                             <div style="font-size: 11px; opacity: 0.9;">Austin, TX • Mustang GT</div>
-                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">289 short bursts • 4.1 avg cranks</div>
-                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- THE SCIENCE: VIN PRIORITIZATION -->
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px;">
-                <div style="max-width: 1200px; margin: 0 auto;">
-                    <div style="text-align: center; margin-bottom: 32px;">
-                        <div style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">THE SCIENCE: Why Robert Martinez is #1 of 5,000</div>
-                        <div style="font-size: 14px; opacity: 0.9;">Multi-factor risk analysis • Government data correlation • Bayesian mathematics</div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
-                        <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
-                            <div style="font-size: 48px; margin-bottom: 16px;">🎯</div>
-                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">NHTSA PATTERN MATCH</div>
-                            <div style="font-size: 32px; font-weight: 700; color: #ff6b6b; margin-bottom: 8px;">78%</div>
-                            <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div style="background: #f9fafb; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="background: #dc2626; color: white; padding: 12px; border-radius: 8px; font-size: 24px; width: fit-content; margin-bottom: 16px;">🎯</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #111827;">NHTSA Pattern Match</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #dc2626; margin-bottom: 8px;">78%</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
                                 Matches government complaint patterns:<br/>
                                 • 2022 F-150 SuperCrew<br/>
                                 • Tampa heat exposure<br/>
@@ -1185,37 +1240,37 @@ CLEAN_INTERFACE_HTML = """
                             </div>
                         </div>
                         
-                                                 <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
-                             <div style="font-size: 48px; margin-bottom: 16px;">❄️</div>
-                             <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">COLD START STRESS</div>
-                             <div style="font-size: 32px; font-weight: 700; color: #feca57; margin-bottom: 8px;">-32°F</div>
-                             <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
-                                 Daily temperature drops crush batteries:<br/>
-                                 • Engine-off: 78°F (8pm Tampa)<br/>
-                                 • Next start: 46°F (6am cold crank)<br/>
-                                 • 847 short trips detected (< 6 miles)<br/>
-                                 • Insufficient recharge cycles: 73%
-                             </div>
-                         </div>
+                        <div style="background: #f9fafb; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="background: #f59e0b; color: white; padding: 12px; border-radius: 8px; font-size: 24px; width: fit-content; margin-bottom: 16px;">❄️</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #111827;">Cold Start Stress</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #f59e0b; margin-bottom: 8px;">-32°F</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                Daily temperature drops crush batteries:<br/>
+                                • Engine-off: 78°F (8pm Tampa)<br/>
+                                • Next start: 46°F (6am cold crank)<br/>
+                                • 847 short trips detected (< 6 miles)<br/>
+                                • Insufficient recharge cycles: 73%
+                            </div>
+                        </div>
                         
-                                                 <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
-                             <div style="font-size: 48px; margin-bottom: 16px;">🧮</div>
-                             <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">BAYESIAN CALCULATION</div>
-                             <div style="font-size: 32px; font-weight: 700; color: #48dbfb; margin-bottom: 8px;">87.4%</div>
-                             <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
-                                 P(Failure) = Prior × Stress Factors<br/>
-                                 • Base cohort prior: 15%<br/>
-                                 • Short trips (< 6 miles): 3.2x<br/>
-                                 • Cold cranks multiplier: 2.1x<br/>
-                                 • Insufficient recharge: 1.8x<br/>
-                                 Final risk: 87.4% (TOP 1%)
-                             </div>
-                         </div>
+                        <div style="background: #f9fafb; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <div style="background: #3b82f6; color: white; padding: 12px; border-radius: 8px; font-size: 24px; width: fit-content; margin-bottom: 16px;">🧮</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #111827;">Bayesian Calculation</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #3b82f6; margin-bottom: 8px;">87.4%</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                P(Failure) = Prior × Stress Factors<br/>
+                                • Base cohort prior: 15%<br/>
+                                • Short trips (< 6 miles): 3.2x<br/>
+                                • Cold cranks multiplier: 2.1x<br/>
+                                • Insufficient recharge: 1.8x<br/>
+                                Final risk: 87.4% (TOP 1%)
+                            </div>
+                        </div>
                     </div>
                     
-                    <div style="margin-top: 32px; text-align: center; padding: 24px; background: rgba(255,255,255,0.1); border-radius: 16px; backdrop-filter: blur(20px);">
-                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">🤖 AI SWARM COORDINATION</div>
-                        <div style="font-size: 12px; opacity: 0.9; line-height: 1.5;">
+                    <div style="margin-top: 24px; text-align: center; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #111827;">🤖 AI Swarm Coordination Status</div>
+                        <div style="font-size: 14px; color: #6b7280; line-height: 1.5;">
                             4 specialized workers analyze 5,000 VINs every 6 hours • NHTSA complaint tracking • Weather stress modeling • VIN decode intelligence • Privacy-compliant processing<br/>
                             <strong>Current status:</strong> 866 VINs flagged for immediate dealer contact • $1,066,415 total revenue opportunity • Next refresh: 4.2 hours
                         </div>
@@ -1226,41 +1281,45 @@ CLEAN_INTERFACE_HTML = """
         
         <!-- AI-Enhanced Engagement Tab -->
         <div id="engagement-tab" class="tab-content">
-            <!-- REAL LEAD DATABASE SHOWCASE -->
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 20px; margin-bottom: 24px; color: white;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <div>
-                        <div style="font-size: 18px; font-weight: 600;">🎯 LIVE LEAD DATABASE</div>
-                        <div style="font-size: 12px; opacity: 0.9;">5,000 VINs • Last updated: 2 hours ago</div>
+            <div style="padding: 32px; background: #f8fafb; min-height: 100vh;">
+                <!-- REAL LEAD DATABASE SHOWCASE -->
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="background: #3b82f6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🎯</div>
+                            <div>
+                                <h2 style="font-size: 24px; font-weight: 600; margin: 0; color: #111827;">Live Lead Database</h2>
+                                <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">5,000 VINs analyzed • Last updated: 2 hours ago</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; background: #fee2e2; padding: 16px; border-radius: 8px; border: 1px solid #fecaca;">
+                            <div style="font-size: 32px; font-weight: 700; color: #dc2626;">866</div>
+                            <div style="font-size: 14px; color: #dc2626; font-weight: 500;">Priority Today</div>
+                        </div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 20px; font-weight: 700;">866</div>
-                        <div style="font-size: 11px; opacity: 0.9;">URGENT TODAY</div>
+                    <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                        <button class="sort-btn active" onclick="sortLeads('urgency')" style="background: #3b82f6; border: none; color: white; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500;">Sort by Urgency</button>
+                        <button class="sort-btn" onclick="sortLeads('timestamp')" style="background: #f3f4f6; border: none; color: #374151; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500;">Sort by Time</button>
+                        <button class="sort-btn" onclick="sortLeads('revenue')" style="background: #f3f4f6; border: none; color: #374151; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500;">Sort by Revenue</button>
+                    </div>
+                    <div id="lead-carousel" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch;">
+                        <!-- Real leads will be populated by JavaScript -->
                     </div>
                 </div>
-                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-                    <button class="sort-btn active" onclick="sortLeads('urgency')" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;">Sort by Urgency</button>
-                    <button class="sort-btn" onclick="sortLeads('timestamp')" style="background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;">Sort by Time</button>
-                    <button class="sort-btn" onclick="sortLeads('revenue')" style="background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;">Sort by Revenue</button>
+                
+                <!-- SELECTED LEAD DETAILS - Populated by clicking carousel leads -->
+                <div id="selected-lead-container" style="display: none;">
+                    <div class="lead-card" id="selected-lead-details">
+                        <!-- Real lead details will be populated here -->
+                    </div>
                 </div>
-                <div id="lead-carousel" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch;">
-                    <!-- Real leads will be populated by JavaScript -->
+                
+                <!-- No Lead Selected State -->
+                <div id="no-lead-selected" style="background: white; padding: 60px 32px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">👆</div>
+                    <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: #111827;">Select a Lead from the Carousel Above</div>
+                    <div style="font-size: 16px; color: #6b7280;">Click any lead to see detailed analysis, stressor patterns, and AI-generated messaging</div>
                 </div>
-            </div>
-            
-            <!-- SELECTED LEAD DETAILS - Populated by clicking carousel leads -->
-            <div id="selected-lead-container" style="display: none;">
-                <div class="lead-card" id="selected-lead-details">
-                    <!-- Real lead details will be populated here -->
-                </div>
-            </div>
-            
-            <!-- No Lead Selected State -->
-            <div id="no-lead-selected" style="text-align: center; padding: 60px 20px; color: #6b7280;">
-                <div style="font-size: 48px; margin-bottom: 16px;">👆</div>
-                <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Select a Lead from the Carousel Above</div>
-                <div style="font-size: 14px;">Click any lead to see detailed analysis, stressor patterns, and AI-generated messaging</div>
-            </div>
             </div>
         </div>
     </div>
@@ -1407,9 +1466,11 @@ CLEAN_INTERFACE_HTML = """
             
             // Update button styles
             document.querySelectorAll('.sort-btn').forEach(btn => {
-                btn.style.background = 'rgba(255,255,255,0.1)';
+                btn.style.background = '#f3f4f6';
+                btn.style.color = '#374151';
             });
-            event.target.style.background = 'rgba(255,255,255,0.2)';
+            event.target.style.background = '#3b82f6';
+            event.target.style.color = 'white';
             
             renderLeadCarousel();
         }
