@@ -994,30 +994,32 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>PRIMARY: Ford Proprietary Data</strong><br/>
-                                Real-world failure patterns from 50M+ vehicles<br/>
-                                Cohort-specific priors: 15%, 12%, 9%, 18%<br/>
-                                Actual stressor correlation matrices<br/>
-                                Live dealer service data integration
+                                <strong>REALITY: Ford Has a Battery Problem</strong><br/>
+                                Batteries failing in years 1-3 (not normal)<br/>
+                                NHTSA complaints increasing (we're on their radar)<br/>
+                                Need scientific cover for systematic outreach<br/>
+                                Can't just tell dealers "old batteries fail"
                             </div>
                             <div class="math-formula">
-                                <strong>FALLBACK: Argonne Scientific Foundation</strong><br/>
-                                6-mile recharge rule: P(failure|&lt;6mi) = 1.9x baseline<br/>
-                                SOC decline patterns: LR = 6.50<br/>
-                                Temperature cycling: LR = 2.39<br/>
-                                Ignition frequency: LR = 2.16 (ANL-115925.pdf)
+                                <strong>WHAT WE ACTUALLY DO:</strong><br/>
+                                Take obvious stressors (cold, heat, short trips)<br/>
+                                Add Argonne research to make it sound scientific<br/>
+                                Generate prioritized call lists for dealers<br/>
+                                Create audit trail for NHTSA compliance
                             </div>
                             <div class="math-formula">
-                                <strong>Bayesian Framework (Universal):</strong><br/>
-                                P(Failure|Evidence) = (Prior × ∏LR) / ((Prior × ∏LR) + (1-Prior))<br/>
-                                Ford data = Primary, Argonne = Backup<br/>
-                                "Willing to be wrong to learn faster"
+                                <strong>THE MATH IS SIMPLE:</strong><br/>
+                                3+ stressors + 2+ years = call customer<br/>
+                                Regional weather + high mileage = higher priority<br/>
+                                Bayesian framework makes it look sophisticated<br/>
+                                But it's basically "old truck in winter needs battery"
                             </div>
                             <div class="math-formula">
-                                <strong>Learning Philosophy:</strong><br/>
-                                Low-risk scenarios: Use scientific approximations<br/>
-                                High-value customers: Ford proprietary precision<br/>
-                                Continuous model improvement via feedback loops
+                                <strong>WHY IT WORKS:</strong><br/>
+                                Dealers need systematic approach (not gut feeling)<br/>
+                                Customers respond better to "data-driven" outreach<br/>
+                                Regulators want to see scientific methodology<br/>
+                                Everyone knows it's true, we just quantify it
                             </div>
                         </div>
                     </div>
@@ -1037,25 +1039,32 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>McKinsey Research Validation:</strong><br/>
-                                • 71% of consumers expect personalized interactions<br/>
-                                • 76% get frustrated when it doesn't happen<br/>
-                                • 78% more likely to repurchase with personalization<br/>
-                                • 40% more revenue from personalization leaders
+                                <strong>HONEST TRUTH ABOUT AI MESSAGING:</strong><br/>
+                                • We use GPT-4 to make battery warnings sound less spammy<br/>
+                                • "Your F-150 needs attention" vs "BATTERY SALE NOW!"<br/>
+                                • Different tone for rural vs urban customers<br/>
+                                • It's still a sales call, just sounds more professional
                             </div>
                             <div class="math-formula">
-                                <strong>Our Stressor-Based Approach:</strong><br/>
-                                Input: Vehicle data + Cohort analysis + Risk scores<br/>
-                                Process: GPT-4 + Academic context + Pricing data<br/>
-                                Output: Channel-specific personalized messaging<br/>
-                                Result: 5-8x ROI improvement vs. generic messaging
+                                <strong>WHAT THE AI ACTUALLY DOES:</strong><br/>
+                                Input: VIN + customer ZIP + stressor data<br/>
+                                Process: Generate "data-driven" talking points<br/>
+                                Output: Messages that sound smart, not pushy<br/>
+                                Reality: We're selling batteries with fancy language
                             </div>
                             <div class="math-formula">
-                                <strong>Dynamic Message Generation:</strong><br/>
-                                • SMS: Urgent, concise (160 chars)<br/>
-                                • Email: Professional, detailed analysis<br/>
-                                • Phone: Conversational, relationship-building<br/>
-                                • All contextualized with specific stressor patterns
+                                <strong>WHY THIS HELPS DEALERS:</strong><br/>
+                                • Asheville customers want simple, direct approach<br/>
+                                • Miami customers expect more technical detail<br/>
+                                • AI adjusts the pitch, but it's still a pitch<br/>
+                                • Converts better than "Hey, buy a battery"
+                            </div>
+                            <div class="math-formula">
+                                <strong>BOTTOM LINE:</strong><br/>
+                                We're not revolutionizing automotive service messaging<br/>
+                                We're just making battery sales calls less awkward<br/>
+                                And giving dealers confidence to make the call<br/>
+                                Because Ford needs these batteries replaced
                             </div>
                         </div>
                     </div>
@@ -1075,32 +1084,32 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>FORD PARTS API INTEGRATION:</strong><br/>
-                                • Real-time parts pricing and availability<br/>
-                                • Internal team alerts on lead parts demand<br/>
-                                • Inventory optimization based on stressor predictions<br/>
-                                • Lead-to-parts correlation tracking
+                                <strong>WHAT WE ACTUALLY HAVE:</strong><br/>
+                                • Standard Ford dealer pricing (not special API)<br/>
+                                • Basic parts availability (what dealers already see)<br/>
+                                • VIN data from beta dealers who gave it to us<br/>
+                                • NHTSA complaints we scraped from public database
                             </div>
                             <div class="math-formula">
-                                <strong>Operational Intelligence:</strong><br/>
-                                • Vehicle-specific failure patterns by region<br/>
-                                • Real-time cohort benchmarking (50+ million vehicles)<br/>
-                                • Dealer network performance analytics<br/>
-                                • Parts demand forecasting via stressor analysis
+                                <strong>WHAT WE DON'T HAVE:</strong><br/>
+                                • 50 million vehicle real-time data feed<br/>
+                                • Proprietary Ford failure pattern database<br/>
+                                • Direct integration to dealer management systems<br/>
+                                • Real-time inventory optimization algorithms
                             </div>
                             <div class="math-formula">
-                                <strong>Competitive Moats vs Independent Shops:</strong><br/>
-                                Independent: Generic parts catalogs, no API access<br/>
-                                Chain shops: Limited OEM integration<br/>
-                                Ford dealers: Direct API + stressor intelligence<br/>
-                                Our advantage: Real-time operations + predictive analytics
+                                <strong>OUR ACTUAL ADVANTAGE:</strong><br/>
+                                Independent shops: Don't care about Ford's problems<br/>
+                                Chain shops: Not motivated to help with recalls<br/>
+                                Ford dealers: Need systematic approach to battery calls<br/>
+                                Us: We package obvious patterns as "intelligence"
                             </div>
                             <div class="math-formula">
-                                <strong>Internal Team Benefits:</strong><br/>
-                                • Parts managers get demand alerts<br/>
-                                • Service advisors see real-time pricing<br/>
-                                • Inventory teams optimize based on predictions<br/>
-                                • Management dashboards track lead conversion
+                                <strong>REALITY CHECK:</strong><br/>
+                                • Small dealers just want prioritized call lists<br/>
+                                • Parts managers order based on historical data<br/>
+                                • Service advisors use standard Ford pricing<br/>
+                                • This gives them confidence to make proactive calls
                             </div>
                         </div>
                     </div>
@@ -1120,24 +1129,32 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-back">
                         <div class="math-content">
                             <div class="math-formula">
-                                <strong>Strategic Cohorts for Dealer Leads:</strong><br/>
-                                • Light Truck + Winter: High-mileage commercial users<br/>
-                                • SUV + Heat: Fleet vehicles in hot climates<br/>
-                                • Sedan + Urban: Stop-start city driving patterns<br/>
-                                • Performance + Enthusiast: Track/aggressive use cases
+                                <strong>OUR COHORTS ARE COMMON SENSE:</strong><br/>
+                                • Light Truck + Winter = "Trucks in cold get dead batteries"<br/>
+                                • SUV + Heat = "Big vehicles in Arizona stress batteries"<br/>
+                                • Sedan + Urban = "City driving with lots of stops"<br/>
+                                • We just made it sound scientific with percentages
                             </div>
                             <div class="math-formula">
-                                <strong>Imminent Threat Detection:</strong><br/>
-                                Stressor combo > 3 active + Risk > 50% = Immediate lead<br/>
-                                Stressor combo = 2 active + Risk > 30% = Weekly follow-up<br/>
-                                Cohort outlier > 85th percentile = Monthly check-in
+                                <strong>THE "THREAT DETECTION" LOGIC:</strong><br/>
+                                3+ years old + cold climate + high miles = call them<br/>
+                                2+ years old + hot climate + commercial use = call them<br/>
+                                It's not AI magic, it's basic automotive knowledge<br/>
+                                But dealers need systematic way to prioritize
                             </div>
                             <div class="math-formula">
-                                <strong>Dealer Lead Generation Focus:</strong><br/>
-                                • Predictive failure windows: 2-6 weeks out<br/>
-                                • Revenue targeting: $300-500 service opportunities<br/>
-                                • Geographic dealer matching within 20-mile radius<br/>
-                                • Contact prioritization based on failure probability
+                                <strong>WHAT DEALERS ACTUALLY GET:</strong><br/>
+                                • List of customers to call this week<br/>
+                                • Basic talking points ("your battery is at risk")<br/>
+                                • Pricing from standard Ford parts catalog<br/>
+                                • Confidence that the calls make business sense
+                            </div>
+                            <div class="math-formula">
+                                <strong>WHY THIS WORKS FOR FORD:</strong><br/>
+                                • Gets ahead of NHTSA complaints<br/>
+                                • Creates paper trail of proactive outreach<br/>
+                                • Helps dealers sell more batteries systematically<br/>
+                                • Solves Ford's "batteries failing too early" problem
                             </div>
                         </div>
                     </div>
