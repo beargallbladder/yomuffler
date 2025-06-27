@@ -510,27 +510,6 @@ CLEAN_INTERFACE_HTML = """
             background: #5a6fd8;
         }
         
-        .demo-grid { 
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 16px;
-        }
-        
-        /* Desktop Layout for Calculator Tab */
-        @media (min-width: 968px) {
-            .calculator-layout {
-                display: grid;
-                grid-template-columns: 400px 1fr;
-                gap: 32px;
-                align-items: start;
-            }
-            
-            .demo-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
         /* Desktop Layout for Engagement Tab */
         @media (min-width: 768px) {
             .engagement-layout {
@@ -547,72 +526,7 @@ CLEAN_INTERFACE_HTML = """
             }
         }
         
-        .demo-btn { 
-            padding: 12px 8px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 12px;
-            font-family: monospace;
-            color: #4a5568;
-        }
-        
-        .demo-btn:hover { 
-            background: #e2e8f0;
-            border-color: #667eea;
-        }
-        
-        /* Results */
-        .result-card { 
-            margin-top: 20px;
-            display: none;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .risk-score { 
-            font-size: 28px;
-            font-weight: 700;
-            text-align: center;
-            margin: 16px 0;
-            color: #1a202c;
-        }
-        
-        .severity-badge { 
-            display: block;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            text-align: center;
-            margin: 12px 0;
-        }
-        
-        .detail-row { 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-        
-        .detail-label { 
-            font-weight: 500;
-            color: #64748b;
-            font-size: 14px;
-        }
-        
-        .detail-value { 
-            font-weight: 600;
-            color: #1a202c;
-            font-size: 14px;
-        }
+
         
         /* AI-Enhanced Engagement Portal */
         .lead-card { 
@@ -972,7 +886,6 @@ CLEAN_INTERFACE_HTML = """
         
         <div class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('intelligence')">Intelligence</button>
-            <button class="tab-btn" onclick="switchTab('calculator')">Calculator</button>
             <button class="tab-btn" onclick="switchTab('engagement')">Engagement</button>
             <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
         </div>
@@ -1162,44 +1075,7 @@ CLEAN_INTERFACE_HTML = """
             </div>
         </div>
         
-        <!-- Calculator Tab -->
-        <div id="calculator-tab" class="tab-content">
-            <div class="calculator-layout">
-                <div class="card">
-                <form id="riskForm">
-                    <div class="form-group">
-                        <label for="vin">Vehicle Identification Number</label>
-                        <input type="text" id="vin" name="vin" placeholder="Enter 17-character VIN" maxlength="17" required>
-                    </div>
-                    <button type="submit" class="btn">Analyze Stressors</button>
-                </form>
-                
-                <div class="demo-grid">
-                    <div class="demo-btn" onclick="setDemoVin('1FTFW1ET0LFA12345')">Truck Demo</div>
-                    <div class="demo-btn" onclick="setDemoVin('1FMHK8D83LGA89012')">SUV Demo</div>
-                    <div class="demo-btn" onclick="setDemoVin('3FA6P0HR8LR345678')">Sedan Demo</div>
-                    <div class="demo-btn" onclick="setDemoVin('1FA6P8TH4J5456789')">Sports Demo</div>
-                </div>
-            </div>
-            
-            <div class="card result-card" id="result">
-                <div class="risk-score" id="riskScore">0.0%</div>
-                <div class="severity-badge" id="severityBadge">Analyzing...</div>
-                <div class="detail-row">
-                    <span class="detail-label">Vehicle Category</span>
-                    <span class="detail-value" id="category">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">vs Category Average</span>
-                    <span class="detail-value" id="comparison">-</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Service Opportunity</span>
-                    <span class="detail-value" id="revenue">-</span>
-                </div>
-            </div>
-            </div>
-        </div>
+
         
         <!-- Analytics Dashboard Tab -->
         <div id="analytics-tab" class="tab-content">
@@ -1369,89 +1245,9 @@ CLEAN_INTERFACE_HTML = """
             card.classList.toggle('flipped');
         }
         
-        function setDemoVin(vin) {
-            document.getElementById('vin').value = vin;
-            calculateRisk(vin);
-        }
-        
-        function calculateRisk(vin) {
-            document.getElementById('result').style.display = 'block';
-            
-            let riskScore, category, comparison, partsRevenue, serviceRevenue, totalRevenue;
-            
-            if (vin.includes('1FTFW1ET')) {
-                riskScore = 49.3;
-                category = "Light Truck";
-                comparison = "3.3x above average";
-                // F-150 battery service pricing
-                partsRevenue = 280;  // Heavy duty battery + terminals
-                serviceRevenue = 125; // Testing, installation, system check
-                totalRevenue = partsRevenue + serviceRevenue;
-            } else if (vin.includes('1FMHK8D8')) {
-                riskScore = 68.6;
-                category = "SUV Commercial";
-                comparison = "2.8x above average";
-                // Commercial SUV pricing
-                partsRevenue = 320;  // Premium commercial battery
-                serviceRevenue = 145; // Extended testing, fleet documentation
-                totalRevenue = partsRevenue + serviceRevenue;
-            } else if (vin.includes('3FA6P0HR')) {
-                riskScore = 14.2;
-                category = "Passenger Sedan";
-                comparison = "1.6x above average";
-                // Standard sedan pricing
-                partsRevenue = 180;  // Standard battery
-                serviceRevenue = 85;  // Basic service
-                totalRevenue = partsRevenue + serviceRevenue;
-            } else {
-                riskScore = 28.7;
-                category = "Performance Vehicle";
-                comparison = "2.1x above average";
-                // Performance vehicle pricing
-                partsRevenue = 250;  // High-performance battery
-                serviceRevenue = 110; // Performance system check
-                totalRevenue = partsRevenue + serviceRevenue;
-            }
-            
-            document.getElementById('riskScore').textContent = riskScore.toFixed(1) + '%';
-            document.getElementById('category').textContent = category;
-            document.getElementById('comparison').textContent = comparison;
-            document.getElementById('revenue').innerHTML = `
-                <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Parts: $${partsRevenue} • Service: $${serviceRevenue}</div>
-                <div style="font-weight: 600;">Total: $${totalRevenue}</div>
-            `;
-            
-            const badge = document.getElementById('severityBadge');
-            if (riskScore >= 50) {
-                badge.textContent = 'SEVERE';
-                badge.style.background = '#fecaca';
-                badge.style.color = '#7f1d1d';
-            } else if (riskScore >= 30) {
-                badge.textContent = 'CRITICAL';
-                badge.style.background = '#fed7d7';
-                badge.style.color = '#c53030';
-            } else if (riskScore >= 20) {
-                badge.textContent = 'HIGH';
-                badge.style.background = '#fef5e7';
-                badge.style.color = '#c05621';
-            } else {
-                badge.textContent = 'MODERATE';
-                badge.style.background = '#f0fff4';
-                badge.style.color = '#38a169';
-            }
-        }
+
         
         // Old fake message functions removed - now using real lead data
-        
-        document.getElementById('riskForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const vin = document.getElementById('vin').value.trim().toUpperCase();
-            if (vin.length === 17) {
-                calculateRisk(vin);
-            } else {
-                alert('Please enter a valid 17-character VIN');
-            }
-        });
         
         // REAL LEAD DATABASE - Sample from our 5,000 VIN database
         const REAL_LEADS_DATABASE = [
