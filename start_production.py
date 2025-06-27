@@ -281,12 +281,12 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .tab-content { 
-            display: none; 
+            display: none !important; 
             padding: 0 20px 40px;
         }
         
         .tab-content.active { 
-            display: block; 
+            display: block !important; 
         }
         
         /* Premium Apple-Style Cards */
@@ -343,12 +343,12 @@ CLEAN_INTERFACE_HTML = """
         @media (min-width: 1200px) {
             .learning-grid {
                 grid-template-columns: repeat(4, 1fr);
-                gap: 32px;
+                gap: 24px;
             }
             
             .learning-card {
-                height: auto;
-                min-height: 200px;
+                height: 180px;
+                min-height: 180px;
             }
         }
         
@@ -377,9 +377,15 @@ CLEAN_INTERFACE_HTML = """
             backface-visibility: hidden;
             top: 0;
             left: 0;
-            padding: 20px;
+            padding: 16px;
             box-sizing: border-box;
             border-radius: 12px;
+        }
+        
+        @media (min-width: 1200px) {
+            .card-front, .card-back {
+                padding: 12px;
+            }
         }
         
         .card-front {
@@ -774,10 +780,8 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-front">
                         <div class="card-title">Academic Foundation</div>
                         <div class="card-description">
-                            PRIMARY: Proprietary Ford data with real-world failure patterns and cohort analytics.
-                            FALLBACK: Peer-reviewed Argonne research provides scientifically-backed priors 
-                            and likelihood ratios. We're willing to be wrong for the sake of learning faster 
-                            in low wear-and-tear stressor scenarios.
+                            Peer-reviewed Argonne research provides scientifically-backed priors and 
+                            likelihood ratios for vehicle battery failure prediction.
                         </div>
                     </div>
                     <div class="card-back">
@@ -819,9 +823,8 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-front">
                         <div class="card-title">AI-Powered Personalization</div>
                         <div class="card-description">
-                            Advanced language models analyze vehicle-specific stressor combinations 
-                            to create contextual, personalized messaging that dramatically increases 
-                            customer engagement and conversion rates.
+                            AI-powered messaging that adapts to specific vehicle stressor patterns 
+                            for higher customer engagement and conversion rates.
                         </div>
                     </div>
                     <div class="card-back">
@@ -858,10 +861,8 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-front">
                         <div class="card-title">OEM Data Advantage</div>
                         <div class="card-description">
-                            Proprietary access to manufacturer cohort data, vehicle telemetry, 
-                            dealer network insights, and DIRECT Ford Parts API integration.
-                            Real-time pricing, availability, and internal team alerts on lead activity
-                            create unmatched competitive intelligence that independent shops cannot replicate.
+                            Direct access to manufacturer data, real-time parts pricing, 
+                            and dealer network insights that independent shops cannot access.
                         </div>
                     </div>
                     <div class="card-back">
@@ -905,9 +906,8 @@ CLEAN_INTERFACE_HTML = """
                     <div class="card-front">
                         <div class="card-title">Strategic Cohort Targeting</div>
                         <div class="card-description">
-                            Four strategic vehicle cohorts designed specifically for dealer lead generation,
-                            using stressor analysis to identify imminent battery failure risks 
-                            and high-value service opportunities.
+                            Strategic vehicle cohorts designed for dealer lead generation using 
+                            stressor analysis to identify high-value service opportunities.
                         </div>
                     </div>
                     <div class="card-back">
