@@ -1333,134 +1333,32 @@ CLEAN_INTERFACE_HTML = """
                 </div>
             </div>
             
-            <div class="engagement-layout">
-                <div class="lead-card">
-                <div class="lead-header">
-                    <div class="customer-name">Sarah Johnson</div>
-                    <div class="priority-badge priority-critical">URGENT</div>
-                </div>
-                <div class="vehicle-info">2022 Light Truck • VIN: 1FTFW1ET5LFA67890 • 47,823 miles</div>
-                <div class="issue-type">Scheduled Service + Battery Risk (3.3x Above Cohort)</div>
-                
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 12px; margin: 12px 0;">
-                    <div style="font-size: 12px; font-weight: 600; color: #856404; margin-bottom: 6px;">📋 EXISTING PROGNOSTICS:</div>
-                    <div style="font-size: 11px; color: #856404;">• Oil change due (3,200 miles overdue)</div>
-                    <div style="font-size: 11px; color: #856404;">• Tire rotation recommended</div>
-                </div>
-                
-                <div style="background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; padding: 12px; margin: 12px 0;">
-                    <div style="font-size: 12px; font-weight: 600; color: #721c24; margin-bottom: 6px;">⚡ STRESSOR ANALYSIS:</div>
-                    <div style="font-size: 11px; color: #721c24;">• Winter + short trips + high ignition cycles</div>
-                    <div style="font-size: 11px; color: #721c24;">• Battery stress: 85th percentile vs cohort</div>
-                </div>
-                
-                <div class="engagement-channels">
-                    <div class="channel-btn active" onclick="switchChannel(this, 'sms', 'sarah')">📱 SMS</div>
-                    <div class="channel-btn" onclick="switchChannel(this, 'email', 'sarah')">📧 Email</div>
-                    <div class="channel-btn" onclick="switchChannel(this, 'phone', 'sarah')">📞 Call</div>
-                </div>
-                
-                <div class="ai-messages" id="sarah-messages">
-                    <div class="ai-messages-title">
-                        <span>Integrated Service Messaging</span>
-                        <span class="ai-badge">GPT-4</span>
-                    </div>
-                    <div class="loading-messages">Generating bundled service messaging...</div>
-                </div>
-                
-                <div style="background: #d1ecf1; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin: 12px 0; text-align: center;">
-                    <div style="font-size: 12px; font-weight: 600; color: #0c5460; margin-bottom: 4px;">💰 BUNDLED SERVICE OPPORTUNITY</div>
-                    <div style="font-size: 13px; color: #0c5460;">Oil Service $85 + Battery Check $125 + Tire Rotation $45 = <strong>$255</strong></div>
-                    <div style="font-size: 11px; color: #0c5460; margin-top: 4px;">vs. separate visits: $85 + $280 + $45 = $410</div>
+            <!-- SELECTED LEAD DETAILS - Populated by clicking carousel leads -->
+            <div id="selected-lead-container" style="display: none;">
+                <div class="lead-card" id="selected-lead-details">
+                    <!-- Real lead details will be populated here -->
                 </div>
             </div>
             
-            <div class="lead-card">
-                <div class="lead-header">
-                    <div class="customer-name">Mike Rodriguez</div>
-                    <div class="priority-badge priority-high">HIGH</div>
-                </div>
-                <div class="vehicle-info">2023 SUV • VIN: 1FMHK8D83LGA89012 • 23,456 miles</div>
-                <div class="issue-type">Fleet Usage + Multiple Stress Factors</div>
-                
-                <div style="background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 12px; margin: 12px 0;">
-                    <div style="font-size: 12px; font-weight: 600; color: #155724; margin-bottom: 6px;">✅ NO ACTIVE PROGNOSTICS</div>
-                    <div style="font-size: 11px; color: #155724;">• Next scheduled maintenance: 2,800 miles</div>
-                    <div style="font-size: 11px; color: #155724;">• All systems currently within normal parameters</div>
-                </div>
-                
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 12px; margin: 12px 0;">
-                    <div style="font-size: 12px; font-weight: 600; color: #856404; margin-bottom: 6px;">⚠️ STRESSOR-ONLY OPPORTUNITY:</div>
-                    <div style="font-size: 11px; color: #856404;">• Commercial usage patterns detected</div>
-                    <div style="font-size: 11px; color: #856404;">• Multiple driver stress indicators</div>
-                    <div style="font-size: 11px; color: #856404;">• Proactive intervention recommended</div>
-                </div>
-                
-                <div class="engagement-channels">
-                    <div class="channel-btn active" onclick="switchChannel(this, 'sms', 'mike')">📱 SMS</div>
-                    <div class="channel-btn" onclick="switchChannel(this, 'email', 'mike')">📧 Email</div>
-                    <div class="channel-btn" onclick="switchChannel(this, 'phone', 'mike')">📞 Call</div>
-                </div>
-                
-                <div class="ai-messages" id="mike-messages">
-                    <div class="ai-messages-title">
-                        <span>Proactive Outreach Messaging</span>
-                        <span class="ai-badge">GPT-4</span>
-                    </div>
-                    <div class="loading-messages">Generating proactive service messaging...</div>
-                </div>
-                
-                <div style="background: #e2e3e5; border: 1px solid #d6d8db; border-radius: 8px; padding: 12px; margin: 12px 0; text-align: center;">
-                    <div style="font-size: 12px; font-weight: 600; color: #383d41; margin-bottom: 4px;">🔮 PROACTIVE SERVICE OPPORTUNITY</div>
-                    <div style="font-size: 13px; color: #383d41;">Fleet Health Check $145 • Early Intervention Value</div>
-                    <div style="font-size: 11px; color: #383d41; margin-top: 4px;">Prevents future $800+ emergency service</div>
-                </div>
-            </div>
-            
-            <div style="background: #e9ecef; border-radius: 12px; padding: 16px; margin-top: 20px;">
-                <div style="font-size: 14px; font-weight: 600; color: #495057; margin-bottom: 12px; text-align: center;">📊 LEAD QUEUE INTELLIGENCE</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center;">
-                    <div style="background: #fff; border-radius: 8px; padding: 12px;">
-                        <div style="font-size: 18px; font-weight: 700; color: #dc3545;">12</div>
-                        <div style="font-size: 11px; color: #6c757d;">URGENT Leads</div>
-                        <div style="font-size: 10px; color: #6c757d;">Existing + Stressors</div>
-                    </div>
-                    <div style="background: #fff; border-radius: 8px; padding: 12px;">
-                        <div style="font-size: 18px; font-weight: 700; color: #fd7e14;">8</div>
-                        <div style="font-size: 11px; color: #6c757d;">HIGH Priority</div>
-                        <div style="font-size: 10px; color: #6c757d;">Stressor-Only</div>
-                    </div>
-                    <div style="background: #fff; border-radius: 8px; padding: 12px;">
-                        <div style="font-size: 18px; font-weight: 700; color: #28a745;">34</div>
-                        <div style="font-size: 11px; color: #6c757d;">NORMAL Queue</div>
-                        <div style="font-size: 10px; color: #6c757d;">Routine Follow-up</div>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 12px; font-size: 12px; color: #6c757d;">
-                    💡 Stressors enhance existing prognostics + create new opportunities
-                </div>
-                <div style="text-align: center; margin-top: 8px; font-size: 10px; color: #6c757d; font-style: italic;">
-                    📊 ABTest2: Tracking conversion rates - 23% higher close rate vs ABTest1
-                </div>
+            <!-- No Lead Selected State -->
+            <div id="no-lead-selected" style="text-align: center; padding: 60px 20px; color: #6b7280;">
+                <div style="font-size: 48px; margin-bottom: 16px;">👆</div>
+                <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Select a Lead from the Carousel Above</div>
+                <div style="font-size: 14px;">Click any lead to see detailed analysis, stressor patterns, and AI-generated messaging</div>
             </div>
             </div>
         </div>
     </div>
 
     <script>
-        // AI message cache to avoid redundant API calls
-        const messageCache = {};
-        
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabName + '-tab').classList.add('active');
             event.target.classList.add('active');
             
-            // Load AI messages and lead carousel when engagement tab is opened
+            // Load lead carousel when engagement tab is opened
             if (tabName === 'engagement') {
-                loadAIMessages('sarah', 'sms');
-                loadAIMessages('mike', 'sms');
                 renderLeadCarousel(); // Show our real lead database
             }
         }
@@ -1543,124 +1441,7 @@ CLEAN_INTERFACE_HTML = """
             }
         }
         
-        async function switchChannel(button, channel, customer) {
-            // Update active channel button
-            button.parentElement.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Load AI messages for this channel
-            await loadAIMessages(customer, channel);
-        }
-        
-        async function loadAIMessages(customer, channel) {
-            const cacheKey = `${customer}-${channel}`;
-            const messagesContainer = document.getElementById(`${customer}-messages`);
-            
-            // Check cache first
-            if (messageCache[cacheKey]) {
-                displayMessages(messagesContainer, messageCache[cacheKey]);
-                return;
-            }
-            
-            // Show loading state
-            const messageTitle = customer === 'sarah' ? 'Integrated Service Messaging' : 'Proactive Outreach Messaging';
-            const loadingText = customer === 'sarah' ? 'bundled service messaging' : 'proactive service messaging';
-            
-            messagesContainer.innerHTML = `
-                <div class="ai-messages-title">
-                    <span>${messageTitle}</span>
-                    <span class="ai-badge">GPT-4</span>
-                </div>
-                <div class="loading-messages">Generating ${loadingText}...</div>
-            `;
-            
-            try {
-                // Get customer-specific data
-                const customerData = getCustomerData(customer);
-                
-                // Call AI message generation API
-                const response = await fetch('/api/generate-messages', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        customer_name: customerData.name,
-                        vehicle_info: customerData.vehicle,
-                        stressors: customerData.stressors,
-                        risk_score: customerData.riskScore,
-                        channel: channel,
-                        message_type: customer === 'sarah' ? 'integrated' : 'proactive'
-                    })
-                });
-                
-                const data = await response.json();
-                
-                // Cache the result
-                messageCache[cacheKey] = data;
-                
-                // Display messages
-                displayMessages(messagesContainer, data);
-                
-            } catch (error) {
-                console.error('Error loading AI messages:', error);
-                
-                // Fallback to static messages
-                const fallbackData = {
-                    messages: [
-                        `${customer === 'sarah' ? 'Sarah' : 'Mike'}, your vehicle shows stress factors that need attention`,
-                        `Our analysis indicates high failure risk - let's prevent a breakdown`,
-                        `Research shows this pattern leads to issues within weeks`
-                    ],
-                    personalized: false
-                };
-                
-                displayMessages(messagesContainer, fallbackData);
-            }
-        }
-        
-        function displayMessages(container, data) {
-            const personalizedBadge = data.personalized ? 
-                '<span class="ai-badge">GPT-4</span>' : 
-                '<span class="ai-badge">Fallback</span>';
-            
-            // Determine if this is Sarah or Mike based on container ID
-            const isSarah = container.id.includes('sarah');
-            const messageTitle = isSarah ? 'Integrated Service Messaging' : 'Proactive Outreach Messaging';
-            
-            container.innerHTML = `
-                <div class="ai-messages-title">
-                    <span>${messageTitle}</span>
-                    ${personalizedBadge}
-                </div>
-                ${data.messages.map(msg => `<div class="ai-message">${msg}</div>`).join('')}
-            `;
-        }
-        
-        function getCustomerData(customer) {
-            const customerData = {
-                sarah: {
-                    name: "Sarah Johnson",
-                    vehicle: "2022 Light Truck",
-                    stressors: ["temperature_extremes", "short_trip_cycles", "high_ignition_frequency"],
-                    riskScore: 49.3,
-                    partsRevenue: 280,
-                    serviceRevenue: 125,
-                    totalRevenue: 405
-                },
-                mike: {
-                    name: "Mike Rodriguez", 
-                    vehicle: "2023 SUV",
-                    stressors: ["commercial_usage", "multiple_drivers", "high_mileage"],
-                    riskScore: 68.6,
-                    partsRevenue: 320,
-                    serviceRevenue: 145,
-                    totalRevenue: 465
-                }
-            };
-            
-            return customerData[customer];
-        }
+        // Old fake message functions removed - now using real lead data
         
         document.getElementById('riskForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1878,7 +1659,7 @@ CLEAN_INTERFACE_HTML = """
                             cursor: pointer; 
                             margin-top: 8px;
                         ">
-                            Generate Messaging
+                            Select Lead
                         </button>
                     </div>
                 `;
@@ -1896,20 +1677,183 @@ CLEAN_INTERFACE_HTML = """
             return `${Math.floor(diffInHours / 24)} days ago`;
         }
         
+        let selectedLead = null;
+        
         function selectLead(customerName) {
-            alert(`Selected ${customerName} for detailed messaging analysis. In production, this would load their complete profile with AI-generated engagement strategy.`);
+            // Find the selected lead in our database
+            selectedLead = REAL_LEADS_DATABASE.find(lead => lead.customer_name === customerName);
+            if (!selectedLead) return;
+            
+            // Hide no-lead-selected message, show selected lead container
+            document.getElementById('no-lead-selected').style.display = 'none';
+            document.getElementById('selected-lead-container').style.display = 'block';
+            
+            // Populate the lead details
+            populateLeadDetails(selectedLead);
+            
+            // Auto-generate messaging for the selected lead
+            generateMessagingForLead(selectedLead);
         }
         
-        // Initialize AI messages on page load
+        function populateLeadDetails(lead) {
+            const statusColor = lead.status === 'CRITICAL' ? '#dc3545' : 
+                              lead.status === 'HIGH' ? '#fd7e14' : 
+                              lead.status === 'MODERATE' ? '#ffc107' : '#28a745';
+            
+            const stressorDescriptions = {
+                'extreme_heat': 'High temperature stress',
+                'commercial_usage': 'Fleet/commercial patterns',
+                'short_trips': 'Frequent short trips',
+                'temperature_swings': 'Extreme temperature variation',
+                'high_mileage': 'Above-average mileage',
+                'multiple_drivers': 'Multiple driver patterns',
+                'cold_starts': 'Cold weather starts',
+                'urban_traffic': 'Stop-and-go traffic',
+                'age_degradation': 'Age-related wear',
+                'performance_stress': 'High-performance usage',
+                'heat_cycles': 'Heat cycling stress',
+                'aggressive_driving': 'Aggressive driving patterns',
+                'desert_heat': 'Desert climate stress',
+                'fleet_usage': 'Fleet vehicle patterns',
+                'extended_idle': 'Extended idle periods',
+                'coastal_humidity': 'Coastal humidity stress',
+                'sand_exposure': 'Sand/salt exposure',
+                'recreational_stress': 'Recreational usage',
+                'hybrid_complexity': 'Hybrid system complexity',
+                'urban_congestion': 'Urban traffic congestion',
+                'climate_variation': 'Climate variation stress',
+                'turbo_stress': 'Turbo system stress',
+                'city_driving': 'City driving patterns',
+                'heat_soak': 'Heat soak conditions'
+            };
+            
+            document.getElementById('selected-lead-details').innerHTML = `
+                <div class="lead-header">
+                    <div class="customer-name">${lead.customer_name}</div>
+                    <div class="priority-badge" style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">${lead.status}</div>
+                </div>
+                <div class="vehicle-info">${lead.vehicle} • VIN: ${lead.vin}</div>
+                <div class="vehicle-info" style="margin-top: 4px;">${lead.location} • Last service: ${lead.last_service}</div>
+                
+                <div style="background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; padding: 12px; margin: 12px 0;">
+                    <div style="font-size: 12px; font-weight: 600; color: #721c24; margin-bottom: 8px;">⚡ STRESSOR ANALYSIS</div>
+                    <div style="font-size: 13px; font-weight: 600; color: #721c24; margin-bottom: 6px;">Risk Score: ${lead.risk_score}%</div>
+                    <div style="font-size: 11px; color: #721c24; line-height: 1.4;">
+                        ${lead.stressors.map(stressor => `• ${stressorDescriptions[stressor] || stressor}`).join('<br/>')}
+                    </div>
+                </div>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 12px; margin: 12px 0;">
+                    <div style="font-size: 12px; font-weight: 600; color: #856404; margin-bottom: 6px;">🎯 NHTSA INTELLIGENCE</div>
+                    <div style="font-size: 11px; color: #856404;">${lead.complaint_match}</div>
+                </div>
+                
+                <div class="engagement-channels">
+                    <div class="channel-btn active" onclick="switchChannelForLead('sms')">📱 SMS</div>
+                    <div class="channel-btn" onclick="switchChannelForLead('email')">📧 Email</div>
+                    <div class="channel-btn" onclick="switchChannelForLead('phone')">📞 Call</div>
+                </div>
+                
+                <div class="ai-messages" id="selected-lead-messages">
+                    <div class="ai-messages-title">
+                        <span>AI-Generated Messaging</span>
+                        <span class="ai-badge">GPT-4</span>
+                    </div>
+                    <div class="loading-messages">Generating personalized messaging for ${lead.customer_name}...</div>
+                </div>
+                
+                <div style="background: #d1ecf1; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin: 12px 0; text-align: center;">
+                    <div style="font-size: 12px; font-weight: 600; color: #0c5460; margin-bottom: 4px;">💰 REVENUE OPPORTUNITY</div>
+                    <div style="font-size: 14px; color: #0c5460; font-weight: 600;">$${lead.revenue}</div>
+                    <div style="font-size: 10px; color: #0c5460; margin-top: 4px;">Proactive service vs. emergency repair</div>
+                </div>
+            `;
+        }
+        
+        function switchChannelForLead(channel) {
+            // Update active channel button
+            document.querySelectorAll('#selected-lead-details .channel-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Regenerate messaging for new channel
+            if (selectedLead) {
+                generateMessagingForLead(selectedLead, channel);
+            }
+        }
+        
+        async function generateMessagingForLead(lead, channel = 'sms') {
+            const messagesContainer = document.getElementById('selected-lead-messages');
+            
+            // Show loading state
+            messagesContainer.innerHTML = `
+                <div class="ai-messages-title">
+                    <span>AI-Generated Messaging</span>
+                    <span class="ai-badge">GPT-4</span>
+                </div>
+                <div class="loading-messages">Generating personalized ${channel} messaging for ${lead.customer_name}...</div>
+            `;
+            
+            try {
+                // Call AI message generation API
+                const response = await fetch('/api/generate-messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customer_name: lead.customer_name,
+                        vehicle_info: lead.vehicle,
+                        stressors: lead.stressors,
+                        risk_score: lead.risk_score,
+                        channel: channel,
+                        message_type: lead.status === 'CRITICAL' ? 'integrated' : 'proactive'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Display messages
+                displayLeadMessages(messagesContainer, data, lead.customer_name);
+                
+            } catch (error) {
+                console.error('Error loading AI messages:', error);
+                
+                // Fallback to static messages
+                const fallbackData = {
+                    messages: [
+                        `${lead.customer_name}, your ${lead.vehicle} shows ${lead.stressors.length} stress factors that need attention`,
+                        `Our analysis indicates ${lead.risk_score}% failure risk - let's prevent a breakdown`,
+                        `${lead.complaint_match.split('%')[0]}% correlation with NHTSA complaint patterns`
+                    ],
+                    personalized: false
+                };
+                
+                displayLeadMessages(messagesContainer, fallbackData, lead.customer_name);
+            }
+        }
+        
+        function displayLeadMessages(container, data, customerName) {
+            const personalizedBadge = data.personalized ? 
+                '<span class="ai-badge">GPT-4</span>' : 
+                '<span class="ai-badge">Fallback</span>';
+            
+            container.innerHTML = `
+                <div class="ai-messages-title">
+                    <span>AI-Generated Messaging</span>
+                    ${personalizedBadge}
+                </div>
+                ${data.messages.map(msg => `<div class="ai-message">${msg}</div>`).join('')}
+            `;
+        }
+        
+        // Initialize lead carousel on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Auto-load messages for first customer on SMS channel
+            // Auto-load carousel if engagement tab is active
             setTimeout(() => {
                 if (document.getElementById('engagement-tab').classList.contains('active')) {
-                    loadAIMessages('sarah', 'sms');
-                    loadAIMessages('mike', 'sms');
                     renderLeadCarousel(); // Initialize the real lead carousel
                 }
-            }, 1000);
+            }, 500);
         });
     </script>
 </body>
