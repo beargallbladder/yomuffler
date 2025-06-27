@@ -1147,37 +1147,37 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px;">
-                        <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">🌡️</div>
-                            <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">87.4%</div>
-                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Robert Martinez</div>
-                            <div style="font-size: 11px; opacity: 0.9;">Tampa, FL • F-150 SuperCrew</div>
-                            <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">Extreme heat + commercial use</div>
-                        </div>
-                        
-                        <div style="background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">⚡</div>
-                            <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">73.2%</div>
-                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Jennifer Chen</div>
-                            <div style="font-size: 11px; opacity: 0.9;">Charlotte, NC • Explorer Limited</div>
-                            <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">Temperature swings + high miles</div>
-                        </div>
-                        
-                        <div style="background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">❄️</div>
-                            <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">68.9%</div>
-                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Michael Thompson</div>
-                            <div style="font-size: 11px; opacity: 0.9;">Detroit, MI • Fusion SE</div>
-                            <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">Cold starts + urban traffic</div>
-                        </div>
-                        
-                        <div style="background: linear-gradient(135deg, #a55eea 0%, #26de81 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">🏎️</div>
-                            <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">64.1%</div>
-                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Lisa Rodriguez</div>
-                            <div style="font-size: 11px; opacity: 0.9;">Austin, TX • Mustang GT</div>
-                            <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">Performance stress + heat cycles</div>
-                        </div>
+                                                 <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
+                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">🔋</div>
+                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">87.4%</div>
+                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Robert Martinez</div>
+                             <div style="font-size: 11px; opacity: 0.9;">Tampa, FL • F-150 SuperCrew</div>
+                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">847 short trips • 3.2 avg cranks</div>
+                         </div>
+                         
+                         <div style="background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
+                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">🚗</div>
+                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">73.2%</div>
+                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Jennifer Chen</div>
+                             <div style="font-size: 11px; opacity: 0.9;">Charlotte, NC • Explorer Limited</div>
+                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">632 trips < 6 miles • 68% no recharge</div>
+                         </div>
+                         
+                         <div style="background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
+                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">❄️</div>
+                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">68.9%</div>
+                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Michael Thompson</div>
+                             <div style="font-size: 11px; opacity: 0.9;">Detroit, MI • Fusion SE</div>
+                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">421 cold starts • -28°F overnight</div>
+                         </div>
+                         
+                         <div style="background: linear-gradient(135deg, #a55eea 0%, #26de81 100%); color: white; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
+                             <div style="position: absolute; top: -10px; right: -10px; background: rgba(255,255,255,0.2); padding: 12px; border-radius: 50%; font-size: 24px;">⚡</div>
+                             <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">64.1%</div>
+                             <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Lisa Rodriguez</div>
+                             <div style="font-size: 11px; opacity: 0.9;">Austin, TX • Mustang GT</div>
+                             <div style="font-size: 10px; opacity: 0.8; margin-top: 8px;">289 short bursts • 4.1 avg cranks</div>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -1204,32 +1204,32 @@ CLEAN_INTERFACE_HTML = """
                             </div>
                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
-                            <div style="font-size: 48px; margin-bottom: 16px;">🌡️</div>
-                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">WEATHER CORRELATION</div>
-                            <div style="font-size: 32px; font-weight: 700; color: #feca57; margin-bottom: 8px;">+42°F</div>
-                            <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
-                                NOAA data shows extreme temperature swings:<br/>
-                                • Summer highs: 98°F<br/>
-                                • Winter lows: 56°F<br/>
-                                • Battery stress coefficient: 2.8x<br/>
-                                • Validation accuracy: ±3.9°F
-                            </div>
-                        </div>
+                                                 <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
+                             <div style="font-size: 48px; margin-bottom: 16px;">❄️</div>
+                             <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">COLD START STRESS</div>
+                             <div style="font-size: 32px; font-weight: 700; color: #feca57; margin-bottom: 8px;">-32°F</div>
+                             <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
+                                 Daily temperature drops crush batteries:<br/>
+                                 • Engine-off: 78°F (8pm Tampa)<br/>
+                                 • Next start: 46°F (6am cold crank)<br/>
+                                 • 847 short trips detected (< 6 miles)<br/>
+                                 • Insufficient recharge cycles: 73%
+                             </div>
+                         </div>
                         
-                        <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
-                            <div style="font-size: 48px; margin-bottom: 16px;">🧮</div>
-                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">BAYESIAN CALCULATION</div>
-                            <div style="font-size: 32px; font-weight: 700; color: #48dbfb; margin-bottom: 8px;">87.4%</div>
-                            <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
-                                P(Failure) = Prior × Likelihood × Evidence<br/>
-                                • Base cohort prior: 15%<br/>
-                                • Heat stress multiplier: 3.2x<br/>
-                                • Commercial usage: 2.1x<br/>
-                                • Age degradation: 1.8x<br/>
-                                Final risk: 87.4% (TOP 1%)
-                            </div>
-                        </div>
+                                                 <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 16px; backdrop-filter: blur(20px);">
+                             <div style="font-size: 48px; margin-bottom: 16px;">🧮</div>
+                             <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">BAYESIAN CALCULATION</div>
+                             <div style="font-size: 32px; font-weight: 700; color: #48dbfb; margin-bottom: 8px;">87.4%</div>
+                             <div style="font-size: 12px; opacity: 0.9; line-height: 1.4;">
+                                 P(Failure) = Prior × Stress Factors<br/>
+                                 • Base cohort prior: 15%<br/>
+                                 • Short trips (< 6 miles): 3.2x<br/>
+                                 • Cold cranks multiplier: 2.1x<br/>
+                                 • Insufficient recharge: 1.8x<br/>
+                                 Final risk: 87.4% (TOP 1%)
+                             </div>
+                         </div>
                     </div>
                     
                     <div style="margin-top: 32px; text-align: center; padding: 24px; background: rgba(255,255,255,0.1); border-radius: 16px; backdrop-filter: blur(20px);">
