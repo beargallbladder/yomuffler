@@ -1848,11 +1848,9 @@ CLEAN_INTERFACE_HTML = """
         
         // Initialize lead carousel on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Auto-load carousel if engagement tab is active
+            // Always render carousel so it's ready when engagement tab is clicked
             setTimeout(() => {
-                if (document.getElementById('engagement-tab').classList.contains('active')) {
-                    renderLeadCarousel(); // Initialize the real lead carousel
-                }
+                renderLeadCarousel(); // Initialize the real lead carousel
             }, 500);
         });
     </script>
