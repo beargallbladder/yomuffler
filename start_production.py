@@ -157,12 +157,11 @@ CLEAN_INTERFACE_HTML = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>VIN Stressors - Vehicle Intelligence Platform</title>
     
     <!-- Plausible Analytics - Privacy-focused tracking -->
     <script defer data-domain="{plausible_domain}" src="https://plausible.io/js/script.js"></script>
-    <!-- DEBUG: Plausible domain is {plausible_domain} -->
     <style>
         * { 
             margin: 0; 
@@ -180,22 +179,25 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .container { 
-            max-width: 390px; 
+            max-width: 100%;
+            width: 100%;
             margin: 0 auto; 
             min-height: 100vh;
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
             border-radius: 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            box-shadow: none;
+            padding: 0;
         }
         
-        /* DESKTOP RESPONSIVE OVERRIDES */
+        /* TABLET RESPONSIVE */
         @media (min-width: 768px) {
             .container {
                 max-width: 1200px;
                 padding: 0 32px;
                 border-radius: 16px;
                 margin: 20px auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             }
             
             .header {
@@ -207,6 +209,7 @@ CLEAN_INTERFACE_HTML = """
             }
         }
         
+        /* DESKTOP RESPONSIVE */
         @media (min-width: 1200px) {
             .container {
                 max-width: 1400px;
@@ -216,14 +219,21 @@ CLEAN_INTERFACE_HTML = """
         
         .header { 
             background: transparent;
-            padding: 60px 32px 40px;
+            padding: 40px 20px 20px;
             text-align: center;
             color: #1d1d1f;
             position: relative;
         }
         
+        /* TABLET HEADER */
+        @media (min-width: 768px) {
+            .header {
+                padding: 60px 32px 40px;
+            }
+        }
+        
         .logo { 
-            font-size: 32px; 
+            font-size: 24px; 
             font-weight: 700; 
             letter-spacing: -0.022em;
             margin-bottom: 8px;
@@ -234,11 +244,24 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .subtitle { 
-            font-size: 17px; 
+            font-size: 14px; 
             opacity: 0.7;
             font-weight: 400;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             letter-spacing: -0.022em;
+            line-height: 1.4;
+        }
+        
+        /* TABLET LOGO & SUBTITLE */
+        @media (min-width: 768px) {
+            .logo {
+                font-size: 32px;
+            }
+            
+            .subtitle {
+                font-size: 17px;
+                margin-bottom: 16px;
+            }
         }
         
         .version-badge {
@@ -257,7 +280,7 @@ CLEAN_INTERFACE_HTML = """
             background: rgba(255,255,255,0.5);
             backdrop-filter: blur(20px);
             display: flex; 
-            margin: 0 20px 20px;
+            margin: 0 16px 16px;
             border-radius: 12px;
             padding: 4px;
             border: 1px solid rgba(0,0,0,0.04);
@@ -265,16 +288,34 @@ CLEAN_INTERFACE_HTML = """
         
         .tab-btn { 
             flex: 1; 
-            padding: 12px 16px;
+            padding: 16px 12px;
             background: transparent; 
             border: none; 
             color: #86868b;
             font-weight: 500; 
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer; 
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border-radius: 8px;
             letter-spacing: -0.01em;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        /* TABLET TAB NAVIGATION */
+        @media (min-width: 768px) {
+            .tab-nav {
+                margin: 0 20px 20px;
+            }
+            
+            .tab-btn {
+                padding: 12px 16px;
+                font-size: 15px;
+                min-height: auto;
+            }
         }
         
         .tab-btn.active { 
@@ -286,23 +327,40 @@ CLEAN_INTERFACE_HTML = """
         
         .tab-content { 
             display: none !important; 
-            padding: 0 20px 40px;
+            padding: 0 16px 24px;
         }
         
         .tab-content.active { 
             display: block !important; 
         }
         
+        /* TABLET TAB CONTENT */
+        @media (min-width: 768px) {
+            .tab-content {
+                padding: 0 20px 40px;
+            }
+        }
+        
         /* Premium Apple-Style Cards */
         .card { 
             background: rgba(255,255,255,0.9); 
             backdrop-filter: blur(20px);
-            border-radius: 16px; 
-            padding: 32px 24px;
-            margin-bottom: 24px;
+            border-radius: 12px; 
+            padding: 20px 16px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        /* TABLET CARDS */
+        @media (min-width: 768px) {
+            .card {
+                border-radius: 16px;
+                padding: 32px 24px;
+                margin-bottom: 24px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02);
+            }
         }
         
         .card:hover {
@@ -315,35 +373,40 @@ CLEAN_INTERFACE_HTML = """
             background: rgba(255,255,255,0.85);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 20px; 
-            margin-bottom: 20px;
+            border-radius: 16px; 
+            margin-bottom: 16px;
             cursor: pointer; 
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            height: 220px;
+            height: 200px;
             perspective: 1000px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.02);
+            touch-action: manipulation;
         }
         
-        /* Desktop Grid Layout for Learning Cards */
+        /* Learning Grid Layout */
         .learning-grid {
             display: block; /* Default mobile */
         }
         
+        /* TABLET LEARNING LAYOUT */
         @media (min-width: 768px) {
             .learning-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 24px;
+                gap: 20px;
             }
             
             .learning-card {
+                border-radius: 20px;
                 margin-bottom: 0;
                 height: auto;
                 min-height: 220px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
             }
         }
         
+        /* DESKTOP LEARNING LAYOUT */
         @media (min-width: 1200px) {
             .learning-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -422,19 +485,12 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .card-title { 
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #1d1d1f;
             letter-spacing: -0.022em;
-            line-height: 1.2;
-        }
-        
-        @media (min-width: 1200px) {
-            .card-title {
-                font-size: 16px;
-                margin-bottom: 8px;
-            }
+            line-height: 1.3;
         }
         
         .card-description {
@@ -446,7 +502,22 @@ CLEAN_INTERFACE_HTML = """
             text-overflow: ellipsis;
         }
         
+        /* TABLET CARD TEXT */
+        @media (min-width: 768px) {
+            .card-title {
+                font-size: 18px;
+                margin-bottom: 12px;
+                line-height: 1.2;
+            }
+        }
+        
+        /* DESKTOP CARD TEXT */
         @media (min-width: 1200px) {
+            .card-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
             .card-description {
                 font-size: 12px;
                 line-height: 1.3;
@@ -499,15 +570,30 @@ CLEAN_INTERFACE_HTML = """
         
         .btn { 
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #667eea;
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
+            min-height: 48px;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* TABLET BUTTONS */
+        @media (min-width: 768px) {
+            .btn {
+                padding: 14px;
+                font-size: 15px;
+                min-height: auto;
+                display: block;
+            }
         }
         
         .btn:hover { 
@@ -537,8 +623,15 @@ CLEAN_INTERFACE_HTML = """
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 20px;
+            padding: 16px;
             margin-bottom: 16px;
+        }
+        
+        /* TABLET LEAD CARDS */
+        @media (min-width: 768px) {
+            .lead-card {
+                padding: 20px;
+            }
         }
         
         .lead-header { 
@@ -597,14 +690,29 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .channel-btn {
-            padding: 8px 12px;
+            padding: 12px 8px;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        /* TABLET CHANNEL BUTTONS */
+        @media (min-width: 768px) {
+            .channel-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                min-height: auto;
+                display: block;
+            }
         }
         
         .channel-btn:hover {
@@ -877,6 +985,131 @@ CLEAN_INTERFACE_HTML = """
             font-size: 12px;
             opacity: 0.9;
             line-height: 1.4;
+        }
+        
+        /* MOBILE ENGAGEMENT TAB OVERRIDES */
+        @media (max-width: 767px) {
+            /* Mobile-specific overrides for engagement tab */
+            #engagement-tab > div {
+                padding: 16px !important;
+                background: #f8fafb !important;
+            }
+            
+            /* Lead database header adjustments */
+            #engagement-tab h2 {
+                font-size: 18px !important;
+            }
+            
+            /* Sort button container mobile spacing */
+            #engagement-tab .sort-btn {
+                padding: 12px 8px !important;
+                font-size: 12px !important;
+                min-height: 44px !important;
+                border-radius: 8px !important;
+            }
+            
+            /* Lead carousel mobile optimizations */
+            #lead-carousel > div {
+                min-width: 260px !important;
+                padding: 12px !important;
+                margin-right: 12px !important;
+            }
+            
+            /* Mobile priority badge adjustments */
+            #engagement-tab .priority-badge {
+                padding: 6px 8px !important;
+                font-size: 10px !important;
+            }
+            
+            /* No lead selected state mobile */
+            #no-lead-selected {
+                padding: 40px 16px !important;
+            }
+            
+            #no-lead-selected > div:first-child {
+                font-size: 40px !important;
+            }
+            
+            #no-lead-selected > div:nth-child(2) {
+                font-size: 18px !important;
+            }
+            
+            #no-lead-selected > div:last-child {
+                font-size: 14px !important;
+            }
+        }
+        
+        /* MOBILE ANALYTICS TAB OVERRIDES */
+        @media (max-width: 767px) {
+            /* Analytics tab mobile spacing */
+            #analytics-tab > div {
+                padding: 16px !important;
+            }
+            
+            /* Analytics grids on mobile */
+            #analytics-tab [style*="grid-template-columns: 1fr 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+            
+            #analytics-tab [style*="grid-template-columns: repeat(4, 1fr)"] {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+            }
+            
+            /* Analytics card mobile adjustments */
+            #analytics-tab > div > div {
+                padding: 16px !important;
+                margin-bottom: 16px !important;
+            }
+            
+            /* Analytics text size adjustments */
+            #analytics-tab h3 {
+                font-size: 18px !important;
+            }
+            
+            #analytics-tab h2 {
+                font-size: 20px !important;
+            }
+        }
+        
+        /* MOBILE INTELLIGENCE TAB OVERRIDES */
+        @media (max-width: 767px) {
+            /* Intelligence tab mobile spacing */
+            #intelligence-tab > div {
+                padding: 16px !important;
+            }
+            
+            /* Intelligence card mobile adjustments */
+            #intelligence-tab > div > div {
+                padding: 16px !important;
+                margin-bottom: 16px !important;
+            }
+            
+            /* Intelligence grids on mobile */
+            #intelligence-tab [style*="grid-template-columns: 1fr 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+            
+            #intelligence-tab [style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+            
+            #intelligence-tab [style*="grid-template-columns: 2fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+            
+            /* Intelligence text adjustments */
+            #intelligence-tab h2 {
+                font-size: 18px !important;
+            }
+            
+            #intelligence-tab h3 {
+                font-size: 16px !important;
+            }
         }
     </style>
 </head>
