@@ -159,6 +159,10 @@ CLEAN_INTERFACE_HTML = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIN Stressors - Vehicle Intelligence Platform</title>
+    
+    <!-- Plausible Analytics - Privacy-focused tracking -->
+    <script defer data-domain="{plausible_domain}" src="https://plausible.io/js/script.js"></script>
+    <!-- DEBUG: Plausible domain is {plausible_domain} -->
     <style>
         * { 
             margin: 0; 
@@ -1331,6 +1335,11 @@ CLEAN_INTERFACE_HTML = """
             document.getElementById(tabName + '-tab').classList.add('active');
             event.target.classList.add('active');
             
+            // Track tab switch with Plausible
+            if (window.plausible) {
+                window.plausible('Tab Switch', {props: {tab: tabName}});
+            }
+            
             // Load lead carousel when engagement tab is opened
             if (tabName === 'engagement') {
                 renderLeadCarousel(); // Show our real lead database
@@ -1460,6 +1469,11 @@ CLEAN_INTERFACE_HTML = """
         function sortLeads(sortType) {
             currentSort = sortType;
             
+            // Track sort action with Plausible
+            if (window.plausible) {
+                window.plausible('Leads Sorted', {props: {sort_type: sortType}});
+            }
+            
             // Update active button
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -1580,6 +1594,18 @@ CLEAN_INTERFACE_HTML = """
             selectedLead = REAL_LEADS_DATABASE.find(lead => lead.customer_name === customerName);
             if (!selectedLead) return;
             
+            // Track lead selection with Plausible
+            if (window.plausible) {
+                window.plausible('Lead Selected', {
+                    props: {
+                        customer: customerName,
+                        status: selectedLead.status,
+                        risk_score: selectedLead.risk_score,
+                        revenue: selectedLead.revenue
+                    }
+                });
+            }
+            
             // Hide no-lead-selected message, show selected lead container
             document.getElementById('no-lead-selected').style.display = 'none';
             document.getElementById('selected-lead-container').style.display = 'block';
@@ -1667,6 +1693,17 @@ CLEAN_INTERFACE_HTML = """
         }
         
         function switchChannelForLead(channel) {
+            // Track channel switch with Plausible
+            if (window.plausible && selectedLead) {
+                window.plausible('Channel Switch', {
+                    props: {
+                        channel: channel,
+                        customer: selectedLead.customer_name,
+                        status: selectedLead.status
+                    }
+                });
+            }
+            
             // Update active channel button
             document.querySelectorAll('#selected-lead-details .channel-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -1708,11 +1745,34 @@ CLEAN_INTERFACE_HTML = """
                 
                 const data = await response.json();
                 
+                // Track successful AI message generation
+                if (window.plausible) {
+                    window.plausible('AI Messages Generated', {
+                        props: {
+                            customer: lead.customer_name,
+                            channel: channel,
+                            personalized: data.personalized,
+                            message_count: data.messages.length
+                        }
+                    });
+                }
+                
                 // Display messages
                 displayLeadMessages(messagesContainer, data, lead.customer_name);
                 
             } catch (error) {
                 console.error('Error loading AI messages:', error);
+                
+                // Track fallback usage
+                if (window.plausible) {
+                    window.plausible('AI Fallback Used', {
+                        props: {
+                            customer: lead.customer_name,
+                            channel: channel,
+                            error: error.message || 'unknown'
+                        }
+                    });
+                }
                 
                 // Fallback to static messages
                 const fallbackData = {
@@ -1744,6 +1804,16 @@ CLEAN_INTERFACE_HTML = """
         
         // Initialize lead carousel on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Track page load with Plausible
+            if (window.plausible) {
+                window.plausible('Platform Loaded', {
+                    props: {
+                        leads_count: REAL_LEADS_DATABASE.length,
+                        total_revenue: REAL_LEADS_DATABASE.reduce((sum, lead) => sum + lead.revenue, 0)
+                    }
+                });
+            }
+            
             // Always render carousel so it's ready when engagement tab is clicked
             setTimeout(() => {
                 renderLeadCarousel(); // Initialize the real lead carousel
@@ -1804,7 +1874,13 @@ def main():
         
         @app.get("/")
         async def root(username: str = Depends(authenticate)):
-            return HTMLResponse(content=CLEAN_INTERFACE_HTML)
+            # Get Plausible domain from environment or use default
+            plausible_domain = os.getenv("PLAUSIBLE_DOMAIN", "yomuffler.onrender.com")
+            
+            # Replace Plausible domain placeholder with actual domain
+            formatted_html = CLEAN_INTERFACE_HTML.replace("{plausible_domain}", plausible_domain)
+            
+            return HTMLResponse(content=formatted_html)
         
         @app.post("/api/generate-messages")
         async def generate_messages(request: MessageRequest, username: str = Depends(authenticate)):
