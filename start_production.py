@@ -322,8 +322,12 @@ CLEAN_INTERFACE_HTML = """
         }
         
         /* Desktop Grid Layout for Learning Cards */
+        .learning-grid {
+            display: block; /* Default mobile */
+        }
+        
         @media (min-width: 768px) {
-            #intelligence-tab {
+            .learning-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 24px;
@@ -331,17 +335,20 @@ CLEAN_INTERFACE_HTML = """
             
             .learning-card {
                 margin-bottom: 0;
+                height: auto;
+                min-height: 220px;
             }
         }
         
         @media (min-width: 1200px) {
-            #intelligence-tab {
+            .learning-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 32px;
             }
             
             .learning-card {
-                height: 200px;
+                height: auto;
+                min-height: 200px;
             }
         }
         
@@ -405,7 +412,7 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .card-title { 
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 12px;
             color: #1d1d1f;
@@ -413,11 +420,27 @@ CLEAN_INTERFACE_HTML = """
             line-height: 1.2;
         }
         
+        @media (min-width: 1200px) {
+            .card-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+        }
+        
         .card-description {
-            font-size: 15px;
+            font-size: 13px;
             color: #86868b;
-            line-height: 1.47059;
+            line-height: 1.4;
             letter-spacing: -0.01em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        @media (min-width: 1200px) {
+            .card-description {
+                font-size: 12px;
+                line-height: 1.3;
+            }
         }
         
         .math-content { 
@@ -490,7 +513,7 @@ CLEAN_INTERFACE_HTML = """
         
         /* Desktop Layout for Calculator Tab */
         @media (min-width: 968px) {
-            #calculator-tab {
+            .calculator-layout {
                 display: grid;
                 grid-template-columns: 400px 1fr;
                 gap: 32px;
@@ -504,7 +527,7 @@ CLEAN_INTERFACE_HTML = """
         
         /* Desktop Layout for Engagement Tab */
         @media (min-width: 768px) {
-            #engagement-tab {
+            .engagement-layout {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 24px;
@@ -512,7 +535,7 @@ CLEAN_INTERFACE_HTML = """
         }
         
         @media (min-width: 1200px) {
-            #engagement-tab {
+            .engagement-layout {
                 grid-template-columns: 1fr 1fr 300px;
                 gap: 32px;
             }
@@ -744,7 +767,8 @@ CLEAN_INTERFACE_HTML = """
         
         <!-- Intelligence Tab -->
         <div id="intelligence-tab" class="tab-content active">
-            <div class="learning-card" onclick="flipCard(this)">
+            <div class="learning-grid">
+                <div class="learning-card" onclick="flipCard(this)">
                 <div class="flip-indicator">Flip</div>
                 <div class="card-inner">
                     <div class="card-front">
@@ -912,11 +936,13 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                 </div>
             </div>
+            </div>
         </div>
         
         <!-- Calculator Tab -->
         <div id="calculator-tab" class="tab-content">
-            <div class="card">
+            <div class="calculator-layout">
+                <div class="card">
                 <form id="riskForm">
                     <div class="form-group">
                         <label for="vin">Vehicle Identification Number</label>
@@ -949,11 +975,13 @@ CLEAN_INTERFACE_HTML = """
                     <span class="detail-value" id="revenue">-</span>
                 </div>
             </div>
+            </div>
         </div>
         
         <!-- AI-Enhanced Engagement Tab -->
         <div id="engagement-tab" class="tab-content">
-            <div class="lead-card">
+            <div class="engagement-layout">
+                <div class="lead-card">
                 <div class="lead-header">
                     <div class="customer-name">Sarah Johnson</div>
                     <div class="priority-badge priority-critical">URGENT</div>
@@ -1061,6 +1089,7 @@ CLEAN_INTERFACE_HTML = """
                 <div style="text-align: center; margin-top: 8px; font-size: 10px; color: #6c757d; font-style: italic;">
                     📊 ABTest2: Tracking conversion rates - 23% higher close rate vs ABTest1
                 </div>
+            </div>
             </div>
         </div>
     </div>
