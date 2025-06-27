@@ -755,7 +755,213 @@ CLEAN_INTERFACE_HTML = """
             text-align: center;
             margin-top: 12px;
         }
+        
+        /* Analytics Dashboard Styles */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 0 20px 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 0 15px 30px;
+            }
+        }
+        
+        .analytics-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .wide-card {
+            grid-column: span 2;
+        }
+        
+        @media (max-width: 768px) {
+            .wide-card {
+                grid-column: span 1;
+            }
+        }
+        
+        .insight-card {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .insight-card .card-title {
+            color: white;
+        }
+        
+        .funnel-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .funnel-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .weather-legend, .complaint-summary {
+            margin-top: 16px;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+        
+        .complaint-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            color: #6b7280;
+        }
+        
+        .revenue-breakdown {
+            margin-top: 16px;
+        }
+        
+        .revenue-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .revenue-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            color: #059669;
+        }
+        
+        .revenue-label {
+            color: #6b7280;
+            font-size: 13px;
+        }
+        
+        .revenue-value {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .scoring-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .scoring-summary {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+        
+        .score-stat {
+            text-align: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .score-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .score-label {
+            font-size: 10px;
+            color: #6b7280;
+            line-height: 1.3;
+        }
+        
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .insight-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .insight-icon {
+            font-size: 20px;
+            min-width: 24px;
+        }
+        
+        .insight-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        
+        .insight-desc {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -769,6 +975,7 @@ CLEAN_INTERFACE_HTML = """
             <button class="tab-btn active" onclick="switchTab('intelligence')">Intelligence</button>
             <button class="tab-btn" onclick="switchTab('calculator')">Calculator</button>
             <button class="tab-btn" onclick="switchTab('engagement')">Engagement</button>
+            <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
         </div>
         
         <!-- Intelligence Tab -->
@@ -978,6 +1185,129 @@ CLEAN_INTERFACE_HTML = """
             </div>
         </div>
         
+        <!-- Analytics Dashboard Tab -->
+        <div id="analytics-tab" class="tab-content">
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="card-title">🎯 Battery Problem Lead Funnel</div>
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="funnelChart"></canvas>
+                    </div>
+                    <div class="funnel-stats">
+                        <div class="stat"><span class="stat-number">5,000</span><span class="stat-label">Total VINs</span></div>
+                        <div class="stat"><span class="stat-number">2,927</span><span class="stat-label">High Stress</span></div>
+                        <div class="stat"><span class="stat-number">866</span><span class="stat-label">Call Today</span></div>
+                        <div class="stat"><span class="stat-number">$1.06M</span><span class="stat-label">Revenue</span></div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card">
+                    <div class="card-title">🌡️ Weather Risk Distribution</div>
+                    <div style="height: 250px; position: relative;">
+                        <canvas id="weatherChart"></canvas>
+                    </div>
+                    <div class="weather-legend">
+                        <div class="legend-item"><span class="legend-color" style="background: #dc3545;"></span>High Risk (35°F+ delta)</div>
+                        <div class="legend-item"><span class="legend-color" style="background: #ffc107;"></span>Moderate (25-35°F)</div>
+                        <div class="legend-item"><span class="legend-color" style="background: #28a745;"></span>Low Risk (<25°F)</div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card">
+                    <div class="card-title">📍 NHTSA Complaint Hotspots</div>
+                    <div style="height: 250px; position: relative;">
+                        <canvas id="complaintChart"></canvas>
+                    </div>
+                    <div class="complaint-summary">
+                        <div>FL: 4 complaints</div>
+                        <div>TX: 3 complaints</div>
+                        <div>MI: 2 complaints</div>
+                        <div>June surge: 10 complaints</div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card">
+                    <div class="card-title">💰 Revenue Pipeline Analysis</div>
+                    <div style="height: 250px; position: relative;">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="revenue-breakdown">
+                        <div class="revenue-item">
+                            <span class="revenue-label">Immediate Action</span>
+                            <span class="revenue-value">$184,552</span>
+                        </div>
+                        <div class="revenue-item">
+                            <span class="revenue-label">30-Day Pipeline</span>
+                            <span class="revenue-value">$682,932</span>
+                        </div>
+                        <div class="revenue-item">
+                            <span class="revenue-label">Total Opportunity</span>
+                            <span class="revenue-value">$1,066,415</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card wide-card">
+                    <div class="card-title">📊 Lead Scoring Distribution</div>
+                    <div style="height: 200px; position: relative;">
+                        <canvas id="scoringChart"></canvas>
+                    </div>
+                    <div class="scoring-summary">
+                        <div class="score-stat">
+                            <div class="score-number">17.3%</div>
+                            <div class="score-label">Immediate Action<br/>(60%+ Risk)</div>
+                        </div>
+                        <div class="score-stat">
+                            <div class="score-number">64.1%</div>
+                            <div class="score-label">Pipeline<br/>(30-60% Risk)</div>
+                        </div>
+                        <div class="score-stat">
+                            <div class="score-number">18.6%</div>
+                            <div class="score-label">Monitor<br/>(0-30% Risk)</div>
+                        </div>
+                        <div class="score-stat">
+                            <div class="score-number">±3.9°F</div>
+                            <div class="score-label">Weather<br/>Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card insight-card">
+                    <div class="card-title">🧠 AI Intelligence Insights</div>
+                    <div class="insight-grid">
+                        <div class="insight-item">
+                            <div class="insight-icon">⚡</div>
+                            <div class="insight-text">
+                                <div class="insight-title">Seasonal Pattern Alert</div>
+                                <div class="insight-desc">June shows 5x normal complaint volume - proactive outreach recommended</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">🎯</div>
+                            <div class="insight-text">
+                                <div class="insight-title">High-Value Targets</div>
+                                <div class="insight-desc">Commercial SUVs in GA/NC show 68% risk scores - immediate revenue opportunity</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">📈</div>
+                            <div class="insight-text">
+                                <div class="insight-title">Conversion Opportunity</div>
+                                <div class="insight-desc">866 leads ready for immediate contact - $213 average revenue per lead</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">🌡️</div>
+                            <div class="insight-text">
+                                <div class="insight-title">Climate Intelligence</div>
+                                <div class="insight-desc">7/8 states show 35°F+ temperature swings - battery stress correlation confirmed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- AI-Enhanced Engagement Tab -->
         <div id="engagement-tab" class="tab-content">
             <div class="engagement-layout">
@@ -1109,6 +1439,179 @@ CLEAN_INTERFACE_HTML = """
                 loadAIMessages('sarah', 'sms');
                 loadAIMessages('mike', 'sms');
             }
+            
+            // Initialize charts when analytics tab is opened
+            if (tabName === 'analytics') {
+                setTimeout(initializeCharts, 100);
+            }
+        }
+        
+        // Chart initialization
+        let chartsInitialized = false;
+        
+        function initializeCharts() {
+            if (chartsInitialized) return;
+            chartsInitialized = true;
+            
+            // Battery Problem Lead Funnel Chart
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+            new Chart(funnelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total VINs', 'High Stress', 'Medium Risk', 'Call Today'],
+                    datasets: [{
+                        label: 'Lead Funnel',
+                        data: [5000, 2927, 3204, 866],
+                        backgroundColor: [
+                            '#e5e7eb',
+                            '#fbbf24',
+                            '#f59e0b',
+                            '#dc2626'
+                        ],
+                        borderColor: '#374151',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Weather Risk Distribution Chart
+            const weatherCtx = document.getElementById('weatherChart').getContext('2d');
+            new Chart(weatherCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High Risk (7 states)', 'Low Risk (FL)'],
+                    datasets: [{
+                        data: [7, 1],
+                        backgroundColor: ['#dc3545', '#28a745'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+            
+            // NHTSA Complaint Hotspots Chart
+            const complaintCtx = document.getElementById('complaintChart').getContext('2d');
+            new Chart(complaintCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['FL', 'TX', 'MI', 'Others'],
+                    datasets: [{
+                        label: 'Complaints',
+                        data: [4, 3, 2, 11],
+                        backgroundColor: ['#dc3545', '#fd7e14', '#ffc107', '#6c757d'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+            
+            // Revenue Pipeline Analysis Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Month 2', 'Month 3'],
+                    datasets: [{
+                        label: 'Cumulative Revenue',
+                        data: [184552, 365104, 547656, 682932, 874281, 1066415],
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value / 1000).toFixed(0) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Lead Scoring Distribution Chart
+            const scoringCtx = document.getElementById('scoringChart').getContext('2d');
+            new Chart(scoringCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-20%', '20-40%', '40-60%', '60-80%', '80-100%'],
+                    datasets: [{
+                        label: 'Lead Distribution',
+                        data: [930, 1602, 1602, 433, 433],
+                        backgroundColor: [
+                            '#28a745',
+                            '#ffc107',
+                            '#fd7e14',
+                            '#dc3545',
+                            '#6f42c1'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
         
         function flipCard(card) {
