@@ -1542,52 +1542,34 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                 </div>
 
-                <!-- INTERACTIVE GOOGLE MAPS VISUALIZATION -->
+                <!-- SIMPLE STATE MAP + GRID -->
                 <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
                         <div style="background: #003366; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🗺️</div>
                         <div>
-                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Live Geographic Distribution</h3>
-                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">5,000 VINs mapped across Southeast • Click states for detailed analysis</div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Southeast State Opportunities</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;" id="map-status">Click state cards below to highlight opportunities</div>
                         </div>
                     </div>
                     
-                    <!-- GOOGLE MAPS CONTAINER -->
-                    <div style="height: 500px; border-radius: 8px; border: 2px solid #e5e7eb; overflow: hidden; margin-bottom: 20px;" id="google-map">
-                        <div style="height: 100%; display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #6b7280;">
-                            🗺️ Loading Interactive Map...
-                        </div>
-                    </div>
-                    
-                    <!-- MAP LEGEND -->
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 24px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <div style="width: 16px; height: 16px; background: #dc2626; border-radius: 50%;"></div>
-                            <span style="font-size: 12px; color: #4b5563;">High Density (700+ VINs)</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <div style="width: 16px; height: 16px; background: #f59e0b; border-radius: 50%;"></div>
-                            <span style="font-size: 12px; color: #4b5563;">Medium Density (300-699 VINs)</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <div style="width: 16px; height: 16px; background: #10b981; border-radius: 50%;"></div>
-                            <span style="font-size: 12px; color: #4b5563;">Low Density (<300 VINs)</span>
-                        </div>
+                    <!-- STATE CARDS GRID -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;" id="state-opportunities-grid">
+                        <!-- States populated by JavaScript -->
                     </div>
                 </div>
 
-                <!-- SOUTHEAST STATES GRID -->
-                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                <!-- SELECTED STATE DETAILS -->
+                <div id="selected-state-details" style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; display: none;">
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-                        <div style="background: #3b82f6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">📊</div>
+                        <div style="background: #059669; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">📍</div>
                         <div>
-                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">State-by-State Breakdown</h3>
-                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Detailed VIN distribution and revenue analysis</div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;" id="selected-state-name">State Details</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;" id="selected-state-summary">Click a state above to see detailed analysis</div>
                         </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;" id="southeast-states-grid">
-                        <!-- States will be populated by JavaScript -->
+                    <div id="selected-state-content">
+                        <!-- Populated when state is selected -->
                     </div>
                 </div>
 
@@ -2319,81 +2301,152 @@ CLEAN_INTERFACE_HTML = """
             console.log(`🗺️ Added ${statesData.states.length} state markers to map`);
         }
 
-        // Load Geographic Intelligence Data
+        // Load Geographic Intelligence Data - SIMPLE AND FAST
         async function loadGeographicData() {
             try {
-                // Load Florida opportunities
-                const floridaResponse = await fetch('/api/geographic/florida-spotlight');
+                const [floridaResponse, southeastResponse] = await Promise.all([
+                    fetch('/api/geographic/florida-spotlight'),
+                    fetch('/api/geographic/southeast-summary')
+                ]);
+                
                 const floridaData = await floridaResponse.json();
+                const southeastData = await southeastResponse.json();
                 
-                // Update Florida metrics with live data
+                // Update Florida spotlight 
                 document.getElementById('florida-leads').textContent = floridaData.opportunities.total_leads;
-                document.getElementById('florida-revenue').textContent = '$' + Math.round(floridaData.opportunities.revenue_potential / 1000) + 'K';
+                document.getElementById('florida-revenue').textContent = `$${(floridaData.opportunities.revenue_potential/1000).toFixed(0)}K`;
                 
-                // Load Southeast region summary
-                const southeastResponse = await fetch('/api/geographic/southeast-summary');
-                southeastStatesData = await southeastResponse.json();
-                
-                // Populate Southeast states grid
-                const statesGrid = document.getElementById('southeast-states-grid');
-                statesGrid.innerHTML = southeastStatesData.states.map(state => `
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s;" 
-                         onclick="showStateDetails('${state.code}')" 
-                         onmouseover="this.style.background='#e2e8f0'; this.style.transform='translateY(-2px)'" 
-                         onmouseout="this.style.background='#f8fafc'; this.style.transform='translateY(0)'">
-                        <div style="font-size: 18px; margin-bottom: 8px;">${state.emoji}</div>
-                        <div style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 4px;">${state.name}</div>
-                        <div style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">${state.leads} leads</div>
-                        <div style="font-size: 12px; font-weight: 600; color: #059669;">$${Math.round(state.revenue / 1000)}K</div>
-                    </div>
-                `).join('');
-                
-                // Add markers to map if Google Maps is ready
-                if (googleMap) {
-                    addStateMarkersToMap(southeastStatesData);
+                // Populate state cards - SIMPLE GRID
+                const stateGrid = document.getElementById('state-opportunities-grid');
+                if (stateGrid && southeastData.states) {
+                    stateGrid.innerHTML = southeastData.states.map(state => {
+                        const priorityColor = state.leads > 700 ? '#dc2626' : state.leads > 400 ? '#f59e0b' : '#059669';
+                        const priorityLabel = state.leads > 700 ? 'HIGH' : state.leads > 400 ? 'MED' : 'LOW';
+                        
+                        return `
+                            <div onclick="selectState('${state.code}')" style="
+                                background: white; 
+                                border: 2px solid #e5e7eb; 
+                                border-radius: 12px; 
+                                padding: 20px; 
+                                cursor: pointer; 
+                                transition: all 0.2s ease;
+                                position: relative;
+                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div style="font-size: 24px;">${state.emoji}</div>
+                                    <div style="background: ${priorityColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;">
+                                        ${priorityLabel}
+                                    </div>
+                                </div>
+                                <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #111827;">
+                                    ${state.name}
+                                </div>
+                                <div style="font-size: 14px; color: #4b5563; margin-bottom: 8px;">
+                                    ${state.leads} VIN leads
+                                </div>
+                                <div style="font-size: 14px; font-weight: 600; color: #059669;">
+                                    $${(state.revenue/1000).toFixed(0)}K revenue
+                                </div>
+                                <div style="margin-top: 12px; font-size: 11px; color: #6b7280; text-align: center;">
+                                    Click for details
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
                 }
                 
-                // Track geographic data load
-                if (window.plausible) {
+                // Track successful load
+                if (typeof window.plausible !== 'undefined') {
                     window.plausible('Geographic Data Loaded', {
-                        props: {
-                            florida_leads: floridaData.opportunities.total_leads,
-                            southeast_revenue: southeastStatesData.total_revenue
-                        }
+                        props: { states_loaded: southeastData.states.length }
                     });
                 }
                 
             } catch (error) {
                 console.error('Error loading geographic data:', error);
-                
-                // Fallback display for Florida
-                document.getElementById('florida-leads').textContent = '992';
-                document.getElementById('florida-revenue').textContent = '$316K';
-                
-                // Track error
-                if (window.plausible) {
-                    window.plausible('Geographic Data Error', {props: {error: error.message}});
-                }
+                document.getElementById('map-status').textContent = 'Error loading state data - please refresh';
+                document.getElementById('map-status').style.color = '#dc2626';
             }
         }
         
-        // Show detailed state information
-        async function showStateDetails(stateCode) {
+        // Simple state selection - FAST AND CLEAN
+        async function selectState(stateCode) {
             try {
                 const response = await fetch(`/api/geographic/state/${stateCode}`);
                 const stateData = await response.json();
                 
-                // Track state selection
-                if (window.plausible) {
-                    window.plausible('State Selected', {props: {state: stateCode, leads: stateData.leads}});
-                }
+                // Update map status
+                document.getElementById('map-status').innerHTML = `<strong>${stateData.state_name}</strong> selected - showing ${stateData.leads} opportunities`;
+                document.getElementById('map-status').style.color = '#059669';
                 
-                // Show state details in a modal or overlay (you can customize this)
-                alert(`${stateData.name} Details:\n\nLeads: ${stateData.leads}\nRevenue: $${Math.round(stateData.revenue).toLocaleString()}\nTop Stressor: ${stateData.top_stressor}\n\nSeasonal Multiplier: ${stateData.seasonal_multiplier}x`);
+                // Show state details
+                const detailsContainer = document.getElementById('selected-state-details');
+                const stateNameEl = document.getElementById('selected-state-name');
+                const stateSummaryEl = document.getElementById('selected-state-summary');
+                const stateContentEl = document.getElementById('selected-state-content');
+                
+                stateNameEl.textContent = `${stateData.state_name} Opportunities`;
+                stateSummaryEl.textContent = `${stateData.leads} VIN leads • $${stateData.revenue_potential.toLocaleString()} revenue potential`;
+                
+                stateContentEl.innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <div style="background: #f8fafc; border-radius: 8px; padding: 20px;">
+                            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Key Metrics</h4>
+                            <div style="space-y: 8px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: #6b7280;">VIN Leads:</span>
+                                    <span style="font-weight: 600;">${stateData.leads}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: #6b7280;">Revenue Potential:</span>
+                                    <span style="font-weight: 600; color: #059669;">$${stateData.revenue_potential.toLocaleString()}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: #6b7280;">Seasonal Adjustment:</span>
+                                    <span style="font-weight: 600;">${(stateData.seasonal_adjustment * 100).toFixed(0)}%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: #6b7280;">Adjusted Revenue:</span>
+                                    <span style="font-weight: 600; color: #3b82f6;">$${stateData.adjusted_revenue.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f8fafc; border-radius: 8px; padding: 20px;">
+                            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Professional Context</h4>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                ${stateData.context_points.map(point => `• ${point}`).join('<br/>')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; background: #ecfdf5; border-radius: 8px; padding: 20px; border: 1px solid #10b981;">
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Conversation Starters</h4>
+                        <div style="font-size: 13px; color: #4b5563; line-height: 1.5;">
+                            ${stateData.conversation_starters.map(starter => `"${starter}"`).join('<br/><br/>')}
+                        </div>
+                    </div>
+                `;
+                
+                detailsContainer.style.display = 'block';
+                detailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Track selection
+                if (typeof window.plausible !== 'undefined') {
+                    window.plausible('State Selected', {
+                        props: { 
+                            state: stateCode,
+                            leads: stateData.leads,
+                            revenue: stateData.revenue_potential
+                        }
+                    });
+                }
                 
             } catch (error) {
                 console.error('Error loading state details:', error);
-                alert(`Unable to load details for ${stateCode}. Please try again.`);
+                document.getElementById('map-status').textContent = 'Error loading state details';
+                document.getElementById('map-status').style.color = '#dc2626';
             }
         }
 
