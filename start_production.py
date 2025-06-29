@@ -2170,6 +2170,15 @@ def main():
                     "api_key_found": bool(ai_generator.openai_api_key)
                 }
         
+        # Add geographic visualization routes
+        try:
+            from src.api.geographic_visualization import geographic_router, map_router
+            app.include_router(geographic_router)
+            app.include_router(map_router)
+            logger.info("✅ Geographic visualization routes added successfully")
+        except Exception as e:
+            logger.warning(f"⚠️ Geographic routes unavailable: {e}")
+        
         # Start the server
         uvicorn.run(
             app,

@@ -22,6 +22,7 @@ from src.services.integration_manager import integration_manager
 from src.api.desktop_optimized_ui import add_desktop_routes
 from src.api.mobile_ui import add_mobile_routes
 from .seasonal_endpoint import seasonal_router
+from .geographic_visualization import geographic_router, map_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -749,6 +750,8 @@ add_desktop_routes(app)    # Desktop-optimized layouts
 
 # Add after app creation and before other route includes
 app.include_router(seasonal_router)
+app.include_router(geographic_router)  # Geographic API endpoints
+app.include_router(map_router)  # Geographic map visualization
 
 if __name__ == "__main__":
     import uvicorn
