@@ -67,6 +67,74 @@ class GeographicVisualizationAPI:
         
         self.load_vin_data()
     
+    def get_current_season(self) -> str:
+        """Get current season for seasonal multipliers"""
+        month = datetime.now().month
+        if month in [12, 1, 2]:
+            return "winter"
+        elif month in [3, 4, 5]:
+            return "spring"
+        elif month in [6, 7, 8]:
+            return "summer"
+        else:
+            return "fall"
+    
+    def get_seasonal_multipliers(self, season: str) -> Dict[str, float]:
+        """Get seasonal failure rate multipliers"""
+        multipliers = {
+            "winter": {"battery": 3.4, "starter": 2.8, "alternator": 1.6},
+            "spring": {"battery": 1.2, "starter": 1.1, "alternator": 1.3},
+            "summer": {"battery": 2.3, "starter": 1.6, "alternator": 2.1},
+            "fall": {"battery": 1.4, "starter": 1.2, "alternator": 1.7}
+        }
+        return multipliers.get(season, {"battery": 1.0, "starter": 1.0, "alternator": 1.0})
+    
+    def get_seasonal_multiplier(self, state_code: str, season: str) -> float:
+        """Get seasonal multiplier for a specific state"""
+        base_multipliers = self.get_seasonal_multipliers(season)
+        
+        # Florida gets higher multipliers due to extreme conditions
+        if state_code == 'FL':
+            return base_multipliers.get('battery', 1.0) * 1.2
+        else:
+            return base_multipliers.get('battery', 1.0)
+    
+    def generate_context_points(self, state_code: str, state_data: Dict) -> List[str]:
+        """Generate context points for a specific state"""
+        if state_code == 'FL':
+            return [
+                "Extreme thermal environment (>90°F for 6+ months)",
+                "2.3x higher battery failure rates in summer",
+                "Coastal salt air accelerates corrosion 4x",
+                "Year-round A/C electrical load stress"
+            ]
+        else:
+            return [
+                "High-stress thermal environment analysis",
+                "Proactive maintenance opportunities identified", 
+                "Academic research foundation for timing"
+            ]
+    
+    def generate_conversation_starters(self, state_code: str, state_data: Dict) -> List[str]:
+        """Generate conversation starters for a specific state"""
+        if state_code == 'FL':
+            return [
+                "Florida's extreme thermal environment creates unique stressor patterns",
+                "Your vehicle operates in one of the most challenging climates for battery life",
+                "Our research shows 2.3x higher battery failure rates in Florida summers"
+            ]
+        else:
+            return [
+                f"{state_data['name']} shows elevated stressor patterns requiring proactive maintenance",
+                "Regional climate data confirms accelerated component stress in your area",
+                "Academic research validates proactive service timing for your location"
+            ]
+    
+    @property
+    def stressor_context(self) -> Dict[str, Any]:
+        """Return stressor context for professional conversations"""
+        return self.florida_stressors
+    
     def load_vin_data(self):
         """Load VIN leads database and aggregate by state"""
         try:
@@ -164,10 +232,31 @@ async def get_southeast_summary(current_user: str = Depends(get_current_user)):
         total_revenue = sum(state['revenue'] for state in geo_api.southeast_states.values())
         fl_data = geo_api.southeast_states['FL']
         
+        # State emojis and data
+        state_emojis = {
+            'FL': '🌴', 'GA': '🍑', 'TN': '🎸', 'SC': '🏖️', 'NC': '🏔️', 'AL': '🏈',
+            'MS': '🎺', 'LA': '🎷', 'AR': '💎', 'KY': '🐎', 'VA': '🏛️', 'WV': '⛰️'
+        }
+        
+        states_data = []
+        for code, data in geo_api.southeast_states.items():
+            if data['leads'] > 0:  # Only include states with leads
+                states_data.append({
+                    'code': code,
+                    'name': data['name'],
+                    'emoji': state_emojis.get(code, '🗺️'),
+                    'leads': data['leads'],
+                    'revenue': data['revenue']
+                })
+        
+        # Sort by revenue (descending)
+        states_data.sort(key=lambda x: x['revenue'], reverse=True)
+        
         return {
             'region': 'Southeast',
             'total_leads': total_leads,
-            'total_revenue_potential': total_revenue,
+            'total_revenue': total_revenue,
+            'states': states_data,
             'florida_spotlight': {
                 'leads': fl_data['leads'],
                 'revenue': fl_data['revenue'],

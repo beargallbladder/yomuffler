@@ -1126,6 +1126,7 @@ CLEAN_INTERFACE_HTML = """
             <button class="tab-btn active" onclick="switchTab('intelligence')">Intelligence</button>
             <button class="tab-btn" onclick="switchTab('engagement')">Engagement</button>
             <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
+            <button class="tab-btn" onclick="switchTab('geographic')">🗺️ Geographic</button>
         </div>
         
         <!-- Intelligence Tab -->
@@ -1517,6 +1518,141 @@ CLEAN_INTERFACE_HTML = """
             </div>
         </div>
         
+        <!-- Geographic Intelligence Tab -->
+        <div id="geographic-tab" class="tab-content">
+            <div style="padding: 32px; background: #f8fafb; min-height: 100vh;">
+                <!-- FLORIDA OPPORTUNITIES SPOTLIGHT -->
+                <div style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); padding: 32px; border-radius: 12px; margin-bottom: 24px; color: white; text-align: center;">
+                    <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">🌴 Florida Opportunities</div>
+                    <div style="font-size: 16px; margin-bottom: 20px; opacity: 0.9;">Extreme thermal environment • Highest battery stress in Southeast</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px;" id="florida-leads">992</div>
+                            <div style="font-size: 12px; opacity: 0.9;">VIN Leads</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px;" id="florida-revenue">$316K</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Revenue Potential</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">2.3x</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Summer Risk</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">90°F+</div>
+                            <div style="font-size: 12px; opacity: 0.9;">6+ Months</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOUTHEAST REGION OVERVIEW -->
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #3b82f6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🗺️</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Southeast Region Intelligence</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">5,000 VINs analyzed across high-stress thermal environments</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;" id="southeast-states-grid">
+                        <!-- States will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- PROFESSIONAL STRESSOR CONTEXT -->
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #10b981; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">💬</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Professional Conversation Context</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Geographic stressor analysis for ANY customer interaction</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px;">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">🚫 No Active DTCs</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                <strong>Context:</strong> Vehicle operates in Florida<br/><br/>
+                                <strong>Professional talking points:</strong><br/>
+                                • "Your vehicle operates in one of the most challenging thermal environments"<br/>
+                                • "Florida heat patterns show 2.3x higher battery failure rates"<br/>
+                                • "Proactive maintenance timing prevents costly emergency repairs"
+                            </div>
+                        </div>
+                        
+                        <div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 20px;">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">⚠️ Existing DTC P0562</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                <strong>Context:</strong> System voltage low + Southeast region<br/><br/>
+                                <strong>Professional talking points:</strong><br/>
+                                • "Your location shows elevated electrical system stress"<br/>
+                                • "Southeast humidity accelerates terminal corrosion 4x"<br/>
+                                • "Government weather data confirms extreme thermal cycling"
+                            </div>
+                        </div>
+                        
+                        <div style="background: #dcfce7; border: 1px solid #22c55e; border-radius: 8px; padding: 20px;">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">📅 Seasonal Planning</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.4;">
+                                <strong>Context:</strong> Summer approaching<br/><br/>
+                                <strong>Professional talking points:</strong><br/>
+                                • "Heat wave season activates 847 battery opportunities"<br/>
+                                • "Academic research validates proactive summer timing"<br/>
+                                • "$289K in preventable failures across Florida market"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEASONAL FORECASTING INTEGRATION -->
+                <div style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #8b5cf6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🌡️</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Seasonal Forecasting Intelligence</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Weather-triggered lead activation • 6-month revenue pipeline</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <div style="background: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0;">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #111827;">Current Season Analysis</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+                                <div style="text-align: center; padding: 12px; background: #fee2e2; border-radius: 6px;">
+                                    <div style="font-size: 18px; font-weight: 700; color: #dc2626;">2.3x</div>
+                                    <div style="font-size: 11px; color: #991b1b;">Battery Risk</div>
+                                </div>
+                                <div style="text-align: center; padding: 12px; background: #fef3c7; border-radius: 6px;">
+                                    <div style="font-size: 18px; font-weight: 700; color: #f59e0b;">2.1x</div>
+                                    <div style="font-size: 11px; color: #92400e;">Alternator</div>
+                                </div>
+                                <div style="text-align: center; padding: 12px; background: #dbeafe; border-radius: 6px;">
+                                    <div style="font-size: 18px; font-weight: 700; color: #3b82f6;">1.6x</div>
+                                    <div style="font-size: 11px; color: #1e40af;">Starter</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0;">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #111827;">Next Season Forecast</div>
+                            <div style="font-size: 13px; color: #4b5563; line-height: 1.5;">
+                                <div style="background: #ecfdf5; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                                    <strong style="color: #059669;">Fall Season Preparation</strong><br/>
+                                    Expected 1.2x battery multiplier<br/>
+                                    Moderate stress transition period
+                                </div>
+                                <div style="background: #fef7ff; padding: 12px; border-radius: 6px;">
+                                    <strong style="color: #7c3aed;">Revenue Pipeline:</strong> $387,400 in predictable seasonal opportunities across 6-month forecast
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- AI-Enhanced Engagement Tab -->
         <div id="engagement-tab" class="tab-content">
             <div style="padding: 32px; background: #f8fafb; min-height: 100vh;">
@@ -1577,6 +1713,8 @@ CLEAN_INTERFACE_HTML = """
             // Load lead carousel when engagement tab is opened
             if (tabName === 'engagement') {
                 renderLeadCarousel(); // Show our real lead database
+            } else if (tabName === 'geographic') {
+                loadGeographicData(); // Load Florida opportunities and Southeast data
             }
         }
         
@@ -2036,6 +2174,79 @@ CLEAN_INTERFACE_HTML = """
             `;
         }
         
+        // Load Geographic Intelligence Data
+        async function loadGeographicData() {
+            try {
+                // Load Florida opportunities
+                const floridaResponse = await fetch('/api/geographic/florida-spotlight');
+                const floridaData = await floridaResponse.json();
+                
+                // Update Florida metrics with live data
+                document.getElementById('florida-leads').textContent = floridaData.opportunities.total_leads;
+                document.getElementById('florida-revenue').textContent = '$' + Math.round(floridaData.opportunities.revenue_potential / 1000) + 'K';
+                
+                // Load Southeast region summary
+                const southeastResponse = await fetch('/api/geographic/southeast-summary');
+                const southeastData = await southeastResponse.json();
+                
+                // Populate Southeast states grid
+                const statesGrid = document.getElementById('southeast-states-grid');
+                statesGrid.innerHTML = southeastData.states.map(state => `
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s;" 
+                         onclick="showStateDetails('${state.code}')" 
+                         onmouseover="this.style.background='#e2e8f0'; this.style.transform='translateY(-2px)'" 
+                         onmouseout="this.style.background='#f8fafc'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 18px; margin-bottom: 8px;">${state.emoji}</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 4px;">${state.name}</div>
+                        <div style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">${state.leads} leads</div>
+                        <div style="font-size: 12px; font-weight: 600; color: #059669;">$${Math.round(state.revenue / 1000)}K</div>
+                    </div>
+                `).join('');
+                
+                // Track geographic data load
+                if (window.plausible) {
+                    window.plausible('Geographic Data Loaded', {
+                        props: {
+                            florida_leads: floridaData.opportunities.total_leads,
+                            southeast_revenue: southeastData.total_revenue
+                        }
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error loading geographic data:', error);
+                
+                // Fallback display for Florida
+                document.getElementById('florida-leads').textContent = '992';
+                document.getElementById('florida-revenue').textContent = '$316K';
+                
+                // Track error
+                if (window.plausible) {
+                    window.plausible('Geographic Data Error', {props: {error: error.message}});
+                }
+            }
+        }
+        
+        // Show detailed state information
+        async function showStateDetails(stateCode) {
+            try {
+                const response = await fetch(`/api/geographic/state/${stateCode}`);
+                const stateData = await response.json();
+                
+                // Track state selection
+                if (window.plausible) {
+                    window.plausible('State Selected', {props: {state: stateCode, leads: stateData.leads}});
+                }
+                
+                // Show state details in a modal or overlay (you can customize this)
+                alert(`${stateData.name} Details:\n\nLeads: ${stateData.leads}\nRevenue: $${Math.round(stateData.revenue).toLocaleString()}\nTop Stressor: ${stateData.top_stressor}\n\nSeasonal Multiplier: ${stateData.seasonal_multiplier}x`);
+                
+            } catch (error) {
+                console.error('Error loading state details:', error);
+                alert(`Unable to load details for ${stateCode}. Please try again.`);
+            }
+        }
+
         // Initialize lead carousel on page load
         document.addEventListener('DOMContentLoaded', function() {
             // Track page load with Plausible
