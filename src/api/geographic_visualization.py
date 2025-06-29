@@ -508,35 +508,27 @@ def get_map_html():
     <script>
         async function loadMapData() {
             try {
-                // Mock data for demo - replace with actual API calls
-                const mockData = {
-                    florida: {
-                        leads: 847,
-                        revenue: 289420,
-                        multiplier: 2.3
-                    },
-                    states: [
-                        {code: 'FL', name: 'Florida', leads: 847, revenue: 289420, class: 'florida'},
-                        {code: 'GA', name: 'Georgia', leads: 623, revenue: 198750},
-                        {code: 'TN', name: 'Tennessee', leads: 542, revenue: 167340},
-                        {code: 'SC', name: 'South Carolina', leads: 387, revenue: 124890},
-                        {code: 'NC', name: 'North Carolina', leads: 294, revenue: 89420},
-                        {code: 'AL', name: 'Alabama', leads: 278, revenue: 85630}
-                    ]
-                };
+                // Load real data from APIs
+                const [summaryResponse, floridaResponse] = await Promise.all([
+                    fetch('/api/geographic/southeast-summary'),
+                    fetch('/api/geographic/florida-spotlight')
+                ]);
                 
-                // Populate Florida spotlight
+                const summaryData = await summaryResponse.json();
+                const floridaData = await floridaResponse.json();
+                
+                // Populate Florida spotlight with real data
                 document.getElementById('florida-stats').innerHTML = `
                     <div class="spotlight-stat">
-                        <div class="stat-value">${mockData.florida.leads}</div>
+                        <div class="stat-value">${floridaData.opportunities.total_leads}</div>
                         <div class="stat-label">VIN Leads</div>
                     </div>
                     <div class="spotlight-stat">
-                        <div class="stat-value">$${(mockData.florida.revenue/1000).toFixed(0)}K</div>
+                        <div class="stat-value">$${(floridaData.opportunities.revenue_potential/1000).toFixed(0)}K</div>
                         <div class="stat-label">Revenue Potential</div>
                     </div>
                     <div class="spotlight-stat">
-                        <div class="stat-value">${mockData.florida.multiplier}x</div>
+                        <div class="stat-value">${floridaData.opportunities.seasonal_multiplier}x</div>
                         <div class="stat-label">Summer Risk</div>
                     </div>
                     <div class="spotlight-stat">
@@ -545,15 +537,15 @@ def get_map_html():
                     </div>
                 `;
                 
-                // Populate states grid
-                const statesHTML = mockData.states.map(state => `
-                    <div class="state-card ${state.class || ''}" onclick="showStateDetails('${state.code}')">
-                        <div class="state-name">${state.name}</div>
+                // Populate states grid with real data
+                const statesHTML = summaryData.states.map(state => `
+                    <div class="state-card ${state.code === 'FL' ? 'florida' : ''}" onclick="showStateDetails('${state.code}')">
+                        <div class="state-name">${state.emoji} ${state.name}</div>
                         <div class="revenue-amount">$${state.revenue.toLocaleString()} • ${state.leads} leads</div>
                         <ul class="context-points">
-                            <li class="context-point">High-stress thermal environment analysis</li>
-                            <li class="context-point">Proactive maintenance opportunities identified</li>
-                            <li class="context-point">Academic research foundation for timing</li>
+                            <li class="context-point">${state.code === 'FL' ? 'Extreme thermal environment (>90°F for 6+ months)' : 'High-stress thermal environment analysis'}</li>
+                            <li class="context-point">${state.code === 'FL' ? '2.3x higher battery failure rates in summer' : 'Proactive maintenance opportunities identified'}</li>
+                            <li class="context-point">${state.code === 'FL' ? 'Coastal salt air accelerates corrosion 4x' : 'Academic research foundation for timing'}</li>
                         </ul>
                     </div>
                 `).join('');
@@ -562,26 +554,38 @@ def get_map_html():
                 
             } catch (error) {
                 console.error('Error loading map data:', error);
+                // Fallback to show loading error
+                document.getElementById('florida-stats').innerHTML = '<div style="color:red;">Error loading data - check API endpoints</div>';
             }
         }
         
-        function showStateDetails(stateCode) {
-            if (stateCode === 'FL') {
-                alert(`🌴 FLORIDA OPPORTUNITIES
+        async function showStateDetails(stateCode) {
+            try {
+                const response = await fetch(`/api/geographic/state/${stateCode}`);
+                const stateData = await response.json();
                 
-• 847 VIN leads identified
-• $289,420 revenue potential  
-• 2.3x higher battery failure rates in summer
-• Extreme thermal environment (>90°F for 6+ months)
-• Coastal salt air increases corrosion 4x
-• Year-round A/C electrical load stress
+                const contextPoints = stateData.context_points.map(point => `• ${point}`).join('\n');
+                const conversationStarters = stateData.conversation_starters.map(starter => `"${starter}"`).join('\n');
+                
+                alert(`${stateData.state_code === 'FL' ? '🌴' : '🗺️'} ${stateData.state_name.toUpperCase()} OPPORTUNITIES
+                
+• ${stateData.leads} VIN leads identified
+• $${stateData.revenue_potential.toLocaleString()} revenue potential  
+• ${(stateData.seasonal_adjustment * 100).toFixed(0)}% seasonal adjustment
+• Adjusted revenue: $${stateData.adjusted_revenue.toLocaleString()}
+
+STRESSOR CONTEXT:
+${contextPoints}
 
 CONVERSATION STARTERS:
-"Florida's extreme thermal environment creates unique stressor patterns for your vehicle components..."
-"Our research shows 2.3x higher battery failure rates in Florida summers..."
-"Coastal salt air and year-round heat require proactive maintenance timing..."`);
-            } else {
-                alert(`Detailed analysis for ${stateCode} - VIN opportunities, stressor patterns, and professional conversation starters.`);
+${conversationStarters}
+
+ACADEMIC FOUNDATION:
+13-Stressor Framework with Bayesian likelihood ratios from peer-reviewed research`);
+                
+            } catch (error) {
+                console.error('Error loading state details:', error);
+                alert(`Error loading details for ${stateCode} - check API connection`);
             }
         }
         
