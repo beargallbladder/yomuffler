@@ -159,7 +159,7 @@ CLEAN_INTERFACE_HTML = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VIN Stressors - Vehicle Intelligence Platform</title>
+    <title>Ford VIN Intelligence - Professional Vehicle Risk Assessment</title>
     
     <!-- Plausible Analytics - Privacy-focused tracking -->
     <script defer data-domain="{plausible_domain}" src="https://plausible.io/js/script.js"></script>
@@ -171,10 +171,10 @@ CLEAN_INTERFACE_HTML = """
         }
         
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #1d1d1f;
-            line-height: 1.47059;
+            font-family: 'Ford Gothic', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.5;
             margin: 0;
             min-height: 100vh;
         }
@@ -184,11 +184,11 @@ CLEAN_INTERFACE_HTML = """
             width: 100%;
             margin: 0 auto; 
             min-height: 100vh;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
+            background: #ffffff;
             border-radius: 0;
             box-shadow: none;
             padding: 0;
+            border-top: 4px solid #003366;
         }
         
         /* TABLET RESPONSIVE */
@@ -238,10 +238,7 @@ CLEAN_INTERFACE_HTML = """
             font-weight: 700; 
             letter-spacing: -0.022em;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #003366;
         }
         
         .subtitle { 
@@ -266,25 +263,24 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .version-badge {
-            background: rgba(102,126,234,0.1);
-            color: #667eea;
+            background: rgba(0,51,102,0.1);
+            color: #003366;
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 500;
             display: inline-block;
-            border: 1px solid rgba(102,126,234,0.2);
+            border: 1px solid rgba(0,51,102,0.2);
             letter-spacing: -0.01em;
         }
         
         .tab-nav { 
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(20px);
+            background: #f8f9fa;
             display: flex; 
             margin: 0 16px 16px;
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 4px;
-            border: 1px solid rgba(0,0,0,0.04);
+            border: 1px solid #e5e7eb;
         }
         
         .tab-btn { 
@@ -320,8 +316,8 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .tab-btn.active { 
-            color: #1d1d1f;
-            background: rgba(255,255,255,0.9);
+            color: #ffffff;
+            background: #003366;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
             transform: scale(1.02);
         }
@@ -342,16 +338,15 @@ CLEAN_INTERFACE_HTML = """
             }
         }
         
-        /* Premium Apple-Style Cards */
+        /* Professional Ford-Style Cards */
         .card { 
-            background: rgba(255,255,255,0.9); 
-            backdrop-filter: blur(20px);
-            border-radius: 12px; 
+            background: #ffffff; 
+            border-radius: 8px; 
             padding: 20px 16px;
             margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            transition: all 0.2s ease;
         }
         
         /* TABLET CARDS */
@@ -421,9 +416,9 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .learning-card:hover {
-            border-color: rgba(102,126,234,0.4);
+            border-color: rgba(0,51,102,0.4);
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(102,126,234,0.12), 0 4px 12px rgba(102,126,234,0.08);
+            box-shadow: 0 8px 25px rgba(0,51,102,0.12), 0 4px 12px rgba(0,51,102,0.08);
         }
         
         .card-inner { 
@@ -474,15 +469,14 @@ CLEAN_INTERFACE_HTML = """
             position: absolute;
             top: 16px; 
             right: 16px;
-            background: rgba(102,126,234,0.15);
-            color: #667eea; 
+            background: rgba(0,51,102,0.1);
+            color: #003366; 
             padding: 6px 10px;
             border-radius: 20px; 
             font-size: 11px;
             font-weight: 500;
             letter-spacing: 0.02em;
-            border: 1px solid rgba(102,126,234,0.2);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,51,102,0.2);
         }
         
         .card-title { 
@@ -532,11 +526,11 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .math-formula { 
-            background: #edf2f7;
+            background: #f8f9fa;
             padding: 12px;
             border-radius: 6px;
             margin: 8px 0;
-            border-left: 3px solid #667eea;
+            border-left: 3px solid #003366;
             font-weight: 500;
         }
         
@@ -565,17 +559,17 @@ CLEAN_INTERFACE_HTML = """
         
         input[type="text"]:focus { 
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            border-color: #003366;
+            box-shadow: 0 0 0 3px rgba(0,51,102,0.1);
         }
         
         .btn { 
             width: 100%;
             padding: 16px;
-            background: #667eea;
+            background: #003366;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
@@ -598,7 +592,7 @@ CLEAN_INTERFACE_HTML = """
         }
         
         .btn:hover { 
-            background: #5a6fd8;
+            background: #002a52;
         }
         
         /* Desktop Layout for Engagement Tab */
@@ -1117,9 +1111,9 @@ CLEAN_INTERFACE_HTML = """
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">VIN Stressors</div>
-            <div class="subtitle">AI-Powered Vehicle Intelligence Platform</div>
-            <div class="version-badge">Currently Testing: ABTest2 - Conversion Optimized</div>
+            <div class="logo">🔵 Ford VIN Intelligence</div>
+            <div class="subtitle">Professional Vehicle Risk Assessment Platform</div>
+            <div class="version-badge">v2.1 Ford Professional</div>
         </div>
         
         <div class="tab-nav">
