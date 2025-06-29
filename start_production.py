@@ -163,6 +163,9 @@ CLEAN_INTERFACE_HTML = """
     
     <!-- Plausible Analytics - Privacy-focused tracking -->
     <script defer data-domain="{plausible_domain}" src="https://plausible.io/js/script.js"></script>
+    
+    <!-- Google Maps API for Geographic Visualization -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dOWTgkR8OV2B8g&callback=initGoogleMap"></script>
     <style>
         * { 
             margin: 0; 
@@ -1539,13 +1542,47 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                 </div>
 
-                <!-- SOUTHEAST REGION OVERVIEW -->
+                <!-- INTERACTIVE GOOGLE MAPS VISUALIZATION -->
                 <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-                        <div style="background: #3b82f6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🗺️</div>
+                        <div style="background: #003366; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">🗺️</div>
                         <div>
-                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Southeast Region Intelligence</h3>
-                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">5,000 VINs analyzed across high-stress thermal environments</div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">Live Geographic Distribution</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">5,000 VINs mapped across Southeast • Click states for detailed analysis</div>
+                        </div>
+                    </div>
+                    
+                    <!-- GOOGLE MAPS CONTAINER -->
+                    <div style="height: 500px; border-radius: 8px; border: 2px solid #e5e7eb; overflow: hidden; margin-bottom: 20px;" id="google-map">
+                        <div style="height: 100%; display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #6b7280;">
+                            🗺️ Loading Interactive Map...
+                        </div>
+                    </div>
+                    
+                    <!-- MAP LEGEND -->
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 24px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 16px; height: 16px; background: #dc2626; border-radius: 50%;"></div>
+                            <span style="font-size: 12px; color: #4b5563;">High Density (700+ VINs)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 16px; height: 16px; background: #f59e0b; border-radius: 50%;"></div>
+                            <span style="font-size: 12px; color: #4b5563;">Medium Density (300-699 VINs)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 16px; height: 16px; background: #10b981; border-radius: 50%;"></div>
+                            <span style="font-size: 12px; color: #4b5563;">Low Density (<300 VINs)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOUTHEAST STATES GRID -->
+                <div style="background: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="background: #3b82f6; padding: 12px; border-radius: 8px; color: white; font-size: 20px;">📊</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin: 0; color: #111827;">State-by-State Breakdown</h3>
+                            <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">Detailed VIN distribution and revenue analysis</div>
                         </div>
                     </div>
                     
@@ -2168,6 +2205,120 @@ CLEAN_INTERFACE_HTML = """
             `;
         }
         
+        // Global variables for Google Maps
+        let googleMap = null;
+        let southeastStatesData = null;
+
+        // Initialize Google Map (callback from API)
+        window.initGoogleMap = function() {
+            const mapOptions = {
+                zoom: 6,
+                center: { lat: 33.5, lng: -84.0 }, // Center on Southeast US
+                styles: [
+                    {
+                        "featureType": "all",
+                        "elementType": "geometry.fill",
+                        "stylers": [{"color": "#f8f9fa"}]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [{"color": "#cfe2f3"}]
+                    },
+                    {
+                        "featureType": "administrative",
+                        "elementType": "labels.text.fill",
+                        "stylers": [{"color": "#003366"}]
+                    }
+                ],
+                disableDefaultUI: false,
+                zoomControl: true,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: true
+            };
+            
+            googleMap = new google.maps.Map(document.getElementById('google-map'), mapOptions);
+            console.log('🗺️ Google Map initialized');
+            
+            // Load data if available
+            if (southeastStatesData) {
+                addStateMarkersToMap(southeastStatesData);
+            }
+        };
+
+        // Add markers for each state with VIN data
+        function addStateMarkersToMap(statesData) {
+            if (!googleMap || !statesData.states) return;
+            
+            // State coordinates
+            const stateCoords = {
+                'FL': { lat: 27.7663, lng: -81.6868 },
+                'GA': { lat: 33.0406, lng: -83.6431 },
+                'TN': { lat: 35.7478, lng: -86.7923 },
+                'SC': { lat: 33.8569, lng: -80.9450 },
+                'NC': { lat: 35.6301, lng: -79.8064 },
+                'AL': { lat: 32.3617, lng: -86.7916 },
+                'MS': { lat: 32.7764, lng: -89.6678 },
+                'LA': { lat: 31.1695, lng: -91.8678 },
+                'AR': { lat: 34.9697, lng: -92.3731 },
+                'KY': { lat: 37.6681, lng: -84.6701 },
+                'VA': { lat: 37.7693, lng: -78.1700 },
+                'WV': { lat: 38.4912, lng: -80.9540 }
+            };
+            
+            statesData.states.forEach(state => {
+                const coords = stateCoords[state.code];
+                if (!coords) return;
+                
+                // Color by lead density
+                let markerColor = '#10b981'; // Low density (green)
+                if (state.leads >= 700) markerColor = '#dc2626'; // High density (red)
+                else if (state.leads >= 300) markerColor = '#f59e0b'; // Medium density (orange)
+                
+                // Create marker
+                const marker = new google.maps.Marker({
+                    position: coords,
+                    map: googleMap,
+                    title: `${state.name}: ${state.leads} VINs`,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: Math.max(8, Math.min(25, state.leads / 50)), // Size based on lead count
+                        fillColor: markerColor,
+                        fillOpacity: 0.8,
+                        strokeColor: '#ffffff',
+                        strokeWeight: 2
+                    }
+                });
+                
+                // Info window with state details
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `
+                        <div style="padding: 12px; max-width: 250px;">
+                            <div style="font-size: 16px; font-weight: 600; color: #003366; margin-bottom: 8px;">
+                                ${state.emoji} ${state.name}
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <strong>VIN Leads:</strong> ${state.leads.toLocaleString()}<br/>
+                                <strong>Revenue Potential:</strong> $${Math.round(state.revenue / 1000)}K<br/>
+                                <strong>Avg per Lead:</strong> $${Math.round(state.revenue / state.leads)}
+                            </div>
+                            <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; font-size: 12px; color: #4b5563;">
+                                High-stress thermal environment analysis
+                            </div>
+                        </div>
+                    `
+                });
+                
+                // Show info window on click
+                marker.addListener('click', () => {
+                    infoWindow.open(googleMap, marker);
+                });
+            });
+            
+            console.log(`🗺️ Added ${statesData.states.length} state markers to map`);
+        }
+
         // Load Geographic Intelligence Data
         async function loadGeographicData() {
             try {
@@ -2181,11 +2332,11 @@ CLEAN_INTERFACE_HTML = """
                 
                 // Load Southeast region summary
                 const southeastResponse = await fetch('/api/geographic/southeast-summary');
-                const southeastData = await southeastResponse.json();
+                southeastStatesData = await southeastResponse.json();
                 
                 // Populate Southeast states grid
                 const statesGrid = document.getElementById('southeast-states-grid');
-                statesGrid.innerHTML = southeastData.states.map(state => `
+                statesGrid.innerHTML = southeastStatesData.states.map(state => `
                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s;" 
                          onclick="showStateDetails('${state.code}')" 
                          onmouseover="this.style.background='#e2e8f0'; this.style.transform='translateY(-2px)'" 
@@ -2197,12 +2348,17 @@ CLEAN_INTERFACE_HTML = """
                     </div>
                 `).join('');
                 
+                // Add markers to map if Google Maps is ready
+                if (googleMap) {
+                    addStateMarkersToMap(southeastStatesData);
+                }
+                
                 // Track geographic data load
                 if (window.plausible) {
                     window.plausible('Geographic Data Loaded', {
                         props: {
                             florida_leads: floridaData.opportunities.total_leads,
-                            southeast_revenue: southeastData.total_revenue
+                            southeast_revenue: southeastStatesData.total_revenue
                         }
                     });
                 }
