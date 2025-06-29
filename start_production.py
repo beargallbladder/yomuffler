@@ -2,6 +2,7 @@
 """
 VIN Stressors - Universal Vehicle Intelligence Platform
 Clean, professional interface with AI-powered personalized messaging  
+Geographic visualization with Florida opportunities - v2.2
 """
 
 import os
