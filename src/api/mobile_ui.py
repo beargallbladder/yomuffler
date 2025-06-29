@@ -658,61 +658,61 @@ MOBILE_HTML_TEMPLATE = """
         
         <!-- Risk Score Tab -->
         <div id="risk-tab" class="tab-content">
-            <div class="card">
-                <form id="riskForm">
-                    <div class="form-group">
-                        <label for="vin">Vehicle Identification Number (VIN)</label>
-                        <input type="text" id="vin" name="vin" placeholder="Enter 17-character VIN" maxlength="17" required>
-                    </div>
-                    
-                    <button type="submit" class="btn" id="submitBtn">
-                        Get Risk Score
-                    </button>
-                </form>
-                
-                <div class="demo-vins">
-                    <div class="demo-vin" onclick="setDemoVin('1FORD00000000001')">Demo VIN 1</div>
-                    <div class="demo-vin" onclick="setDemoVin('1FORD00000000002')">Demo VIN 2</div>
-                    <div class="demo-vin" onclick="setDemoVin('1FORD00000000003')">Demo VIN 3</div>
-                    <div class="demo-vin" onclick="setDemoVin('1FORD00000000004')">Demo VIN 4</div>
+        <div class="card">
+            <form id="riskForm">
+                <div class="form-group">
+                    <label for="vin">Vehicle Identification Number (VIN)</label>
+                    <input type="text" id="vin" name="vin" placeholder="Enter 17-character VIN" maxlength="17" required>
                 </div>
+                
+                <button type="submit" class="btn" id="submitBtn">
+                    Get Risk Score
+                </button>
+            </form>
+            
+            <div class="demo-vins">
+                <div class="demo-vin" onclick="setDemoVin('1FORD00000000001')">Demo VIN 1</div>
+                <div class="demo-vin" onclick="setDemoVin('1FORD00000000002')">Demo VIN 2</div>
+                <div class="demo-vin" onclick="setDemoVin('1FORD00000000003')">Demo VIN 3</div>
+                <div class="demo-vin" onclick="setDemoVin('1FORD00000000004')">Demo VIN 4</div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Calculating risk score...</div>
+        </div>
+        
+        <div class="error" id="error"></div>
+        
+        <div class="card result-card" id="result">
+            <div class="risk-score" id="riskScore">0.000</div>
+            <div class="severity-badge" id="severityBadge">Unknown</div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Confidence</span>
+                <span class="detail-value" id="confidence">-</span>
             </div>
             
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <div>Calculating risk score...</div>
+            <div class="detail-row">
+                <span class="detail-label">Vehicle Cohort</span>
+                <span class="detail-value" id="cohort">-</span>
             </div>
             
-            <div class="error" id="error"></div>
+            <div class="detail-row">
+                <span class="detail-label">Dominant Stressors</span>
+                <span class="detail-value" id="stressors">-</span>
+            </div>
             
-            <div class="card result-card" id="result">
-                <div class="risk-score" id="riskScore">0.000</div>
-                <div class="severity-badge" id="severityBadge">Unknown</div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Confidence</span>
-                    <span class="detail-value" id="confidence">-</span>
-                </div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Vehicle Cohort</span>
-                    <span class="detail-value" id="cohort">-</span>
-                </div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Dominant Stressors</span>
-                    <span class="detail-value" id="stressors">-</span>
-                </div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Recommended Action</span>
-                    <span class="detail-value" id="action">-</span>
-                </div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Revenue Opportunity</span>
-                    <span class="detail-value" id="revenue">-</span>
-                </div>
+            <div class="detail-row">
+                <span class="detail-label">Recommended Action</span>
+                <span class="detail-value" id="action">-</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Revenue Opportunity</span>
+                <span class="detail-value" id="revenue">-</span>
+            </div>
                 
                 <div class="detail-row">
                     <span class="detail-label">vs Cohort Average</span>
@@ -723,10 +723,10 @@ MOBILE_HTML_TEMPLATE = """
                     <span class="detail-label">Academic Sources</span>
                     <span class="detail-value" id="academicSources">-</span>
                 </div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Response Time</span>
-                    <span class="detail-value" id="responseTime">-</span>
+            
+            <div class="detail-row">
+                <span class="detail-label">Response Time</span>
+                <span class="detail-value" id="responseTime">-</span>
                 </div>
             </div>
         </div>

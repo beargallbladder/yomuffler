@@ -10,6 +10,6 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: ENVIRONMENT
-        value: production
+        value: production 
       - key: HOST
         value: 0.0.0.0 

@@ -21,6 +21,7 @@ from src.services.cohort_service import CohortService
 from src.services.integration_manager import integration_manager
 from src.api.desktop_optimized_ui import add_desktop_routes
 from src.api.mobile_ui import add_mobile_routes
+from .seasonal_endpoint import seasonal_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -745,6 +746,9 @@ def get_basic_html() -> str:
 # Add responsive UI routes
 add_mobile_routes(app)     # Mobile-first responsive UI
 add_desktop_routes(app)    # Desktop-optimized layouts
+
+# Add after app creation and before other route includes
+app.include_router(seasonal_router)
 
 if __name__ == "__main__":
     import uvicorn
