@@ -11,10 +11,14 @@ import json
 import logging
 import hashlib
 import time
+import secrets
+import jwt
 from typing import Dict, List, Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 import sqlite3
 from contextlib import contextmanager
+from functools import wraps
+import ipaddress
 
 # Add current directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +34,256 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
+
+# Security Configuration
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", secrets.token_urlsafe(32))
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRATION_HOURS = 8
+MAX_LOGIN_ATTEMPTS = 5
+LOCKOUT_DURATION_MINUTES = 30
+
+# IP Whitelist for production (empty means allow all)
+ALLOWED_IPS = os.getenv("ALLOWED_IPS", "").split(",") if os.getenv("ALLOWED_IPS") else []
+
+class SecurityManager:
+    """Enterprise security management"""
+    
+    def __init__(self, db_manager):
+        self.db = db_manager
+        self.failed_attempts = {}
+        self.rate_limits = {}
+        self.init_security_tables()
+    
+    def init_security_tables(self):
+        """Initialize security-related database tables"""
+        with self.db.get_connection() as conn:
+            # User management table
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT UNIQUE NOT NULL,
+                    password_hash TEXT NOT NULL,
+                    role TEXT NOT NULL DEFAULT 'viewer',
+                    is_active BOOLEAN DEFAULT TRUE,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    last_login TIMESTAMP,
+                    failed_attempts INTEGER DEFAULT 0,
+                    locked_until TIMESTAMP
+                )
+            """)
+            
+            # Session management
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS sessions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER,
+                    token_hash TEXT UNIQUE,
+                    ip_address TEXT,
+                    user_agent TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    expires_at TIMESTAMP,
+                    is_active BOOLEAN DEFAULT TRUE,
+                    FOREIGN KEY (user_id) REFERENCES users (id)
+                )
+            """)
+            
+            # Security events log
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS security_events (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    event_type TEXT NOT NULL,
+                    username TEXT,
+                    ip_address TEXT,
+                    user_agent TEXT,
+                    details TEXT,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            
+            conn.commit()
+            
+        # Create default admin user if not exists
+        self.create_default_users()
+    
+    def create_default_users(self):
+        """Create default users with secure passwords"""
+        default_users = [
+            {
+                "username": "ford_admin",
+                "password": os.getenv("ADMIN_PASSWORD", "Ford2024!SecureAdmin"),
+                "role": "admin"
+            },
+            {
+                "username": "dealer",
+                "password": os.getenv("DEALER_PASSWORD", "Dealer2024!Secure"),
+                "role": "dealer"
+            },
+            {
+                "username": "demo_user", 
+                "password": os.getenv("DEMO_PASSWORD", "Demo2024!ReadOnly"),
+                "role": "viewer"
+            }
+        ]
+        
+        with self.db.get_connection() as conn:
+            for user in default_users:
+                # Check if user exists
+                existing = conn.execute(
+                    "SELECT id FROM users WHERE username = ?", 
+                    (user["username"],)
+                ).fetchone()
+                
+                if not existing:
+                    password_hash = self.hash_password(user["password"])
+                    conn.execute(
+                        "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
+                        (user["username"], password_hash, user["role"])
+                    )
+                    logger.info(f"✅ Created default user: {user['username']} ({user['role']})")
+            
+            conn.commit()
+    
+    def hash_password(self, password: str) -> str:
+        """Secure password hashing with salt"""
+        salt = secrets.token_hex(32)
+        password_hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
+        return f"{salt}:{password_hash.hex()}"
+    
+    def verify_password(self, password: str, password_hash: str) -> bool:
+        """Verify password against hash"""
+        try:
+            salt, hash_hex = password_hash.split(':')
+            password_hash_check = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
+            return secrets.compare_digest(password_hash_check.hex(), hash_hex)
+        except ValueError:
+            return False
+    
+    def check_ip_whitelist(self, ip_address: str) -> bool:
+        """Check if IP is whitelisted (if whitelist is configured)"""
+        if not ALLOWED_IPS or ALLOWED_IPS == ['']:
+            return True  # No whitelist configured, allow all
+        
+        try:
+            client_ip = ipaddress.ip_address(ip_address)
+            for allowed_ip in ALLOWED_IPS:
+                if '/' in allowed_ip:  # CIDR notation
+                    if client_ip in ipaddress.ip_network(allowed_ip.strip()):
+                        return True
+                else:  # Single IP
+                    if client_ip == ipaddress.ip_address(allowed_ip.strip()):
+                        return True
+            return False
+        except ValueError:
+            logger.warning(f"Invalid IP address: {ip_address}")
+            return False
+    
+    def check_rate_limit(self, ip_address: str, endpoint: str = "default") -> bool:
+        """Rate limiting check"""
+        now = time.time()
+        key = f"{ip_address}:{endpoint}"
+        
+        if key not in self.rate_limits:
+            self.rate_limits[key] = []
+        
+        # Remove old requests (older than 1 minute)
+        self.rate_limits[key] = [req_time for req_time in self.rate_limits[key] if now - req_time < 60]
+        
+        # Check if under rate limit (60 requests per minute)
+        if len(self.rate_limits[key]) >= 60:
+            return False
+        
+        # Add current request
+        self.rate_limits[key].append(now)
+        return True
+    
+    def authenticate_user(self, username: str, password: str, ip_address: str) -> Optional[Dict]:
+        """Comprehensive user authentication"""
+        with self.db.get_connection() as conn:
+            # Get user data
+            user = conn.execute(
+                "SELECT id, username, password_hash, role, is_active, failed_attempts, locked_until FROM users WHERE username = ?",
+                (username,)
+            ).fetchone()
+            
+            if not user:
+                self.log_security_event("LOGIN_FAILED", username, ip_address, "User not found")
+                return None
+            
+            # Check if account is locked
+            if user['locked_until'] and datetime.fromisoformat(user['locked_until']) > datetime.now():
+                self.log_security_event("LOGIN_BLOCKED", username, ip_address, "Account locked")
+                return None
+            
+            # Check if account is active
+            if not user['is_active']:
+                self.log_security_event("LOGIN_BLOCKED", username, ip_address, "Account disabled")
+                return None
+            
+            # Verify password
+            if not self.verify_password(password, user['password_hash']):
+                # Increment failed attempts
+                failed_attempts = user['failed_attempts'] + 1
+                locked_until = None
+                
+                if failed_attempts >= MAX_LOGIN_ATTEMPTS:
+                    locked_until = datetime.now() + timedelta(minutes=LOCKOUT_DURATION_MINUTES)
+                    self.log_security_event("ACCOUNT_LOCKED", username, ip_address, f"Too many failed attempts")
+                
+                conn.execute(
+                    "UPDATE users SET failed_attempts = ?, locked_until = ? WHERE id = ?",
+                    (failed_attempts, locked_until.isoformat() if locked_until else None, user['id'])
+                )
+                conn.commit()
+                
+                self.log_security_event("LOGIN_FAILED", username, ip_address, "Invalid password")
+                return None
+            
+            # Reset failed attempts on successful login
+            conn.execute(
+                "UPDATE users SET failed_attempts = 0, locked_until = NULL, last_login = ? WHERE id = ?",
+                (datetime.now().isoformat(), user['id'])
+            )
+            conn.commit()
+            
+            self.log_security_event("LOGIN_SUCCESS", username, ip_address, "Successful authentication")
+            
+            return {
+                "id": user['id'],
+                "username": user['username'],
+                "role": user['role']
+            }
+    
+    def create_jwt_token(self, user_data: Dict) -> str:
+        """Create JWT token for authenticated user"""
+        payload = {
+            "user_id": user_data["id"],
+            "username": user_data["username"],
+            "role": user_data["role"],
+            "exp": datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS),
+            "iat": datetime.utcnow()
+        }
+        return jwt.encode(payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    
+    def verify_jwt_token(self, token: str) -> Optional[Dict]:
+        """Verify and decode JWT token"""
+        try:
+            payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+            return payload
+        except jwt.ExpiredSignatureError:
+            return None
+        except jwt.InvalidTokenError:
+            return None
+    
+    def log_security_event(self, event_type: str, username: str, ip_address: str, details: str, user_agent: str = ""):
+        """Log security events"""
+        with self.db.get_connection() as conn:
+            conn.execute(
+                "INSERT INTO security_events (event_type, username, ip_address, user_agent, details) VALUES (?, ?, ?, ?, ?)",
+                (event_type, username, ip_address, user_agent, details)
+            )
+            conn.commit()
+        
+        logger.info(f"🔒 Security Event: {event_type} - {username} from {ip_address} - {details}")
 
 class DatabaseManager:
     """Enterprise database management for VIN analysis data"""
@@ -1396,41 +1650,125 @@ Florida salt corrosion threshold ≠ Montana salt corrosion threshold.
 """
 
 def main():
-    """Main FastAPI application"""
-    from fastapi import FastAPI, HTTPException, Depends
-    from fastapi.responses import HTMLResponse
-    from fastapi.security import HTTPBasic, HTTPBasicCredentials
-    import secrets
+    """Main FastAPI application with enterprise security"""
+    from fastapi import FastAPI, HTTPException, Depends, Request, Header
+    from fastapi.responses import HTMLResponse, JSONResponse
+    from fastapi.security import HTTPBasic, HTTPBasicCredentials, HTTPBearer
     import uvicorn
     
-    app = FastAPI(title="Ford VIN Intelligence Platform v3.0")
+    app = FastAPI(title="Ford VIN Intelligence Platform v3.0 - Enterprise Secured")
     security = HTTPBasic()
+    bearer_security = HTTPBearer(auto_error=False)
     
-    # Initialize platform
+    # Initialize platform with security
     platform = VINIntelligencePlatform()
+    security_manager = SecurityManager(platform.db)
     
-    def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
-        """Enterprise authentication with audit logging"""
-        # Hash password for comparison (in production, use proper password hashing)
-        username = credentials.username
-        password = credentials.password
+    def get_client_ip(request: Request) -> str:
+        """Get client IP address"""
+        # Check for forwarded headers (for reverse proxy setups)
+        forwarded_for = request.headers.get("X-Forwarded-For")
+        if forwarded_for:
+            return forwarded_for.split(",")[0].strip()
         
-        # Demo credentials - in production, use database lookup with hashed passwords
-        valid_users = {
-            "dealer": "stressors2024",
-            "ford_admin": "ford2024secure",
-            "demo_user": "demo2024"
+        real_ip = request.headers.get("X-Real-IP")
+        if real_ip:
+            return real_ip
+        
+        return request.client.host
+    
+    def security_middleware(request: Request):
+        """Security middleware for all requests"""
+        client_ip = get_client_ip(request)
+        
+        # IP Whitelist check
+        if not security_manager.check_ip_whitelist(client_ip):
+            security_manager.log_security_event("IP_BLOCKED", "", client_ip, "IP not in whitelist")
+            raise HTTPException(status_code=403, detail="Access denied from this IP address")
+        
+        # Rate limiting check
+        if not security_manager.check_rate_limit(client_ip, str(request.url.path)):
+            security_manager.log_security_event("RATE_LIMITED", "", client_ip, f"Rate limit exceeded for {request.url.path}")
+            raise HTTPException(status_code=429, detail="Rate limit exceeded")
+        
+        return client_ip
+    
+    def authenticate_basic(credentials: HTTPBasicCredentials = Depends(security), request: Request = None):
+        """Basic authentication for initial login"""
+        client_ip = security_middleware(request)
+        
+        user_data = security_manager.authenticate_user(
+            credentials.username, 
+            credentials.password, 
+            client_ip
+        )
+        
+        if not user_data:
+            raise HTTPException(
+                status_code=401, 
+                detail="Invalid credentials or account locked",
+                headers={"WWW-Authenticate": "Basic"}
+            )
+        
+        # Log access
+        platform.db.log_access(user_data["username"], str(request.url.path), client_ip)
+        
+        return user_data
+    
+    def authenticate_jwt(request: Request, authorization: str = Header(None)):
+        """JWT token authentication for API access"""
+        client_ip = security_middleware(request)
+        
+        # Try to get token from Authorization header
+        token = None
+        if authorization and authorization.startswith("Bearer "):
+            token = authorization.split(" ")[1]
+        
+        if not token:
+            raise HTTPException(status_code=401, detail="Missing authentication token")
+        
+        user_data = security_manager.verify_jwt_token(token)
+        if not user_data:
+            security_manager.log_security_event("TOKEN_INVALID", "", client_ip, "Invalid or expired JWT token")
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+        
+        # Log access
+        platform.db.log_access(user_data["username"], str(request.url.path), client_ip)
+        
+        return user_data
+    
+    def require_role(required_role: str):
+        """Role-based access control decorator"""
+        def role_checker(user_data: dict = Depends(authenticate_jwt)):
+            user_role = user_data.get("role", "viewer")
+            
+            # Role hierarchy: admin > dealer > viewer
+            role_hierarchy = {"admin": 3, "dealer": 2, "viewer": 1}
+            
+            if role_hierarchy.get(user_role, 0) < role_hierarchy.get(required_role, 0):
+                raise HTTPException(status_code=403, detail="Insufficient permissions")
+            
+            return user_data
+        return role_checker
+    
+    @app.post("/auth/login")
+    async def login(request: Request, credentials: dict = Depends(authenticate_basic)):
+        """Login endpoint that returns JWT token"""
+        # Create JWT token
+        token = security_manager.create_jwt_token(credentials)
+        
+        return {
+            "access_token": token,
+            "token_type": "bearer",
+            "expires_in": JWT_EXPIRATION_HOURS * 3600,
+            "user": {
+                "username": credentials["username"],
+                "role": credentials["role"]
+            }
         }
-        
-        if username not in valid_users or not secrets.compare_digest(password, valid_users[username]):
-            logger.warning(f"❌ Failed authentication attempt for user: {username}")
-            raise HTTPException(status_code=401, detail="Unauthorized")
-        
-        logger.info(f"✅ Successful authentication for user: {username}")
-        return username
     
     @app.get("/", response_class=HTMLResponse)
-    async def root(username: str = Depends(authenticate)):
+    async def root(request: Request, user_data: dict = Depends(authenticate_basic)):
         """Main Ford VIN Intelligence interface"""
         plausible_domain = os.getenv("PLAUSIBLE_DOMAIN", "datasetsrus.com")
         platform_data_json = json.dumps(platform.platform_data)
@@ -1442,17 +1780,17 @@ def main():
     
     @app.get("/health")
     async def health():
-        """Health check endpoint"""
+        """Public health check endpoint"""
         return {
             "status": "healthy",
             "platform": "Ford VIN Intelligence v3.0",
-            "total_vins": platform.platform_data["total_vins"],
-            "regions": len(platform.platform_data["regional_data"])
+            "security": "enterprise",
+            "timestamp": datetime.now().isoformat()
         }
     
     @app.get("/api/stressors/configuration")
-    async def get_stressor_config(username: str = Depends(authenticate)):
-        """Get current stressor configuration"""
+    async def get_stressor_config(user_data: dict = Depends(require_role("dealer"))):
+        """Get current stressor configuration - requires dealer role"""
         return {
             "electrical": {
                 "enabled": True,
@@ -1490,7 +1828,7 @@ def main():
         }
     
     @app.get("/api/geographic/map-data")
-    async def get_map_data(username: str = Depends(authenticate)):
+    async def get_map_data(user_data: dict = Depends(require_role("viewer"))):
         """Get geographic stressor intensity data for map visualization"""
         return {
             "regions": [
@@ -1547,9 +1885,30 @@ def main():
             ]
         }
     
-    logger.info("🚀 Ford VIN Intelligence Platform v3.0 - Clean Interface Ready")
+    @app.get("/api/security/events")
+    async def get_security_events(user_data: dict = Depends(require_role("admin"))):
+        """Get security events - admin only"""
+        with platform.db.get_connection() as conn:
+            events = conn.execute(
+                "SELECT * FROM security_events ORDER BY timestamp DESC LIMIT 100"
+            ).fetchall()
+            
+            return [dict(event) for event in events]
+    
+    @app.get("/api/users")
+    async def get_users(user_data: dict = Depends(require_role("admin"))):
+        """Get user list - admin only"""
+        with platform.db.get_connection() as conn:
+            users = conn.execute(
+                "SELECT id, username, role, is_active, created_at, last_login, failed_attempts FROM users"
+            ).fetchall()
+            
+            return [dict(user) for user in users]
+    
+    logger.info("🔒 Ford VIN Intelligence Platform v3.0 - Enterprise Security Enabled")
     logger.info(f"📊 {platform.platform_data['total_vins']:,} VINs analyzed")
     logger.info(f"💰 ${platform.platform_data['total_revenue']:,} revenue opportunity")
+    logger.info("🛡️ Security Features: JWT tokens, rate limiting, IP whitelisting, audit logging")
     
     # Return the app for uvicorn
     return app

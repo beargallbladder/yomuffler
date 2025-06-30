@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "total_vehicles_analyzed": 5000,
+    "cohorts_created": 14,
+    "true_severe_outliers": 128,
+    "attention_worthy_vehicles": 708,
+    "unexpected_pattern_vehicles": 1940,
+    "severe_outlier_percentage": 2.6,
+    "actionable_percentage": 16.7,
+    "processing_timestamp": "2025-06-29T16:09:08.794251",
+    "analysis_method": "Cohort-Relative Statistical Outlier Detection"
+  },
+  "cohort_statistics": {
+    "geo_XX_unknown": {
+      "cohort_size": 5000,
+      "risk_score_stats": {
+        "mean": 0.5304902196817182,
+        "median": 0.5959795033504138,
+        "std": 0.2901587203782052,
+        "percentiles": {
+          "75th": 0.7928163518861231,
+          "85th": 0.8869756220200158,
+          "95th": 0.95
+        }
+      },
+      "stressor_count_stats": {
+        "mean": 1.9402,
+        "median": 2.0,
+        "max": 

@@ -1,0 +1,116 @@
+{
+  "Regional Analysis Loaded": {
+    "props": [
+      "region",
+      "vin_count",
+      "avg_revenue",
+      "capacity_status"
+    ],
+    "description": "User views regional performance analysis"
+  },
+  "Lead Volume Optimization": {
+    "props": [
+      "region",
+      "current_utilization",
+      "optimization_type",
+      "expected_reduction"
+    ],
+    "description": "User interacts with lead volume optimization tools"
+  },
+  "DTC Integration Analysis": {
+    "props": [
+      "integration_rate",
+      "bundling_opportunities",
+      "revenue_increase"
+    ],
+    "description": "User analyzes DTC integration opportunities"
+  },
+  "Customer Engagement Demo": {
+    "props": [
+      "scenario_type",
+      "messaging_strategy",
+      "revenue_opportunity"
+    ],
+    "description": "User explores customer engagement scenarios"
+  },
+  "Regional Strategy Optimization": {
+    "props": [
+      "best_region",
+      "worst_region",
+      "performance_gap",
+      "optimization_recommendation"
+    ],
+    "description": "User views regional strategy recommendations"
+  },
+  "Scaling Insights Analysis": {
+    "props": [
+      "total_vins",
+      "total_revenue",
+      "avg_per_vehicle",
+      "scaling_factor"
+    ],
+    "description": "User examines 100k vehicle scaling insights"
+  },
+  "Revenue Opportunity Drill Down": {
+    "props": [
+      "vehicle_model",
+      "region",
+      "risk_score",
+      "bundling_type",
+      "total_revenue"
+    ],
+    "description": "User drills down into specific revenue opportunities"
+  },
+  "Cohort Performance Analysis": {
+    "props": [
+      "cohort_type",
+      "outlier_percentage",
+      "avg_risk",
+      "actionable_leads"
+    ],
+    "description": "User analyzes cohort-relative performance"
+  },
+  "Geographic Distribution Analysis": {
+    "props": [
+      "region_count",
+      "highest_performing_region",
+      "geographic_strategy"
+    ],
+    "description": "User explores geographic distribution patterns"
+  },
+  "Capacity Management Planning": {
+    "props": [
+      "over_capacity_regions",
+      "under_capacity_regions",
+      "investment_needed"
+    ],
+    "description": "User plans capacity management strategies"
+  },
+  "Stressor Framework Analysis": {
+    "props": [
+      "stressor_count",
+      "framework_type",
+      "risk_distribution",
+      "academic_sources"
+    ],
+    "description": "User analyzes stressor framework performance"
+  },
+  "Predictive Model Performance": {
+    "props": [
+      "model_version",
+      "accuracy_rate",
+      "prediction_confidence",
+      "academic_validation"
+    ],
+    "description": "User reviews predictive model performance"
+  },
+  "Business ROI Calculator": {
+    "props": [
+      "investment_scenario",
+      "projected_roi",
+      "break_even_months",
+      "risk_reduction"
+    ],
+    "description": "User calculates business ROI scenarios"
+  }
+}

@@ -136,25 +136,129 @@ class GeographicVisualizationAPI:
         return self.florida_stressors
     
     def load_vin_data(self):
-        """Load VIN leads database and aggregate by state"""
+        """Load 100k VIN analysis data and aggregate by region"""
         try:
-            vin_file = "vin_leads_database_20250626_154547.json"
-            if os.path.exists(vin_file):
-                with open(vin_file, 'r') as f:
-                    vin_data = json.load(f)
+            # Load the new 100k VIN analysis instead of old 5k Southeast data
+            comprehensive_file = "comprehensive_100k_analysis_executive_summary_20250629_163100.txt"
+            analysis_file = "comprehensive_100k_analysis_lead_strategy_20250629_163100.json"
+            
+            # Try to load the executive summary first to get basic stats
+            regional_data = {}
+            if os.path.exists(comprehensive_file):
+                with open(comprehensive_file, 'r') as f:
+                    content = f.read()
+                    
+                # Parse the regional distribution from the summary
+                lines = content.split('\n')
+                for line in lines:
+                    if ': ' in line and 'VINs,' in line and '$' in line:
+                        # Extract: "SOUTHEAST: 35,000 VINs, $15,910,403 revenue"
+                        parts = line.strip().split(':')
+                        if len(parts) == 2:
+                            region = parts[0].strip()
+                            data_part = parts[1].strip()
+                            
+                            # Extract VIN count and revenue
+                            if 'VINs,' in data_part and '$' in data_part:
+                                vin_part = data_part.split('VINs,')[0].strip().replace(',', '')
+                                revenue_part = data_part.split('$')[1].split(' ')[0].replace(',', '')
+                                
+                                try:
+                                    vin_count = int(vin_part)
+                                    revenue = int(revenue_part)
+                                    
+                                    # Map regions to states for display
+                                    if region == 'SOUTHEAST':
+                                        for state in ['GA', 'SC', 'NC', 'TN', 'AL']:
+                                            if state in self.southeast_states:
+                                                self.southeast_states[state]['leads'] = vin_count // 5  # Distribute across SE states
+                                                self.southeast_states[state]['revenue'] = revenue // 5
+                                    elif region == 'FLORIDA':
+                                        if 'FL' in self.southeast_states:
+                                            self.southeast_states['FL']['leads'] = vin_count
+                                            self.southeast_states['FL']['revenue'] = revenue
+                                    elif region == 'TEXAS':
+                                        # Add Texas if not in southeast_states
+                                        if 'TX' not in self.southeast_states:
+                                            self.southeast_states['TX'] = {
+                                                'name': 'Texas', 'lat': 31.0, 'lng': -100.0,
+                                                'leads': vin_count, 'revenue': revenue, 'priority': 'high'
+                                            }
+                                    elif region == 'CALIFORNIA':
+                                        if 'CA' not in self.southeast_states:
+                                            self.southeast_states['CA'] = {
+                                                'name': 'California', 'lat': 36.8, 'lng': -119.4,
+                                                'leads': vin_count, 'revenue': revenue, 'priority': 'medium'
+                                            }
+                                    elif region == 'MONTANA':
+                                        if 'MT' not in self.southeast_states:
+                                            self.southeast_states['MT'] = {
+                                                'name': 'Montana', 'lat': 47.0, 'lng': -110.0,
+                                                'leads': vin_count, 'revenue': revenue, 'priority': 'high'
+                                            }
+                                except ValueError:
+                                    continue
+                                    
+                logger.info(f"✅ Loaded 100k VIN analysis data from executive summary")
                 
-                # Aggregate by state
-                for lead in vin_data:
-                    state = lead.get('state', '').upper()
-                    if state in self.southeast_states:
-                        self.southeast_states[state]['leads'] += 1
-                        revenue = self.estimate_revenue(lead, state)
-                        self.southeast_states[state]['revenue'] += revenue
+            # Try to load detailed lead strategy data for more context
+            if os.path.exists(analysis_file):
+                with open(analysis_file, 'r') as f:
+                    strategy_data = json.load(f)
+                    
+                # Add capacity utilization info to states
+                lead_optimization = strategy_data.get('lead_volume_optimization', {})
+                regional_strategies = lead_optimization.get('regional_strategies', {})
                 
-                logger.info(f"Loaded {len(vin_data)} VIN leads across Southeast region")
+                for region, strategy in regional_strategies.items():
+                    issue = strategy.get('issue', '')
+                    if 'over capacity' in issue.lower():
+                        capacity_status = 'over_capacity'
+                    elif 'under capacity' in issue.lower():
+                        capacity_status = 'under_capacity'
+                    else:
+                        capacity_status = 'optimal'
+                    
+                    # Update relevant states with capacity status
+                    region_to_states = {
+                        'southeast': ['GA', 'SC', 'NC', 'TN', 'AL'],
+                        'florida': ['FL'],
+                        'texas': ['TX'],
+                        'california': ['CA'],
+                        'montana': ['MT']
+                    }
+                    
+                    if region in region_to_states:
+                        for state in region_to_states[region]:
+                            if state in self.southeast_states:
+                                self.southeast_states[state]['capacity_status'] = capacity_status
+                
+                logger.info(f"✅ Enhanced with capacity management data")
+                
+            # Fallback to old data if 100k analysis not available
+            else:
+                logger.warning("⚠️ 100k analysis not found, falling back to old 5k dataset")
+                vin_file = "vin_leads_database_20250626_154547.json"
+                if os.path.exists(vin_file):
+                    with open(vin_file, 'r') as f:
+                        vin_data = json.load(f)
+                    
+                    # Aggregate by state (old method)
+                    for lead in vin_data:
+                        state = lead.get('state', '').upper()
+                        if state in self.southeast_states:
+                            self.southeast_states[state]['leads'] += 1
+                            revenue = self.estimate_revenue(lead, state)
+                            self.southeast_states[state]['revenue'] += revenue
+                    
+                    logger.info(f"Loaded {len(vin_data)} VIN leads from old dataset")
                 
         except Exception as e:
             logger.error(f"Error loading VIN data: {str(e)}")
+            # Set minimal default data
+            for state in self.southeast_states:
+                self.southeast_states[state]['leads'] = 100
+                self.southeast_states[state]['revenue'] = 50000
     
     def estimate_revenue(self, lead: Dict, state: str) -> float:
         """Estimate revenue potential with state-specific adjustments"""
