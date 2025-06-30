@@ -1,0 +1,36 @@
+{
+  "lead_volume_optimization": {
+    "description": "Optimize lead volume across regions to prevent overwhelm and maximize conversion",
+    "regional_strategies": {
+      "southeast": {
+        "issue": "Over capacity",
+        "solution": "Increase risk threshold from current level or add service capacity",
+        "target_reduction": "19.7 leads/day"
+      },
+      "texas": {
+        "issue": "Over capacity",
+        "solution": "Increase risk threshold from current level or add service capacity",
+        "target_reduction": "32.6 leads/day"
+      },
+      "florida": {
+        "issue": "Over capacity",
+        "solution": "Increase risk threshold from current level or add service capacity",
+        "target_reduction": "50.0 leads/day"
+      },
+      "montana": {
+        "issue": "Over capacity",
+        "solution": "Increase risk threshold from current level or add service capacity",
+        "target_reduction": "44.5 leads/day"
+      }
+    }
+  },
+  "customer_engagement_personalization": {
+    "integrated_bundling": "Bundle stressor analysis with existing DTC/prognostic needs",
+    "proactive_stressor": "Pure stressor-based outreach for vehicles without existing issues"
+  },
+  "messaging_templates": {
+    "high_priority_with_dtcs": "Your {model} is showing diagnostic codes AND stressor patterns that increase failure risk by {risk_increase}x",
+    "bundling_opportunity": "While you're here for {existing_service}, our analysis shows battery stressors that could cause issues",
+    "proactive_regional": "Your {region} location creates unique stressor patterns for {model} vehicles - let's prevent problems"
+  }
+}
