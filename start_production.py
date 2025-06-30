@@ -106,7 +106,12 @@ FORD_CLEAN_HTML = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ford VIN Intelligence - 100k Vehicle Analysis</title>
+    <title>Ford VIN Intelligence - 100k Vehicle Analysis v3.0</title>
+    
+    <!-- Cache Buster -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <!-- Plausible Analytics -->
     <script defer data-domain="{plausible_domain}" src="https://plausible.io/js/script.js"></script>
@@ -584,6 +589,13 @@ FORD_CLEAN_HTML = """
                 });
             }
         });
+        
+        // Force cache refresh on load
+        window.onload = function() {
+            if (window.location.search.indexOf('v=') === -1) {
+                window.location.href = window.location.href + '?v=' + Date.now();
+            }
+        };
     </script>
 </body>
 </html>
