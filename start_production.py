@@ -813,12 +813,132 @@ FORD_CLEAN_HTML = """
             color: rgba(255,255,255,0.8);
         }
         
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .hero-title { font-size: 32px; }
-            .hero-stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+            .hero-section { padding: 40px 16px; }
+            .hero-title { font-size: 32px; line-height: 1.2; }
+            .hero-subtitle { font-size: 18px; margin-bottom: 24px; }
+            .hero-stats { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 20px; 
+                margin-top: 40px;
+            }
             .stat-number { font-size: 28px; }
-            .regional-grid { grid-template-columns: 1fr; }
-            .nav-tab { padding: 16px 20px; font-size: 15px; }
+            .stat-label { font-size: 15px; }
+            
+            .nav-container { padding: 0 16px; }
+            .nav-tabs { 
+                overflow-x: auto; 
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            .nav-tabs::-webkit-scrollbar { display: none; }
+            .nav-tab { 
+                padding: 16px 20px; 
+                font-size: 16px;
+                white-space: nowrap;
+                min-width: 120px;
+            }
+            
+            .main-content { padding: 40px 16px; }
+            .section-title { font-size: 28px; margin-bottom: 32px; }
+            
+            .regional-grid { 
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+                margin-bottom: 40px;
+            }
+            .regional-card { padding: 24px; }
+            .region-name { font-size: 20px; }
+            .region-emoji { font-size: 28px; margin-right: 12px; }
+            .region-metrics { grid-template-columns: 1fr; gap: 12px; }
+            .metric { padding: 12px; }
+            .metric-value { font-size: 18px; }
+            
+            .insights-grid { 
+                grid-template-columns: 1fr; 
+                gap: 24px; 
+                margin-top: 32px;
+            }
+            .insight-card { padding: 32px 24px; }
+            .insight-icon { font-size: 40px; margin-bottom: 16px; }
+            .insight-title { font-size: 19px; }
+            .insight-description { font-size: 16px; }
+            
+            .technical-grid { 
+                grid-template-columns: 1fr; 
+                gap: 32px; 
+                margin-bottom: 40px;
+            }
+            .map-visualization, .stressor-framework { padding: 24px; }
+            .map-placeholder { height: 250px; }
+            
+            .methodology-section { padding: 32px 24px; margin-bottom: 32px; }
+            .methodology-title { font-size: 24px; }
+            .methodology-steps { 
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+                margin-top: 24px;
+            }
+            .methodology-step { padding: 20px; }
+            .step-number { font-size: 28px; }
+            .step-title { font-size: 16px; }
+            
+            .stressor-category { 
+                margin-bottom: 20px; 
+                padding: 16px; 
+            }
+            .stressor-list { 
+                grid-template-columns: 1fr; 
+                gap: 6px; 
+                font-size: 13px;
+            }
+            
+            /* Ford Data Integration Mobile */
+            .integration-grid { grid-template-columns: 1fr !important; }
+            .integration-card { padding: 20px !important; }
+            .integration-step { padding: 16px !important; }
+            
+            /* Map Mobile Optimization */
+            #regional-map { height: 300px !important; }
+            .map-legend { 
+                position: relative !important;
+                bottom: auto !important;
+                right: auto !important;
+                margin-top: 16px !important;
+                width: 100% !important;
+            }
+            
+            /* Table Mobile Scrolling */
+            .table-container { 
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            table { min-width: 600px; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title { font-size: 28px; }
+            .hero-subtitle { font-size: 16px; }
+            .hero-stats { grid-template-columns: 1fr; }
+            .stat-number { font-size: 24px; }
+            
+            .nav-tab { padding: 12px 16px; font-size: 15px; }
+            .main-content { padding: 32px 12px; }
+            .section-title { font-size: 24px; }
+            
+            .regional-card { padding: 20px; }
+            .region-name { font-size: 18px; }
+            .region-emoji { font-size: 24px; margin-right: 8px; }
+            
+            .insight-card { padding: 24px 20px; }
+            .insight-title { font-size: 18px; }
+            
+            .methodology-section { padding: 24px 16px; }
+            .methodology-title { font-size: 22px; }
+            .step-number { font-size: 24px; }
+         }
             .technical-grid { grid-template-columns: 1fr; }
             .methodology-steps { grid-template-columns: 1fr; }
         }
@@ -1124,6 +1244,147 @@ FORD_CLEAN_HTML = """
 }
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- PII & Legal Compliance Section -->
+            <div style="background: white; border-radius: 18px; padding: 40px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-left: 4px solid #d84315;">
+                <h3 style="font-size: 24px; font-weight: 700; color: #d84315; margin-bottom: 24px; text-align: center;">
+                    🔒 PII & Legal Compliance Framework
+                </h3>
+                
+                <div style="background: #fff3e0; border-radius: 12px; padding: 24px; margin-bottom: 32px; text-align: center;">
+                    <h4 style="color: #d84315; font-weight: 700; margin-bottom: 12px;">⚖️ Legal Strategy</h4>
+                    <p style="color: #515154; line-height: 1.6; margin-bottom: 0; font-size: 16px;">
+                        <strong>America First, Commercial Focus:</strong> Starting with U.S. commercial fleet data where we have 
+                        established legal frameworks. Regional expansion will follow comprehensive legal validation 
+                        with Ford's legal team for each jurisdiction.
+                    </p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px;">
+                    <div>
+                        <h4 style="color: #d84315; font-weight: 700; margin-bottom: 16px;">🛡️ PII Abstraction Strategy</h4>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; font-size: 14px; line-height: 1.6;">
+                            <strong>Raw Telemetry → Abstracted Indicators</strong><br/><br/>
+                            
+                            <strong>Instead of:</strong> Exact GPS coordinates<br/>
+                            <strong>We use:</strong> Climate zone classification<br/><br/>
+                            
+                            <strong>Instead of:</strong> Individual start/stop events<br/>
+                            <strong>We use:</strong> Usage pattern: High/Medium/Low<br/><br/>
+                            
+                            <strong>Instead of:</strong> Specific mileage/routes<br/>
+                            <strong>We use:</strong> Wear intensity: High/Medium/Low<br/><br/>
+                            
+                            <strong>Instead of:</strong> Individual vehicle tracking<br/>
+                            <strong>We use:</strong> Cohort-relative indicators
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #d84315; font-weight: 700; margin-bottom: 16px;">📊 Cohort-Based Analysis</h4>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; font-size: 14px; line-height: 1.6;">
+                            <strong>Purpose:</strong> Generate insights without PII<br/><br/>
+                            
+                            <strong>Method:</strong> Statistical aggregation within peer groups<br/><br/>
+                            
+                            <strong>Example:</strong><br/>
+                            • Vehicle A: "Above average salt exposure for Southeast F-150s"<br/>
+                            • Vehicle B: "High stop-and-go pattern vs. regional baseline"<br/><br/>
+                            
+                            <strong>Benefit:</strong> Actionable insights while protecting individual privacy
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                    <div style="text-align: center; padding: 24px; border: 2px solid #ffecb3; border-radius: 12px; background: #fffef7;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">🇺🇸</div>
+                        <div style="font-weight: 700; margin-bottom: 8px; color: #f57c00;">Phase 1: America</div>
+                        <div style="font-size: 14px; color: #666;">
+                            • U.S. commercial fleet data<br/>
+                            • Established legal frameworks<br/>
+                            • CCPA/state compliance<br/>
+                            • Ford legal pre-approval
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 24px; border: 2px solid #e1f5fe; border-radius: 12px; background: #f8f9fa;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">⚖️</div>
+                        <div style="font-weight: 700; margin-bottom: 8px; color: #1976d2;">Legal Validation</div>
+                        <div style="font-size: 14px; color: #666;">
+                            • Regional privacy law review<br/>
+                            • GDPR compliance (EU)<br/>
+                            • Data residency requirements<br/>
+                            • Consent mechanisms
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 24px; border: 2px solid #e8f5e8; border-radius: 12px; background: #f8f9fa;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">🔐</div>
+                        <div style="font-weight: 700; margin-bottom: 8px; color: #2e7d32;">Data Minimization</div>
+                        <div style="font-size: 14px; color: #666;">
+                            • Collect only necessary data<br/>
+                            • Aggregate at source<br/>
+                            • No individual tracking<br/>
+                            • Cohort-based insights only
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Legal Framework Table -->
+                <div style="margin-top: 32px;">
+                    <h4 style="color: #d84315; font-weight: 700; margin-bottom: 16px; text-align: center;">📋 Regional Legal Framework</h4>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <thead>
+                                <tr style="background: #f8f9fa;">
+                                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: 700;">Region</th>
+                                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: 700;">Legal Framework</th>
+                                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: 700;">Data Requirements</th>
+                                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: 700;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">🇺🇸 USA</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">CCPA, State Privacy Laws</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">Commercial fleet consent</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;"><span style="color: #2e7d32; font-weight: 700;">✅ Ready</span></td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 12px; border: 1px solid #ddd;">🇪🇺 Europe</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">GDPR, Data Protection Acts</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">Explicit consent, data residency</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;"><span style="color: #f57c00; font-weight: 700;">⏳ Legal Review</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">🇨🇦 Canada</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">PIPEDA, Provincial Laws</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">Purpose limitation, consent</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;"><span style="color: #f57c00; font-weight: 700;">⏳ Legal Review</span></td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 12px; border: 1px solid #ddd;">🌏 APAC</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">Varies by country</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">Country-specific requirements</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;"><span style="color: #666; font-weight: 700;">📋 Future Phase</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Bottom Compliance Note -->
+                <div style="background: #fff3e0; border-radius: 12px; padding: 24px; margin-top: 32px; border-left: 4px solid #f57c00;">
+                    <h4 style="color: #f57c00; font-weight: 700; margin-bottom: 12px;">🎯 Compliance Commitment</h4>
+                    <p style="color: #515154; line-height: 1.6; margin-bottom: 0;">
+                        <strong>Ford Legal Partnership:</strong> All data usage will be validated with Ford's legal team 
+                        before implementation in each region. We prioritize customer privacy and regulatory compliance 
+                        over feature completeness. The system is designed to provide valuable insights through 
+                        statistical aggregation while maintaining the highest standards of data protection.
+                    </p>
                 </div>
             </div>
             
