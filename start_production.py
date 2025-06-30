@@ -116,6 +116,14 @@ FORD_CLEAN_HTML = """
     <!-- Plausible Analytics -->
     <script defer data-domain="{plausible_domain}" src="https://plausible.io/js/script.js"></script>
     
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
     <style>
         * { 
             margin: 0; 
@@ -623,10 +631,12 @@ FORD_CLEAN_HTML = """
                 <h3 style="font-size: 24px; font-weight: 700; color: #1d1d1f; margin-bottom: 24px; text-align: center;">
                     🗺️ Geographic Stressor Patterns
                 </h3>
-                <div style="text-align: center; padding: 40px; background: #f5f5f7; border-radius: 12px; margin-bottom: 24px; cursor: pointer;" onclick="loadMapVisualization()">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🗺️</div>
-                    <div style="font-size: 18px; color: #515154; margin-bottom: 8px;">Interactive Map Visualization</div>
-                    <div style="font-size: 14px; color: #86868b;">Click to load regional stressor intensity heatmaps</div>
+                <div id="map-container" style="height: 400px; border-radius: 12px; margin-bottom: 24px; overflow: hidden; position: relative;">
+                    <div id="stressor-map" style="height: 100%; width: 100%;"></div>
+                    <div id="map-loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 12px;">
+                        <div style="font-size: 24px; margin-bottom: 8px;">🗺️</div>
+                        <div style="font-size: 16px; color: #515154;">Loading Interactive Map...</div>
+                    </div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
                     <div style="text-align: center; padding: 16px;">
@@ -765,6 +775,11 @@ FORD_CLEAN_HTML = """
             document.getElementById(sectionId).classList.add('active');
             event.target.classList.add('active');
             
+            // Initialize map when Technical Deep Dive section is shown
+            if (sectionId === 'magic') {
+                setTimeout(initializeMap, 100); // Small delay to ensure container is visible
+            }
+            
             if (window.plausible) {
                 window.plausible('Section Navigation', { props: { section: sectionId } });
             }
@@ -871,28 +886,155 @@ FORD_CLEAN_HTML = """
             }
         });
         
-        // Map visualization function
-        function loadMapVisualization() {
-            if (window.plausible) {
-                window.plausible('Map Visualization Clicked');
-            }
+        // Initialize the real interactive map
+        let stressorMap = null;
+        
+        function initializeMap() {
+            if (stressorMap) return; // Already initialized
             
-            alert(`🗺️ GEOGRAPHIC STRESSOR INTENSITY MAP
-
-📍 REGIONAL PATTERNS:
-⛰️ Montana: Cold stress (8.7/10), Altitude change (7.2/10)
-🌴 Florida: Heat stress (9.1/10), Humidity cycling (8.8/10)
-🤠 Texas: Temperature cycling (8.2/10), Towing load (7.6/10)
-🌊 Southeast: Salt corrosion (8.4/10), Humidity cycling (7.7/10)
-☀️ California: Stop-and-go (9.3/10), Extended parking (8.1/10)
-
-🎯 INTERACTIVE FEATURES:
-• Regional heat maps showing stressor intensity
-• Click regions for detailed cohort analysis
-• Filter by specific stressor types
-• Overlay VIN density and outlier concentrations
-
-🚀 Full implementation includes real-time geographic visualization with Leaflet/Mapbox integration.`);
+            // Hide loading indicator
+            document.getElementById('map-loading').style.display = 'none';
+            
+            // Initialize Leaflet map centered on US
+            stressorMap = L.map('stressor-map').setView([39.8283, -98.5795], 4);
+            
+            // Add tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(stressorMap);
+            
+            // Regional data with coordinates and stressor intensities
+            const regions = [
+                {
+                    name: 'Montana',
+                    coords: [47.0527, -109.6333],
+                    color: '#2e7d32',
+                    emoji: '⛰️',
+                    vins: '5,000',
+                    revenue: '$2.3M',
+                    topStressor: 'Cold Stress (8.7/10)',
+                    description: 'Extreme temperature variations and altitude changes create unique battery stress patterns'
+                },
+                {
+                    name: 'Florida',
+                    coords: [27.7663, -82.6404],
+                    color: '#ff6b35',
+                    emoji: '🌴',
+                    vins: '15,000',
+                    revenue: '$6.9M',
+                    topStressor: 'Heat Stress (9.1/10)',
+                    description: 'High heat and humidity cycling accelerate battery degradation'
+                },
+                {
+                    name: 'Texas',
+                    coords: [31.9686, -99.9018],
+                    color: '#d84315',
+                    emoji: '🤠',
+                    vins: '25,000',
+                    revenue: '$11.4M',
+                    topStressor: 'Temperature Cycling (8.2/10)',
+                    description: 'Extreme temperature swings and heavy towing loads stress electrical systems'
+                },
+                {
+                    name: 'North Carolina',
+                    coords: [35.7796, -78.6382],
+                    color: '#1976d2',
+                    emoji: '🌊',
+                    vins: '35,000',
+                    revenue: '$15.9M',
+                    topStressor: 'Salt Corrosion (8.4/10)',
+                    description: 'Coastal salt exposure and humidity create corrosive conditions'
+                },
+                {
+                    name: 'California',
+                    coords: [36.7783, -119.4179],
+                    color: '#7b1fa2',
+                    emoji: '☀️',
+                    vins: '20,000',
+                    revenue: '$9.0M',
+                    topStressor: 'Stop-and-Go (9.3/10)',
+                    description: 'Heavy traffic patterns create frequent charge-discharge cycles'
+                }
+            ];
+            
+            // Add markers for each region
+            regions.forEach(region => {
+                const circle = L.circleMarker(region.coords, {
+                    radius: 15,
+                    fillColor: region.color,
+                    color: '#fff',
+                    weight: 3,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(stressorMap);
+                
+                // Create popup content
+                const popupContent = `
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-width: 250px;">
+                        <h3 style="margin: 0 0 12px 0; color: ${region.color}; font-size: 18px;">
+                            ${region.emoji} ${region.name}
+                        </h3>
+                        <div style="margin-bottom: 8px;">
+                            <strong>VINs Analyzed:</strong> ${region.vins}
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>Revenue Opportunity:</strong> ${region.revenue}
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <strong>Top Stressor:</strong> ${region.topStressor}
+                        </div>
+                        <div style="font-size: 14px; color: #666; line-height: 1.4;">
+                            ${region.description}
+                        </div>
+                    </div>
+                `;
+                
+                circle.bindPopup(popupContent);
+                
+                // Add hover effect
+                circle.on('mouseover', function() {
+                    this.setStyle({
+                        radius: 20,
+                        fillOpacity: 1
+                    });
+                });
+                
+                circle.on('mouseout', function() {
+                    this.setStyle({
+                        radius: 15,
+                        fillOpacity: 0.8
+                    });
+                });
+            });
+            
+            // Add legend
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function() {
+                const div = L.DomUtil.create('div', 'info legend');
+                div.style.cssText = `
+                    background: white;
+                    padding: 12px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                    font-size: 12px;
+                `;
+                div.innerHTML = `
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px;">Stressor Intensity</h4>
+                    <div><span style="color: #2e7d32;">●</span> Montana - Cold Stress</div>
+                    <div><span style="color: #ff6b35;">●</span> Florida - Heat Stress</div>
+                    <div><span style="color: #d84315;">●</span> Texas - Temperature Cycling</div>
+                    <div><span style="color: #1976d2;">●</span> Southeast - Salt Corrosion</div>
+                    <div><span style="color: #7b1fa2;">●</span> California - Stop-and-Go</div>
+                `;
+                return div;
+            };
+            legend.addTo(stressorMap);
+            
+            if (window.plausible) {
+                window.plausible('Interactive Map Loaded');
+            }
         }
         
         // Stressor configuration demo
