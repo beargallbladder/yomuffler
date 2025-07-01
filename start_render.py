@@ -734,17 +734,31 @@ async def stressor_dashboard():
                 position: fixed;
                 right: 20px;
                 top: 80px;
-                background: linear-gradient(45deg, #1e40af, #3b82f6);
+                background: linear-gradient(45deg, #ef4444, #dc2626);
                 color: white;
                 border: none;
-                padding: 8px 12px;
-                border-radius: 8px;
-                font-size: 12px;
-                font-weight: 600;
+                padding: 12px 20px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 700;
                 cursor: pointer;
                 z-index: 51;
-                box-shadow: 0 4px 12px rgba(30,64,175,0.4);
+                box-shadow: 0 6px 20px rgba(239,68,68,0.6);
                 transition: all 0.3s ease;
+                animation: pulse-red 2s infinite;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            @keyframes pulse-red {
+                0%, 100% { 
+                    box-shadow: 0 6px 20px rgba(239,68,68,0.6);
+                    transform: scale(1);
+                }
+                50% { 
+                    box-shadow: 0 8px 30px rgba(239,68,68,0.8);
+                    transform: scale(1.05);
+                }
             }
             
             .carousel-toggle:hover {
@@ -753,7 +767,7 @@ async def stressor_dashboard():
             }
             
             /* Hide carousel on mobile */
-            @media (max-width: 1024px) {
+            @media (max-width: 768px) {
                 .lead-carousel, .carousel-toggle {
                     display: none;
                 }
@@ -1632,12 +1646,8 @@ async def stressor_dashboard():
                 }
             }
             
-            // Auto-hide carousel after 30 seconds to prevent distraction
-            setTimeout(() => {
-                if (carouselVisible) {
-                    toggleCarousel();
-                }
-            }, 30000);
+            // Carousel stays visible by default
+            // User can toggle manually with the red button
         </script>
     </body>
     </html>
