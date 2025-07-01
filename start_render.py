@@ -586,6 +586,11 @@ async def stressor_dashboard():
         <div class="header">
             <div class="logo">💰 FORD LEAD GENERATION ENGINE</div>
             <div class="subtitle">Stressor-Based Behavioral Analysis → AI-Powered Customer Conversations → Revenue</div>
+            <div style="margin-top: 16px;">
+                <a href="/technical-walkthrough" style="color: #60a5fa; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid #60a5fa; border-radius: 20px; font-size: 14px; transition: all 0.3s ease;">
+                    🧠 Technical Mathematics Walkthrough
+                </a>
+            </div>
         </div>
         
         <div class="main-container">
@@ -1472,6 +1477,21 @@ async def generate_ai_conversation(vehicle: VehicleInput):
     )
     
     return {"ai_conversation": ai_conversation}
+
+@app.get("/technical-walkthrough", response_class=HTMLResponse)
+async def technical_walkthrough():
+    """Technical mathematics walkthrough page"""
+    try:
+        with open("technical_math_walkthrough.html", "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    except FileNotFoundError:
+        return HTMLResponse(content="""
+        <html><body>
+        <h1>Technical Walkthrough Not Found</h1>
+        <p>The technical walkthrough page is not available.</p>
+        <a href="/">Return to Main Application</a>
+        </body></html>
+        """, status_code=404)
 
 @app.get("/health")
 async def health_check():
