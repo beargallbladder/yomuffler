@@ -590,7 +590,7 @@ async def stressor_dashboard():
         <div class="header">
             <div class="logo">💰 FORD LEAD GENERATION ENGINE</div>
             <div class="subtitle">Stressor-Based Behavioral Analysis → AI-Powered Customer Conversations → Revenue</div>
-            <div style="margin-top: 20px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <div style="margin-top: 20px;">
                 <a href="/technical-walkthrough" style="
                     color: #ffffff; 
                     background: linear-gradient(45deg, #8b5cf6, #7c3aed); 
@@ -609,27 +609,119 @@ async def stressor_dashboard():
                 onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 15px rgba(139, 92, 246, 0.4)'">
                     🧠 Technical Mathematics Walkthrough
                 </a>
-                
-                <a href="/live-leads" style="
-                    color: #ffffff; 
-                    background: linear-gradient(45deg, #ef4444, #dc2626); 
-                    text-decoration: none; 
-                    font-weight: 700; 
-                    padding: 12px 24px; 
-                    border: 2px solid #ef4444; 
-                    border-radius: 25px; 
-                    font-size: 15px; 
-                    transition: all 0.3s ease;
-                    display: inline-block;
-                    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(239, 68, 68, 0.6)'" 
-                onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 15px rgba(239, 68, 68, 0.4)'">
-                    💰 Live Dealer Leads
-                </a>
             </div>
         </div>
+        
+        <!-- Lead Carousel - Simple Demo on Right Side -->
+        <div id="lead-carousel" style="
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            max-height: 60vh;
+            background: rgba(0,0,0,0.8);
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 1000;
+            overflow: hidden;
+            display: block;
+        ">
+            <div style="text-align: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 12px;">
+                <div style="font-size: 14px; font-weight: 700; color: #22c55e;">💰 LIVE LEADS</div>
+                <div style="font-size: 11px; color: rgba(255,255,255,0.7);">Real dealer dashboard</div>
+            </div>
+            <div id="carousel-content" style="
+                max-height: 400px;
+                overflow-y: auto;
+                animation: scrollDown 20s linear infinite;
+            ">
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(239,68,68,0.2); border-radius: 8px; border-left: 3px solid #ef4444;">
+                    <div style="font-size: 12px; font-weight: 600; color: #fca5a5;">HIGH PRIORITY</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2023 F-150 SuperCrew</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Detroit • 47K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Cold weather + short trips = battery stress"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$450 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(245,158,11,0.2); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                    <div style="font-size: 12px; font-weight: 600; color: #fbbf24;">MODERATE</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2022 Explorer Hybrid</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Austin • 34K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Hybrid optimization opportunity"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$285 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(139,92,246,0.2); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                    <div style="font-size: 12px; font-weight: 600; color: #c4b5fd;">FOLLOW-UP</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2023 Mustang GT</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">LA • 12K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Performance maintenance due"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$380 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(239,68,68,0.2); border-radius: 8px; border-left: 3px solid #ef4444;">
+                    <div style="font-size: 12px; font-weight: 600; color: #fca5a5;">HIGH PRIORITY</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2022 F-250 PowerStroke</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Houston • 23K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"DPF regen patterns flagged"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$680 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(34,197,94,0.2); border-radius: 8px; border-left: 3px solid #22c55e;">
+                    <div style="font-size: 12px; font-weight: 600; color: #86efac;">RETENTION</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2021 F-150 Regular</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Phoenix • 28K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Excellent patterns - upsell ready"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$195 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(245,158,11,0.2); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                    <div style="font-size: 12px; font-weight: 600; color: #fbbf24;">MODERATE</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2021 Transit 350</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Denver • 67K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Fleet optimization discussion"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$340 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(245,158,11,0.2); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                    <div style="font-size: 12px; font-weight: 600; color: #fbbf24;">MODERATE</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2022 Escape Hybrid</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Seattle • 19K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Battery efficiency review"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$220 opportunity</div>
+                </div>
+                
+                <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(239,68,68,0.2); border-radius: 8px; border-left: 3px solid #ef4444;">
+                    <div style="font-size: 12px; font-weight: 600; color: #fca5a5;">HIGH PRIORITY</div>
+                    <div style="font-size: 13px; color: white; margin: 4px 0;">2023 Expedition Max</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Chicago • 41K miles</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Heavy usage climate stress"</div>
+                    <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$520 opportunity</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7);">Total: $3,670 today</div>
+            </div>
+        </div>
+        
+        <style>
+            @keyframes scrollDown {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(-50%); }
+            }
+            
+            #carousel-content:hover {
+                animation-play-state: paused;
+            }
+            
+            @media (max-width: 1024px) {
+                #lead-carousel { display: none; }
+            }
+        </style>
         
         <div class="main-container">
             <div class="card input-section">
@@ -1518,536 +1610,7 @@ async def generate_ai_conversation(vehicle: VehicleInput):
     
     return {"ai_conversation": ai_conversation}
 
-@app.get("/live-leads", response_class=HTMLResponse)
-async def live_dealer_leads():
-    """Live Dealer Leads Dashboard - What Dealers Actually See"""
-    return HTMLResponse("""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Live Dealer Leads - Ford Lead Generation Engine</title>
-        <style>
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            body { 
-                font-family: 'Inter', 'Segoe UI', sans-serif;
-                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
-                min-height: 100vh;
-                color: white;
-                overflow-x: hidden;
-            }
-            
-            .header {
-                background: rgba(255,255,255,0.1);
-                padding: 24px;
-                text-align: center;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-                backdrop-filter: blur(10px);
-            }
-            
-            .logo { 
-                font-size: 32px; 
-                font-weight: 700; 
-                margin-bottom: 8px;
-                color: white;
-                letter-spacing: -0.5px;
-            }
-            
-            .subtitle { 
-                opacity: 0.9; 
-                font-size: 16px; 
-                color: rgba(255,255,255,0.8);
-                font-weight: 400;
-                margin-bottom: 16px;
-            }
-            
-            .nav-buttons {
-                display: flex; 
-                gap: 16px; 
-                justify-content: center; 
-                flex-wrap: wrap;
-            }
-            
-            .nav-btn {
-                color: rgba(255,255,255,0.8); 
-                background: rgba(255,255,255,0.1); 
-                text-decoration: none; 
-                font-weight: 600; 
-                padding: 8px 16px; 
-                border: 1px solid rgba(255,255,255,0.3); 
-                border-radius: 20px; 
-                font-size: 13px; 
-                transition: all 0.3s ease;
-            }
-            
-            .nav-btn:hover {
-                background: rgba(255,255,255,0.2);
-                color: white;
-            }
-            
-            .container {
-                max-width: 1400px;
-                margin: 0 auto;
-                padding: 40px 32px;
-            }
-            
-            .page-title {
-                text-align: center;
-                margin-bottom: 40px;
-            }
-            
-            .page-title h1 {
-                font-size: 36px;
-                font-weight: 700;
-                margin-bottom: 12px;
-                color: white;
-            }
-            
-            .page-title p {
-                font-size: 18px;
-                color: rgba(255,255,255,0.8);
-                max-width: 800px;
-                margin: 0 auto;
-                line-height: 1.5;
-            }
-            
-            .leads-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                gap: 24px;
-                margin-top: 40px;
-            }
-            
-            .lead-card {
-                background: rgba(255,255,255,0.1);
-                border-radius: 16px;
-                padding: 24px;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255,255,255,0.2);
-                transition: all 0.3s ease;
-                position: relative;
-                min-height: 280px;
-            }
-            
-            .lead-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-                border-color: rgba(255,255,255,0.4);
-            }
-            
-            .priority-badge {
-                position: absolute;
-                top: 16px;
-                right: 16px;
-                padding: 6px 12px;
-                border-radius: 20px;
-                font-size: 11px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-            
-            .priority-high {
-                background: rgba(239,68,68,0.2);
-                color: #fca5a5;
-                border: 1px solid #ef4444;
-            }
-            
-            .priority-moderate {
-                background: rgba(245,158,11,0.2);
-                color: #fbbf24;
-                border: 1px solid #f59e0b;
-            }
-            
-            .priority-low {
-                background: rgba(34,197,94,0.2);
-                color: #86efac;
-                border: 1px solid #22c55e;
-            }
-            
-            .vehicle-info {
-                margin-bottom: 16px;
-            }
-            
-            .vehicle-title {
-                font-size: 20px;
-                font-weight: 700;
-                color: white;
-                margin-bottom: 8px;
-            }
-            
-            .vehicle-details {
-                font-size: 14px;
-                color: rgba(255,255,255,0.8);
-                margin-bottom: 4px;
-            }
-            
-            .conversation-starter {
-                background: rgba(96,165,250,0.1);
-                padding: 16px;
-                border-radius: 12px;
-                margin: 16px 0;
-                border-left: 4px solid #60a5fa;
-            }
-            
-            .conversation-text {
-                font-size: 14px;
-                color: rgba(255,255,255,0.95);
-                line-height: 1.5;
-                font-style: italic;
-            }
-            
-            .revenue-info {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 16px;
-                padding-top: 16px;
-                border-top: 1px solid rgba(255,255,255,0.2);
-            }
-            
-            .revenue-amount {
-                font-size: 18px;
-                font-weight: 700;
-                color: #22c55e;
-            }
-            
-            .conversion-rate {
-                font-size: 13px;
-                color: rgba(255,255,255,0.7);
-            }
-            
-            .action-buttons {
-                display: flex;
-                gap: 12px;
-                margin-top: 16px;
-            }
-            
-            .action-btn {
-                flex: 1;
-                padding: 10px 16px;
-                border: none;
-                border-radius: 8px;
-                font-size: 13px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .call-btn {
-                background: linear-gradient(45deg, #22c55e, #16a34a);
-                color: white;
-            }
-            
-            .call-btn:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(34,197,94,0.4);
-            }
-            
-            .email-btn {
-                background: rgba(255,255,255,0.1);
-                color: white;
-                border: 1px solid rgba(255,255,255,0.3);
-            }
-            
-            .email-btn:hover {
-                background: rgba(255,255,255,0.2);
-            }
-            
-            .stats-bar {
-                background: rgba(255,255,255,0.1);
-                padding: 20px;
-                border-radius: 12px;
-                margin-bottom: 32px;
-                text-align: center;
-            }
-            
-            .stats-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 24px;
-            }
-            
-            .stat-item {
-                text-align: center;
-            }
-            
-            .stat-value {
-                font-size: 24px;
-                font-weight: 700;
-                color: white;
-                margin-bottom: 4px;
-            }
-            
-            .stat-label {
-                font-size: 12px;
-                color: rgba(255,255,255,0.7);
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-            
-            @media (max-width: 768px) {
-                .container { padding: 20px 16px; }
-                .leads-grid { grid-template-columns: 1fr; gap: 16px; }
-                .lead-card { padding: 20px; min-height: 240px; }
-                .page-title h1 { font-size: 28px; }
-                .page-title p { font-size: 16px; }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <div class="logo">💰 LIVE DEALER LEADS</div>
-            <div class="subtitle">Real-Time Customer Engagement Opportunities</div>
-            <div class="nav-buttons">
-                <a href="/" class="nav-btn">🏠 Main Dashboard</a>
-                <a href="/technical-walkthrough" class="nav-btn">🧠 Technical Details</a>
-            </div>
-        </div>
-        
-        <div class="container">
-            <div class="page-title">
-                <h1>💰 Today's High-Value Leads</h1>
-                <p>AI-generated conversation starters based on behavioral stressor analysis. Each lead represents a customer whose vehicle patterns indicate optimal timing for service engagement.</p>
-            </div>
-            
-            <div class="stats-bar">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value">23</div>
-                        <div class="stat-label">High Priority</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">41</div>
-                        <div class="stat-label">Moderate Priority</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">$18,450</div>
-                        <div class="stat-label">Total Revenue Potential</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">89%</div>
-                        <div class="stat-label">Prediction Confidence</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="leads-grid">
-                <!-- High Priority Lead 1 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-high">HIGH PRIORITY</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2023 F-150 SuperCrew</div>
-                        <div class="vehicle-details">Detroit, MI • 47,823 miles • Heavy Duty Commercial</div>
-                        <div class="vehicle-details">Customer: John M. • Last Service: 4 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hi John, I noticed your F-150 shows cold weather + short trip patterns similar to vehicles that needed preventive battery service. You're in the 87th percentile of similar trucks. Can I schedule a quick inspection this week?"
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$450</div>
-                        <div class="conversion-rate">23% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- High Priority Lead 2 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-high">HIGH PRIORITY</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2023 Mustang GT</div>
-                        <div class="vehicle-details">Los Angeles, CA • 12,890 miles • Performance Enthusiast</div>
-                        <div class="vehicle-details">Customer: Mike R. • Last Service: 2 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hi Mike, your Mustang shows high-performance usage patterns that put you in the 91st percentile. This creates a great opportunity for our performance maintenance program."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$380</div>
-                        <div class="conversion-rate">21% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- High Priority Lead 3 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-high">HIGH PRIORITY</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2022 Expedition Max</div>
-                        <div class="vehicle-details">Chicago, IL • 41,200 miles • Family Heavy Usage</div>
-                        <div class="vehicle-details">Customer: Lisa K. • Last Service: 5 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hi Lisa, your Expedition shows heavy family usage + climate stress patterns. You're at 89th percentile - perfect time for a comprehensive service discussion."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$520</div>
-                        <div class="conversion-rate">25% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- High Priority Lead 4 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-high">HIGH PRIORITY</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2023 F-250 PowerStroke</div>
-                        <div class="vehicle-details">Houston, TX • 23,100 miles • Heavy Commercial</div>
-                        <div class="vehicle-details">Customer: Carlos P. • Last Service: 3 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hi Carlos, your F-250 diesel shows short trip + regen patterns at 94th percentile. This is exactly the kind of usage that benefits from proactive DPF service."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$680</div>
-                        <div class="conversion-rate">28% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- Moderate Priority Lead 1 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-moderate">MODERATE</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2022 Explorer Hybrid</div>
-                        <div class="vehicle-details">Austin, TX • 34,156 miles • Personal Use</div>
-                        <div class="vehicle-details">Customer: Sarah T. • Last Service: 6 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hello Sarah, your Explorer has some interesting usage patterns that put it in the 72nd percentile. Let's chat about optimizing your hybrid system performance."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$285</div>
-                        <div class="conversion-rate">18% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- Moderate Priority Lead 2 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-moderate">MODERATE</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2021 Transit 350</div>
-                        <div class="vehicle-details">Denver, CO • 67,800 miles • Commercial Fleet</div>
-                        <div class="vehicle-details">Customer: Tom L. • Last Service: 4 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hello Tom, your Transit shows commercial usage patterns at 68th percentile. Good opportunity to discuss fleet maintenance optimization."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$340</div>
-                        <div class="conversion-rate">19% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- Retention Lead -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-low">RETENTION</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2021 F-150 Regular Cab</div>
-                        <div class="vehicle-details">Phoenix, AZ • 28,450 miles • Light Duty Personal</div>
-                        <div class="vehicle-details">Customer: David W. • Last Service: 8 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Great news about your F-150! Your driving patterns show excellent vehicle care. This is perfect timing to discuss our premium maintenance program."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$195</div>
-                        <div class="conversion-rate">16% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-                
-                <!-- Moderate Priority Lead 3 -->
-                <div class="lead-card">
-                    <div class="priority-badge priority-moderate">MODERATE</div>
-                    <div class="vehicle-info">
-                        <div class="vehicle-title">2022 Escape Hybrid</div>
-                        <div class="vehicle-details">Seattle, WA • 19,450 miles • Daily Commuter</div>
-                        <div class="vehicle-details">Customer: Jennifer H. • Last Service: 7 months ago</div>
-                    </div>
-                    <div class="conversation-starter">
-                        <div class="conversation-text">
-                            "Hi Jennifer, your Escape hybrid shows interesting efficiency patterns. You're at 74th percentile - good time to optimize your hybrid battery performance."
-                        </div>
-                    </div>
-                    <div class="revenue-info">
-                        <div class="revenue-amount">$220</div>
-                        <div class="conversion-rate">17% phone conversion</div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="action-btn call-btn">📞 Call Now</button>
-                        <button class="action-btn email-btn">📧 Send Email</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <script>
-            // Simple interaction for demo purposes
-            document.querySelectorAll('.call-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    this.innerHTML = '📞 Calling...';
-                    this.disabled = true;
-                    setTimeout(() => {
-                        this.innerHTML = '✅ Call Logged';
-                        this.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
-                    }, 2000);
-                });
-            });
-            
-            document.querySelectorAll('.email-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    this.innerHTML = '📧 Sending...';
-                    this.disabled = true;
-                    setTimeout(() => {
-                        this.innerHTML = '✅ Email Sent';
-                        this.style.background = 'rgba(34,197,94,0.2)';
-                        this.style.borderColor = '#22c55e';
-                    }, 1500);
-                });
-            });
-        </script>
-    </body>
-    </html>
-    """)
+
 
 @app.get("/technical-walkthrough", response_class=HTMLResponse)
 async def technical_walkthrough():
