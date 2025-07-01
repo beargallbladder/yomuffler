@@ -580,9 +580,328 @@ async def stressor_dashboard():
                 color: #22c55e;
                 text-shadow: 0 0 10px rgba(34,197,94,0.3);
             }
+            
+            /* DEALER LEAD CAROUSEL - Side Scrolling Display */
+            .lead-carousel {
+                position: fixed;
+                right: 20px;
+                top: 120px;
+                width: 320px;
+                height: calc(100vh - 140px);
+                background: rgba(15,23,42,0.95);
+                border-radius: 16px;
+                border: 1px solid rgba(96,165,250,0.3);
+                backdrop-filter: blur(15px);
+                overflow: hidden;
+                z-index: 50;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                transform: translateX(0);
+                opacity: 1;
+            }
+            
+            .carousel-header {
+                background: linear-gradient(45deg, #1e40af, #3b82f6);
+                padding: 16px;
+                text-align: center;
+                border-bottom: 1px solid rgba(96,165,250,0.3);
+            }
+            
+            .carousel-title {
+                font-size: 14px;
+                font-weight: 700;
+                color: white;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .carousel-subtitle {
+                font-size: 11px;
+                color: rgba(255,255,255,0.7);
+            }
+            
+            .carousel-content {
+                height: calc(100% - 80px);
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .lead-cards-container {
+                animation: scrollLeads 45s linear infinite;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px;
+            }
+            
+            @keyframes scrollLeads {
+                0% { transform: translateY(100%); }
+                100% { transform: translateY(-100%); }
+            }
+            
+            .dealer-lead-card {
+                background: rgba(30,41,59,0.9);
+                border-radius: 12px;
+                padding: 16px;
+                border: 1px solid rgba(96,165,250,0.2);
+                min-height: 160px;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .dealer-lead-card:hover {
+                border-color: rgba(96,165,250,0.5);
+                transform: scale(1.02);
+                box-shadow: 0 4px 20px rgba(96,165,250,0.2);
+            }
+            
+            .lead-priority {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 10px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            
+            .priority-high {
+                background: rgba(239,68,68,0.2);
+                color: #fca5a5;
+                border: 1px solid #ef4444;
+            }
+            
+            .priority-moderate {
+                background: rgba(245,158,11,0.2);
+                color: #fbbf24;
+                border: 1px solid #f59e0b;
+            }
+            
+            .priority-low {
+                background: rgba(34,197,94,0.2);
+                color: #86efac;
+                border: 1px solid #22c55e;
+            }
+            
+            .lead-vehicle {
+                font-size: 14px;
+                font-weight: 600;
+                color: #60a5fa;
+                margin-bottom: 8px;
+            }
+            
+            .lead-customer {
+                font-size: 12px;
+                color: rgba(255,255,255,0.8);
+                margin-bottom: 12px;
+            }
+            
+            .lead-opportunity {
+                background: rgba(96,165,250,0.1);
+                padding: 8px;
+                border-radius: 6px;
+                margin-bottom: 8px;
+                border-left: 3px solid #60a5fa;
+            }
+            
+            .lead-opportunity-text {
+                font-size: 11px;
+                color: rgba(255,255,255,0.9);
+                line-height: 1.4;
+            }
+            
+            .lead-revenue {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 8px;
+            }
+            
+            .revenue-amount {
+                font-size: 14px;
+                font-weight: 700;
+                color: #22c55e;
+            }
+            
+            .conversion-rate {
+                font-size: 11px;
+                color: rgba(255,255,255,0.6);
+            }
+            
+            .carousel-toggle {
+                position: fixed;
+                right: 20px;
+                top: 80px;
+                background: linear-gradient(45deg, #1e40af, #3b82f6);
+                color: white;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                z-index: 51;
+                box-shadow: 0 4px 12px rgba(30,64,175,0.4);
+                transition: all 0.3s ease;
+            }
+            
+            .carousel-toggle:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(30,64,175,0.6);
+            }
+            
+            /* Hide carousel on mobile */
+            @media (max-width: 1024px) {
+                .lead-carousel, .carousel-toggle {
+                    display: none;
+                }
+            }
         </style>
     </head>
     <body>
+        <!-- DEALER LEAD CAROUSEL - Shows What Dealers Actually See -->
+        <button class="carousel-toggle" onclick="toggleCarousel()">📊 LIVE LEADS</button>
+        
+        <div class="lead-carousel" id="leadCarousel">
+            <div class="carousel-header">
+                <div class="carousel-title">💰 Live Dealer Leads</div>
+                <div class="carousel-subtitle">What Your Dashboard Shows</div>
+            </div>
+            <div class="carousel-content">
+                <div class="lead-cards-container">
+                    <!-- High Priority Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-high">HIGH</div>
+                        <div class="lead-vehicle">2023 F-150 SuperCrew</div>
+                        <div class="lead-customer">Detroit, MI • 47,823 miles • Heavy Duty</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hi John, I noticed your F-150 shows cold weather + short trip patterns similar to vehicles that needed preventive battery service. You're in the 87th percentile of similar trucks. Can I schedule a quick inspection this week?"
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$450</div>
+                            <div class="conversion-rate">23% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Moderate Priority Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-moderate">MODERATE</div>
+                        <div class="lead-vehicle">2022 Explorer Hybrid</div>
+                        <div class="lead-customer">Austin, TX • 34,156 miles • Personal</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hello Sarah, your Explorer has some interesting usage patterns that put it in the 72nd percentile. Let's chat about optimizing your hybrid system performance for your specific driving style."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$285</div>
+                            <div class="conversion-rate">18% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- High Priority Performance Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-high">HIGH</div>
+                        <div class="lead-vehicle">2023 Mustang GT</div>
+                        <div class="lead-customer">Los Angeles, CA • 12,890 miles • Performance</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hi Mike, your Mustang shows high-performance usage patterns that put you in the 91st percentile. This creates a great opportunity for our performance maintenance program."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$380</div>
+                            <div class="conversion-rate">21% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Retention/Low Priority Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-low">RETENTION</div>
+                        <div class="lead-vehicle">2021 F-150 Regular Cab</div>
+                        <div class="lead-customer">Phoenix, AZ • 28,450 miles • Light Duty</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Great news about your F-150! Your driving patterns show excellent vehicle care. This is perfect timing to discuss our premium maintenance program to keep you in the top tier."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$195</div>
+                            <div class="conversion-rate">16% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Another High Priority Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-high">HIGH</div>
+                        <div class="lead-vehicle">2022 Expedition Max</div>
+                        <div class="lead-customer">Chicago, IL • 41,200 miles • Family Heavy</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hi Lisa, your Expedition shows heavy family usage + climate stress patterns. You're at 89th percentile - perfect time for a comprehensive service discussion."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$520</div>
+                            <div class="conversion-rate">25% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Moderate Commercial Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-moderate">MODERATE</div>
+                        <div class="lead-vehicle">2021 Transit 350</div>
+                        <div class="lead-customer">Denver, CO • 67,800 miles • Commercial</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hello Tom, your Transit shows commercial usage patterns at 68th percentile. Good opportunity to discuss fleet maintenance optimization and downtime prevention."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$340</div>
+                            <div class="conversion-rate">19% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- High Priority Diesel Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-high">HIGH</div>
+                        <div class="lead-vehicle">2023 F-250 PowerStroke</div>
+                        <div class="lead-customer">Houston, TX • 23,100 miles • Heavy Commercial</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hi Carlos, your F-250 diesel shows short trip + regen patterns at 94th percentile. This is exactly the kind of usage that benefits from proactive DPF service."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$680</div>
+                            <div class="conversion-rate">28% conversion</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Moderate Hybrid Lead -->
+                    <div class="dealer-lead-card">
+                        <div class="lead-priority priority-moderate">MODERATE</div>
+                        <div class="lead-vehicle">2022 Escape Hybrid</div>
+                        <div class="lead-customer">Seattle, WA • 19,450 miles • Commuter</div>
+                        <div class="lead-opportunity">
+                            <div class="lead-opportunity-text">
+                                "Hi Jennifer, your Escape hybrid shows interesting efficiency patterns. You're at 74th percentile - good time to optimize your hybrid battery performance."
+                            </div>
+                        </div>
+                        <div class="lead-revenue">
+                            <div class="revenue-amount">$220</div>
+                            <div class="conversion-rate">17% conversion</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="header">
             <div class="logo">💰 FORD LEAD GENERATION ENGINE</div>
             <div class="subtitle">Stressor-Based Behavioral Analysis → AI-Powered Customer Conversations → Revenue</div>
@@ -1292,6 +1611,33 @@ async def stressor_dashboard():
                     }
                 }
             }
+            
+            // Carousel Toggle Functionality
+            let carouselVisible = true;
+            
+            function toggleCarousel() {
+                const carousel = document.getElementById('leadCarousel');
+                const toggleBtn = document.querySelector('.carousel-toggle');
+                
+                if (carouselVisible) {
+                    carousel.style.transform = 'translateX(100%)';
+                    carousel.style.opacity = '0';
+                    toggleBtn.innerHTML = '📊 SHOW LEADS';
+                    carouselVisible = false;
+                } else {
+                    carousel.style.transform = 'translateX(0)';
+                    carousel.style.opacity = '1';
+                    toggleBtn.innerHTML = '📊 LIVE LEADS';
+                    carouselVisible = true;
+                }
+            }
+            
+            // Auto-hide carousel after 30 seconds to prevent distraction
+            setTimeout(() => {
+                if (carouselVisible) {
+                    toggleCarousel();
+                }
+            }, 30000);
         </script>
     </body>
     </html>
