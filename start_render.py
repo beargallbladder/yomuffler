@@ -564,6 +564,22 @@ async def stressor_dashboard():
                 transform: translateY(-2px);
                 box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
             }
+            
+            .phone-card {
+                background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(16,163,74,0.2));
+                border: 2px solid rgba(34,197,94,0.4);
+                box-shadow: 0 8px 32px rgba(34,197,94,0.3);
+            }
+            
+            .phone-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 40px rgba(34,197,94,0.4);
+            }
+            
+            .phone-card .card-title {
+                color: #22c55e;
+                text-shadow: 0 0 10px rgba(34,197,94,0.3);
+            }
         </style>
     </head>
     <body>
@@ -1051,6 +1067,104 @@ async def stressor_dashboard():
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- PHONE CONVERSION ADVANTAGE - The Money Maker -->
+                    <div class="card phone-card" onclick="flipCard(this)">
+                        <div class="flip-indicator">FLIP FOR TECH</div>
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <div class="card-title">📞 PHONE CONVERSION ADVANTAGE</div>
+                                <div style="background: linear-gradient(45deg, #22c55e, #16a34a); padding: 20px; border-radius: 12px; margin: 16px 0; color: white; text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; margin-bottom: 8px;">2.1x HIGHER CONVERSION</div>
+                                    <div style="font-size: 14px; opacity: 0.9;">Phone leads vs Web leads</div>
+                                </div>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
+                                    <div style="background: rgba(34,197,94,0.2); padding: 16px; border-radius: 8px; text-align: center; border: 2px solid #22c55e;">
+                                        <div style="font-size: 18px; font-weight: bold; color: #22c55e;">📞 PHONE</div>
+                                        <div style="font-size: 24px; font-weight: bold; color: #22c55e;">23%</div>
+                                        <div style="font-size: 12px; opacity: 0.8;">Net Conversion</div>
+                                        <div style="font-size: 11px; margin-top: 8px; opacity: 0.7;">
+                                            74% Set × 62% Show × 50% Complete
+                                        </div>
+                                    </div>
+                                    <div style="background: rgba(239,68,68,0.2); padding: 16px; border-radius: 8px; text-align: center; border: 2px solid #ef4444;">
+                                        <div style="font-size: 18px; font-weight: bold; color: #ef4444;">🌐 WEB</div>
+                                        <div style="font-size: 24px; font-weight: bold; color: #ef4444;">11%</div>
+                                        <div style="font-size: 12px; opacity: 0.8;">Net Conversion</div>
+                                        <div style="font-size: 11px; margin-top: 8px; opacity: 0.7;">
+                                            40% Set × 56% Show × 50% Complete
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="background: rgba(255,255,255,0.15); padding: 16px; border-radius: 12px; margin: 16px 0;">
+                                    <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">🎯 DEALER STRATEGY:</div>
+                                    <div style="font-size: 13px; line-height: 1.4;">
+                                        <strong>Use AI-generated insights to drive PHONE conversations</strong><br>
+                                        • Email/SMS = Lead qualification<br>
+                                        • Phone call = Revenue conversion<br>
+                                        • Personal touch = Customer retention
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align: center; margin-top: 16px;">
+                                    <div style="background: rgba(96,165,250,0.2); padding: 12px; border-radius: 8px; display: inline-block;">
+                                        <div style="font-size: 12px; opacity: 0.8;">Revenue Impact</div>
+                                        <div style="font-size: 16px; font-weight: 600; color: #60a5fa;">
+                                            +${(data.revenue_opportunity.total * 0.12).toLocaleString()} per phone lead
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <button onclick="generatePhoneScript('${data.vehicle_info.vin}')" style="background: linear-gradient(45deg, #22c55e, #16a34a); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3); transition: all 0.3s ease;">
+                                        📞 GENERATE PHONE SCRIPT
+                                    </button>
+                                    <div style="font-size: 12px; opacity: 0.7; margin-top: 8px;">
+                                        AI-powered conversation starter for this customer
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back">
+                                <div class="card-title">📊 Conversion Science & Strategy</div>
+                                <div class="math-content">
+                                    <strong>Why Phone Converts 2.1x Better:</strong>
+                                    <div class="math-formula">
+                                        Human connection + Real-time objection handling + Trust building = Higher conversion
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Phone vs Web Psychology:</strong><br>
+                                        • Phone: Personal, immediate, trust-building<br>
+                                        • Web: Impersonal, delayed, transactional<br>
+                                        • Phone: Real-time problem solving<br>
+                                        • Web: Self-service limitations
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Dealer Communication Strategy:</strong><br>
+                                        1. <strong>Email/SMS</strong>: "We noticed something about your ${data.vehicle_info.model}..."<br>
+                                        2. <strong>Phone Call</strong>: "Let me explain what this means for you..."<br>
+                                        3. <strong>Service Booking</strong>: "I can get you in this week..."<br>
+                                        4. <strong>Follow-up</strong>: "How did that service work out?"
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>AI-Generated Phone Scripts:</strong><br>
+                                        "Hi ${data.vehicle_info.model} owner, this is [Dealer] from [Location].<br>
+                                        Our system flagged your vehicle for ${data.stressor_insights[0]?.component || 'preventive maintenance'}.<br>
+                                        Based on ${data.cohort_comparison.sample_size.toLocaleString()} similar vehicles,<br>
+                                        this creates a great opportunity to prevent future issues.<br>
+                                        Can I schedule you for a quick inspection this week?"
+                                    </div>
+                                    <div style="margin: 12px 0;">
+                                        <strong>Revenue Math:</strong><br>
+                                        • Web lead: $${data.revenue_opportunity.total} × 11% = $${(data.revenue_opportunity.total * 0.11).toFixed(0)}<br>
+                                        • Phone lead: $${data.revenue_opportunity.total} × 23% = $${(data.revenue_opportunity.total * 0.23).toFixed(0)}<br>
+                                        • <strong>Difference: $${(data.revenue_opportunity.total * 0.12).toFixed(0)} per lead</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }
             
@@ -1091,6 +1205,71 @@ async def stressor_dashboard():
                     generateBtn.innerHTML = '⚠️ Try Again';
                     generateBtn.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
                     console.log('AI conversation failed to load');
+                }
+            }
+            
+            async function generatePhoneScript(vin) {
+                // Find the phone card and update its content
+                const phoneCard = document.querySelector('.phone-card');
+                if (phoneCard) {
+                    const cardFront = phoneCard.querySelector('.card-front');
+                    const button = cardFront.querySelector('button');
+                    const originalText = button.innerHTML;
+                    
+                    // Show loading state
+                    button.innerHTML = '🤖 Generating Phone Script...';
+                    button.style.background = 'linear-gradient(45deg, #f59e0b, #d97706)';
+                    button.disabled = true;
+                    
+                    try {
+                        const response = await fetch('/generate-ai-conversation', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ vin: vin })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        // Create a new section to display the phone script
+                        const scriptSection = document.createElement('div');
+                        scriptSection.style.cssText = `
+                            background: rgba(34,197,94,0.2); 
+                            padding: 16px; 
+                            border-radius: 12px; 
+                            margin: 16px 0; 
+                            border-left: 4px solid #22c55e;
+                        `;
+                        scriptSection.innerHTML = `
+                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #22c55e;">📞 PHONE SCRIPT:</div>
+                            <div style="font-size: 13px; line-height: 1.4; font-style: italic; color: white;">
+                                "${data.ai_conversation}"
+                            </div>
+                        `;
+                        
+                        // Insert the script section before the button
+                        button.parentNode.insertBefore(scriptSection, button);
+                        
+                        // Update button to success state
+                        button.innerHTML = '✅ Phone Script Generated!';
+                        button.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                        
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                            button.disabled = false;
+                        }, 3000);
+                        
+                    } catch (error) {
+                        // Show error state
+                        button.innerHTML = '⚠️ Try Again';
+                        button.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                            button.disabled = false;
+                        }, 2000);
+                        console.log('Phone script generation failed');
+                    }
                 }
             }
         </script>
@@ -1141,8 +1320,51 @@ async def analyze_stressor_patterns(vehicle: VehicleInput):
         "Critical": f"Your {vehicle_data['model']} shows behavioral stressor patterns that are significant outliers in your cohort. Based on historical data from similar vehicles, this creates an excellent opportunity for a proactive service conversation."
     }
     
-    # Calculate revenue opportunity - keeping total real, components TBD
-    total_revenue = random.randint(400, 1200)  # This we know is realistic
+    # Calculate revenue opportunity based on realistic service costs and risk level
+    def calculate_realistic_revenue(severity: str, model: str, risk_score: float) -> dict:
+        """Calculate realistic revenue breakdown based on severity, model, and risk score"""
+        
+        # Base service costs (realistic Ford dealer pricing)
+        base_costs = {
+            "Critical": {"battery": 350, "service": 150, "diagnostic": 85},  # Immediate battery replacement
+            "High": {"battery": 280, "service": 125, "diagnostic": 85},      # Preventive battery service
+            "Moderate": {"battery": 0, "service": 85, "diagnostic": 85},     # Diagnostic + maintenance
+            "Low": {"battery": 0, "service": 65, "diagnostic": 65}           # Basic inspection
+        }
+        
+        # Get base costs for severity
+        costs = base_costs.get(severity, base_costs["Moderate"])
+        
+        # Calculate components
+        parts_cost = costs["battery"]
+        service_cost = costs["service"] + costs["diagnostic"]
+        
+        # Apply model-specific multipliers
+        if model in ["F-250", "F-350"]:
+            parts_cost = int(parts_cost * 1.4)  # Heavy duty premium
+            service_cost = int(service_cost * 1.4)
+        elif model in ["F-150"]:
+            parts_cost = int(parts_cost * 1.2)  # Light truck premium
+            service_cost = int(service_cost * 1.2)
+        elif model in ["Expedition"]:
+            parts_cost = int(parts_cost * 1.1)  # SUV premium
+            service_cost = int(service_cost * 1.1)
+        
+        # Risk-based adjustment (higher risk = higher urgency = higher revenue)
+        risk_multiplier = 1.0 + (risk_score * 0.5)  # 0-50% additional for high risk
+        parts_cost = int(parts_cost * risk_multiplier)
+        service_cost = int(service_cost * risk_multiplier)
+        
+        total_cost = parts_cost + service_cost
+        
+        return {
+            "parts": parts_cost,
+            "service": service_cost,
+            "total": total_cost
+        }
+    
+    revenue_breakdown = calculate_realistic_revenue(severity, vehicle_data["model"], final_risk)
+    total_revenue = revenue_breakdown["total"]
     
     # Generate cohort comparison data
     cohort_data = {
@@ -1183,8 +1405,8 @@ async def analyze_stressor_patterns(vehicle: VehicleInput):
             "action": "Preventive Service Discussion" if severity in ["High", "Critical"] else "Maintenance Reinforcement"
         },
         revenue_opportunity={
-            "service": "TBD",
-            "parts": "TBD", 
+            "service": revenue_breakdown["service"],
+            "parts": revenue_breakdown["parts"], 
             "downtime_prevention": "TBD",
             "retention_value": "TBD",
             "total": total_revenue
@@ -1199,11 +1421,11 @@ def generate_fallback_conversation(vehicle_data: Dict, risk_data: Dict, cohort_d
     percentile = cohort_data['percentile']
     
     if severity == 'High':
-        return f"Hi there! I noticed your {model} shows some unique behavioral patterns compared to similar vehicles. You're in the {percentile}th percentile of your cohort, which creates a great opportunity for preventive maintenance that could save you significant costs down the road."
+        return f"Hi there! I noticed your {model} shows some unique behavioral patterns compared to similar vehicles. You're in the {percentile}th percentile of your cohort, which creates a great opportunity for preventive maintenance that could save you significant costs down the road. Can I schedule you for a quick inspection this week?"
     elif severity == 'Moderate':
-        return f"Hello! Your {model} has some interesting usage patterns that put it in the {percentile}th percentile within its cohort. Let's chat about how we can optimize your vehicle's performance for your specific driving style."
+        return f"Hello! Your {model} has some interesting usage patterns that put it in the {percentile}th percentile within its cohort. Let's chat about how we can optimize your vehicle's performance for your specific driving style. When would be a good time to bring it in?"
     else:
-        return f"Great news about your {model}! Your driving patterns show excellent vehicle care - you're in the {percentile}th percentile of similar vehicles. This is the perfect time to discuss our premium maintenance program."
+        return f"Great news about your {model}! Your driving patterns show excellent vehicle care. This is the perfect time to discuss our premium maintenance program. Can I get you scheduled for a service appointment?"
 
 @app.post("/generate-ai-conversation")
 async def generate_ai_conversation(vehicle: VehicleInput):
@@ -1307,8 +1529,11 @@ CONVERSATION REQUIREMENTS:
 4. Connect stressors to real-world impacts they care about
 5. Suggest specific, actionable next steps
 6. Keep it conversational and under 150 words
+7. **EMPHASIZE PHONE CONVERSATION** - this is for a phone call, not email/SMS
+8. Include specific appointment scheduling language
+9. Reference the 2.1x higher conversion rate of phone vs web leads
 
-Generate a natural conversation starter that a dealer would actually say to this customer:
+Generate a natural phone conversation starter that a dealer would actually say to this customer on the phone:
 """
 
         # Check if OpenAI client is available
