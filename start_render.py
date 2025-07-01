@@ -586,8 +586,23 @@ async def stressor_dashboard():
         <div class="header">
             <div class="logo">💰 FORD LEAD GENERATION ENGINE</div>
             <div class="subtitle">Stressor-Based Behavioral Analysis → AI-Powered Customer Conversations → Revenue</div>
-            <div style="margin-top: 16px;">
-                <a href="/technical-walkthrough" style="color: #60a5fa; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid #60a5fa; border-radius: 20px; font-size: 14px; transition: all 0.3s ease;">
+            <div style="margin-top: 20px;">
+                <a href="/technical-walkthrough" style="
+                    color: #ffffff; 
+                    background: linear-gradient(45deg, #8b5cf6, #7c3aed); 
+                    text-decoration: none; 
+                    font-weight: 700; 
+                    padding: 12px 24px; 
+                    border: 2px solid #8b5cf6; 
+                    border-radius: 25px; 
+                    font-size: 15px; 
+                    transition: all 0.3s ease;
+                    display: inline-block;
+                    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(139, 92, 246, 0.6)'" 
+                onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 15px rgba(139, 92, 246, 0.4)'">
                     🧠 Technical Mathematics Walkthrough
                 </a>
             </div>
