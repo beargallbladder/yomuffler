@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 client = None
 try:
     from openai import OpenAI
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
     logger.info("✅ OpenAI client initialized")
 except ImportError:
     logger.warning("⚠️ OpenAI not available - using fallback messaging")
