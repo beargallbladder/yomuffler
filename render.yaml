@@ -5,7 +5,7 @@ services:
     env: python
     plan: starter
     buildCommand: pip install -r requirements-render.txt
-    startCommand: python start_production.py
+    startCommand: python simple_production.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0

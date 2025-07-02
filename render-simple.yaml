@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: ford-swarm-simple
+    env: python
+    buildCommand: "pip install -r requirements-render.txt"
+    startCommand: "python simple_production.py"
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000 
