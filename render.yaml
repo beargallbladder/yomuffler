@@ -4,8 +4,8 @@ services:
     name: yomuffler
     env: python
     plan: starter
-    buildCommand: pip install -r requirements-render.txt && echo "FORCING INTERACTIVE VERSION BUILD $(date)"
-    startCommand: python simple_production.py
+    buildCommand: pip install -r requirements-render.txt && echo "MANUAL DEPLOYMENT TRIGGER $(date)"
+    startCommand: python3 simple_production.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0

@@ -1252,7 +1252,7 @@ async def health():
         "openai_available": openai_available,
         "auth_enabled": True,
         "portal_type": "clickable_lead_cards",
-        "deployment_time": "2024-12-19_interactive"
+        "deployment_time": "2024-12-19_interactive_FORCED"
     }
 
 if __name__ == "__main__":
