@@ -4,7 +4,7 @@ services:
     name: yomuffler
     env: python
     plan: starter
-    buildCommand: pip install -r requirements-render.txt
+    buildCommand: pip install -r requirements-render.txt && echo "FORCING NEW BUILD $(date)"
     startCommand: python simple_production.py
     envVars:
       - key: PYTHON_VERSION

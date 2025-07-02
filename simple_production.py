@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 import uvicorn
 import os
 
-app = FastAPI(title="Ford Lead Generation - SIMPLE VERSION")
+app = FastAPI(title="Ford Lead Generation - SIMPLE VERSION NO AUTH")
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
