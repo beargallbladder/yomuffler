@@ -734,8 +734,17 @@ async def dealer_portal():
         </div>
         
         <div class="main-container">
-            <h1 class="page-title">Interactive Lead Dashboard</h1>
-            <p class="page-subtitle">Click any lead below for instant conversion tactics • SMS • Email • Phone Scripts</p>
+            <div style="background: linear-gradient(45deg, #22c55e, #16a34a); padding: 16px; border-radius: 12px; text-align: center; margin-bottom: 30px; border: 3px solid #10b981;">
+                <div style="font-size: 24px; font-weight: 900; color: white; margin-bottom: 8px;">
+                    🚀 NEW INTERACTIVE VERSION IS LIVE! 🚀
+                </div>
+                <div style="font-size: 16px; color: rgba(255,255,255,0.9);">
+                    Click any lead card below to see SMS, Email & Phone conversion tactics
+                </div>
+            </div>
+            
+            <h1 class="page-title">🎯 INTERACTIVE LEAD DASHBOARD v2.0</h1>
+            <p class="page-subtitle">✨ NEW: Click any lead below for instant conversion tactics • SMS • Email • Phone Scripts ✨</p>
             
             <div class="conversion-stats">
                 <div class="stat-card">
