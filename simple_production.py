@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette.middleware.sessions import SessionMiddleware
+from pydantic import BaseModel
 import uvicorn
 import os
 import secrets
@@ -9,6 +10,10 @@ import json
 import random
 from datetime import datetime
 from typing import List, Dict
+
+# Data models
+class VehicleInput(BaseModel):
+    vin: str
 
 app = FastAPI(title="Ford Lead Generation - SECURE")
 
@@ -1172,18 +1177,7 @@ async def admin_portal():
                 
                 <div class="code-block">
                     <span class="success"># AI Prompt Engineering</span><br>
-                    prompt = f"""<br>
-                    Vehicle: {vehicle_data['model']} <br>
-                    Technical findings: {stressor_analysis} in {cohort_percentile}th percentile<br>
-                    Revenue opportunity: ${revenue_target}<br>
-                    Confidence: {confidence_score}%<br>
-                    <br>
-                    Generate professional phone conversation that:<br>
-                    1. Mentions specific technical findings<br>
-                    2. References cohort analysis<br>
-                    3. Suggests proactive maintenance<br>
-                    4. Creates urgency without being pushy<br>
-                    """
+                    AI generates personalized phone scripts using vehicle data, stressor analysis, and cohort positioning for maximum conversion rates.
                 </div>
                 
                 <div class="business-metric">
@@ -1243,6 +1237,122 @@ async def admin_portal():
     </body>
     </html>
             """)
+
+@app.post("/analyze-stressors")
+async def analyze_stressors(request: VehicleInput, username: str = Depends(get_current_user)):
+    """Analyze vehicle stressors for detailed lead information"""
+    vin = request.vin.upper().strip()
+    
+    # Demo VIN mapping for analysis
+    demo_analysis = {
+        "1FMCU9GD5LUA12345": {
+            "model": "F-150 SuperCrew",
+            "year": 2023,
+            "risk_level": "HIGH",
+            "primary_stressor": "Battery SOC decline (6.5x likelihood)",
+            "cohort_percentile": 94,
+            "confidence": 0.92,
+            "revenue": 450,
+            "stressor_details": {
+                "soc_decline": 0.87,
+                "trip_cycling": 0.76,
+                "climate_stress": 0.82
+            }
+        },
+        "1FTFW1ET5DFC67890": {
+            "model": "F-150 Regular Cab", 
+            "year": 2022,
+            "risk_level": "MODERATE",
+            "primary_stressor": "Oil interval extension (2.8x likelihood)",
+            "cohort_percentile": 68,
+            "confidence": 0.78,
+            "revenue": 285,
+            "stressor_details": {
+                "oil_interval": 0.67,
+                "cold_starts": 0.23,
+                "idle_time": 0.45
+            }
+        },
+        "1FA6P8TH8J5123456": {
+            "model": "Mustang GT",
+            "year": 2023, 
+            "risk_level": "HIGH",
+            "primary_stressor": "High RPM cycling (3.2x likelihood)",
+            "cohort_percentile": 89,
+            "confidence": 0.91,
+            "revenue": 380,
+            "stressor_details": {
+                "high_rpm": 0.91,
+                "track_usage": 0.78,
+                "aggressive_shifts": 0.82
+            }
+        }
+    }
+    
+    if vin not in demo_analysis:
+        # Generate random demo data for unknown VINs
+        import random
+        models = ["F-150 SuperCrew", "Explorer", "Mustang", "Transit", "Escape"]
+        stressors = ["Battery degradation", "Engine stress", "Transmission cycling", "Climate exposure"]
+        
+        analysis = {
+            "model": random.choice(models),
+            "year": random.randint(2020, 2024),
+            "risk_level": random.choice(["HIGH", "MODERATE", "LOW"]),
+            "primary_stressor": f"{random.choice(stressors)} ({random.uniform(2.1, 6.5):.1f}x likelihood)",
+            "cohort_percentile": random.randint(60, 95),
+            "confidence": random.uniform(0.75, 0.95),
+            "revenue": random.randint(200, 600),
+            "stressor_details": {
+                "primary": random.uniform(0.6, 0.9),
+                "secondary": random.uniform(0.3, 0.7),
+                "tertiary": random.uniform(0.1, 0.5)
+            }
+        }
+    else:
+        analysis = demo_analysis[vin]
+    
+    return {
+        "vin": vin,
+        "vehicle_info": {
+            "model": analysis["model"],
+            "year": analysis["year"]
+        },
+        "risk_summary": {
+            "severity": analysis["risk_level"],
+            "score": analysis["confidence"],
+            "confidence": analysis["confidence"]
+        },
+        "stressor_insights": [
+            {
+                "component": "Primary",
+                "stressor": analysis["primary_stressor"],
+                "risk_increase": analysis["confidence"]
+            }
+        ],
+        "stressor_analysis": analysis["stressor_details"],
+        "cohort_comparison": {
+            "percentile": analysis["cohort_percentile"],
+            "sample_size": random.randint(15000, 50000)
+        },
+        "dealer_messaging": {
+            "message": f"Vehicle shows {analysis['risk_level'].lower()} priority patterns for conversation",
+            "urgency": analysis["risk_level"],
+            "action": "Schedule preventive service discussion"
+        },
+        "revenue_opportunity": {
+            "total": analysis["revenue"],
+            "service": analysis["revenue"] // 2,
+            "parts": analysis["revenue"] // 2
+        },
+        "dealer_conversation": generate_ai_lead({
+            "model": analysis["model"],
+            "primary_stressor": analysis["primary_stressor"],
+            "cohort_percentile": analysis["cohort_percentile"],
+            "confidence": analysis["confidence"] * 100,
+            "revenue": analysis["revenue"]
+        })
+    }
 
 @app.get("/health")
 async def health():
