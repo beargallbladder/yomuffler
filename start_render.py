@@ -618,14 +618,15 @@ async def stressor_dashboard():
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            width: 280px;
-            max-height: 60vh;
-            background: rgba(0,0,0,0.8);
+            width: 300px;
+            max-height: 70vh;
+            background: rgba(0,0,0,0.9);
             border-radius: 12px;
             padding: 16px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            z-index: 1000;
+            border: 2px solid rgba(34,197,94,0.5);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            z-index: 9999;
             overflow: hidden;
             display: block;
         ">
@@ -708,18 +709,51 @@ async def stressor_dashboard():
             </div>
         </div>
         
+        <!-- Toggle Button for Carousel -->
+        <div id="carousel-toggle" style="
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(34,197,94,0.4);
+            border: 2px solid rgba(34,197,94,0.8);
+            animation: pulse 2s infinite;
+        " onclick="toggleCarousel()">
+            💰 LIVE LEADS
+        </div>
+        
         <style>
             @keyframes scrollDown {
                 0% { transform: translateY(0); }
                 100% { transform: translateY(-50%); }
             }
             
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+            
             #carousel-content:hover {
                 animation-play-state: paused;
             }
             
-            @media (max-width: 1024px) {
-                #lead-carousel { display: none; }
+            @media (max-width: 768px) {
+                #lead-carousel { 
+                    width: 260px;
+                    right: 10px;
+                }
+                #carousel-toggle {
+                    right: 10px;
+                    padding: 10px 14px;
+                    font-size: 12px;
+                }
             }
         </style>
         
@@ -1408,6 +1442,20 @@ async def stressor_dashboard():
                 }
             }
             
+            function toggleCarousel() {
+                const carousel = document.getElementById('lead-carousel');
+                const toggle = document.getElementById('carousel-toggle');
+                
+                if (carousel.style.display === 'none') {
+                    carousel.style.display = 'block';
+                    toggle.innerHTML = '💰 HIDE LEADS';
+                    toggle.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                } else {
+                    carousel.style.display = 'none';
+                    toggle.innerHTML = '💰 SHOW LEADS';
+                    toggle.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                }
+            }
 
         </script>
     </body>
