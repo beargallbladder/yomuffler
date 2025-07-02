@@ -312,11 +312,9 @@ async def login_page():
                 <button type="submit" class="login-btn">🚀 Access Dealer Portal</button>
             </form>
             
-            <div class="credentials">
-                <strong>🔐 Valid Credentials:</strong><br>
-                <strong>dealer</strong> / Ford2024!Secure<br>
-                <strong>demo</strong> / Demo2024!ReadOnly<br>
-                <strong>ford_admin</strong> / Ford2024!Admin
+            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-top: 24px; font-size: 12px; line-height: 1.4;">
+                <strong>🔐 Authorized Access Only</strong><br>
+                Contact your Ford administrator for login credentials.
             </div>
         </div>
     </body>
