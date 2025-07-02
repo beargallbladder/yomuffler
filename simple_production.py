@@ -1239,9 +1239,11 @@ async def admin_portal():
 async def health():
     return {
         "status": "healthy", 
-        "version": "ai_auth",
+        "version": "interactive_portal_v2",
         "openai_available": openai_available,
-        "auth_enabled": True
+        "auth_enabled": True,
+        "portal_type": "clickable_lead_cards",
+        "deployment_time": "2024-12-19_interactive"
     }
 
 if __name__ == "__main__":
