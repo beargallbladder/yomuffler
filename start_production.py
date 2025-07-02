@@ -1907,58 +1907,77 @@ Florida salt corrosion threshold ≠ Montana salt corrosion threshold.
         };
         
         function toggleCarousel() {
+            console.log('🚨 Carousel toggle clicked!');
             const carousel = document.getElementById('lead-carousel');
             const toggle = document.getElementById('carousel-toggle');
             
+            console.log('Carousel element:', carousel);
+            console.log('Toggle element:', toggle);
+            
             if (carousel.style.display === 'none') {
                 carousel.style.display = 'block';
-                toggle.innerHTML = '💰 HIDE LEADS';
+                toggle.innerHTML = '🚨 HIDE LEADS 🚨';
                 toggle.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                console.log('✅ Showing carousel');
             } else {
                 carousel.style.display = 'none';
-                toggle.innerHTML = '💰 SHOW LEADS';
-                toggle.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                toggle.innerHTML = '🚨 CLICK ME - LEADS 🚨';
+                toggle.style.background = 'linear-gradient(45deg, #ff0000, #ff4444)';
+                console.log('❌ Hiding carousel');
             }
         }
+        
+        // Log when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚨 PAGE LOADED - CHECKING FOR CAROUSEL');
+            const carousel = document.getElementById('lead-carousel');
+            const toggle = document.getElementById('carousel-toggle');
+            console.log('Carousel found:', !!carousel);
+            console.log('Toggle found:', !!toggle);
+            if (carousel) console.log('Carousel display:', carousel.style.display);
+        });
     </script>
     
-    <!-- Toggle Button for Lead Carousel -->
+    <!-- GIANT IMPOSSIBLE TO MISS CAROUSEL BUTTON -->
     <div id="carousel-toggle" style="
         position: fixed;
-        right: 20px;
-        top: 20px;
-        background: linear-gradient(45deg, #22c55e, #16a34a);
+        right: 10px;
+        top: 50px;
+        background: linear-gradient(45deg, #ff0000, #ff4444);
         color: white;
-        padding: 12px 16px;
-        border-radius: 25px;
-        font-size: 14px;
-        font-weight: 700;
+        padding: 20px 30px;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 900;
         cursor: pointer;
-        z-index: 10000;
-        box-shadow: 0 4px 12px rgba(34,197,94,0.4);
-        border: 2px solid rgba(34,197,94,0.8);
-        animation: pulse 2s infinite;
+        z-index: 99999;
+        box-shadow: 0 8px 25px rgba(255,0,0,0.8);
+        border: 4px solid #ff0000;
+        animation: bounce 1s infinite;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     " onclick="toggleCarousel()">
-        💰 LIVE LEADS
+        🚨 CLICK ME - LEADS 🚨
     </div>
     
-    <!-- Lead Carousel - Simple Demo on Right Side -->
+    <!-- GIANT OBVIOUS LEAD CAROUSEL -->
     <div id="lead-carousel" style="
         position: fixed;
-        right: 20px;
+        right: 10px;
         top: 50%;
         transform: translateY(-50%);
-        width: 300px;
-        max-height: 70vh;
-        background: rgba(0,0,0,0.9);
-        border-radius: 12px;
-        padding: 16px;
+        width: 320px;
+        max-height: 80vh;
+        background: rgba(0,0,0,0.95);
+        border-radius: 15px;
+        padding: 20px;
         backdrop-filter: blur(10px);
-        border: 2px solid rgba(34,197,94,0.5);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        z-index: 9999;
+        border: 4px solid #ff0000;
+        box-shadow: 0 0 30px rgba(255,0,0,0.8);
+        z-index: 99998;
         overflow: hidden;
         display: block;
+        animation: pulse 2s infinite;
     ">
         <div style="text-align: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 12px;">
             <div style="font-size: 14px; font-weight: 700; color: #22c55e;">💰 LIVE LEADS</div>
@@ -2050,6 +2069,12 @@ Florida salt corrosion threshold ≠ Montana salt corrosion threshold.
             50% { transform: scale(1.05); }
         }
         
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
         #carousel-content:hover {
             animation-play-state: paused;
         }
@@ -2057,12 +2082,13 @@ Florida salt corrosion threshold ≠ Montana salt corrosion threshold.
         @media (max-width: 768px) {
             #lead-carousel { 
                 width: 260px;
-                right: 10px;
+                right: 5px;
             }
             #carousel-toggle {
-                right: 10px;
-                padding: 10px 14px;
-                font-size: 12px;
+                right: 5px;
+                padding: 15px 20px;
+                font-size: 14px;
+                top: 30px;
             }
         }
     </style>
