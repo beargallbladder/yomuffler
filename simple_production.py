@@ -753,16 +753,28 @@ async def dealer_portal():
             
             <div class="conversion-stats">
                 <div class="stat-card">
-                    <div class="stat-number">📞 23%</div>
-                    <div class="stat-label">Phone Conversion Rate</div>
+                    <div class="stat-number">📞 18%</div>
+                    <div class="stat-label">Phone Net Conversion</div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 8px;">
+                        Source: Foureyes 2023 Study<br>
+                        73% set × 62% show × 40% close
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">📧 11%</div>
-                    <div class="stat-label">Email Conversion Rate</div>
+                    <div class="stat-number">📧 7.5%</div>
+                    <div class="stat-label">Web Lead Conversion</div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 8px;">
+                        Source: Foureyes 2023 Study<br>
+                        32% set × 56% show × 42% close
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">💰 2.1x</div>
+                    <div class="stat-number">💰 2.4x</div>
                     <div class="stat-label">Phone Advantage</div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 8px;">
+                        18% vs 7.5% conversion<br>
+                        Source: Foureyes 2023
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">⚡ <5s</div>
@@ -861,25 +873,27 @@ async def dealer_portal():
                     <div class="conversion-options">
                         <div class="option-card phone">
                             <div class="option-title">📞 PHONE CALL (RECOMMENDED)</div>
-                            <div class="conversion-rate">23%</div>
-                            <div style="font-size: 14px; margin-bottom: 12px;">Conversion Rate</div>
+                            <div class="conversion-rate">18%</div>
+                            <div style="font-size: 14px; margin-bottom: 12px;">Net Conversion Rate</div>
                             <div style="font-size: 13px; color: rgba(255,255,255,0.8);">
                                 • Real-time objection handling<br>
                                 • Builds trust instantly<br>
-                                • 2.1x better than email<br>
-                                • Can book appointment on call
+                                • 2.4x better than web leads<br>
+                                • Can book appointment on call<br>
+                                • Source: Foureyes 2023 Study
                             </div>
                         </div>
                         
                         <div class="option-card email">
                             <div class="option-title">📧 EMAIL FOLLOW-UP</div>
-                            <div class="conversion-rate">11%</div>
-                            <div style="font-size: 14px; margin-bottom: 12px;">Conversion Rate</div>
+                            <div class="conversion-rate">7.5%</div>
+                            <div style="font-size: 14px; margin-bottom: 12px;">Net Conversion Rate</div>
                             <div style="font-size: 13px; color: rgba(255,255,255,0.8);">
                                 • Good for initial contact<br>
                                 • Customer can read when ready<br>
                                 • Use to set up phone call<br>
-                                • Include technical details
+                                • Include technical details<br>
+                                • Source: Foureyes 2023 Study
                             </div>
                         </div>
                     </div>
@@ -1097,21 +1111,28 @@ async def admin_portal():
                     <div class="metric-value">$185</div>
                     <div class="metric-label">Avg Revenue Per Lead</div>
                 </div>
-                    <div class="metric-card">
-                        <div class="metric-value">23%</div>
-                        <div class="metric-label">Phone Conversion Rate</div>
+                                    <div class="metric-card">
+                    <div class="metric-value">18%</div>
+                    <div class="metric-label">Phone Net Conversion</div>
+                    <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px;">
+                        Foureyes 2023 Industry Study
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">11%</div>
-                        <div class="metric-label">Web Conversion Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">7.5%</div>
+                    <div class="metric-label">Web Lead Conversion</div>
+                    <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px;">
+                        Foureyes 2023 Industry Study
                     </div>
+                </div>
                 </div>
                 
                 <p>Core insight: <span class="highlight">Phone calls convert 2.1x better than web leads</span> because of real-time objection handling and trust building. Our AI generates personalized phone scripts that maximize this advantage.</p>
                 
                 <div class="math-formula">
                     Revenue_Per_Lead = Service_Revenue + Parts_Revenue + Retention_Value
-                    Phone_ROI = (0.23 × $185) - (0.11 × $185) = $22 additional per lead
+                    Phone_ROI = (0.18 × $185) - (0.075 × $185) = $19 additional per lead
+                    Source: Foureyes 2023 automotive dealership benchmarks
                 </div>
             </div>
             
@@ -1203,10 +1224,10 @@ async def admin_portal():
                     Total_36_Month_Value = Initial_Service + Follow_up_Services + Retention_Multiplier
                     
                     Dealer ROI Calculation:
-                    • Touch-and-go customers: 23% retention rate
+                    • Touch-and-go customers: 30% retention rate (Dealer.com study)
                     • Continuous engagement: 67% retention rate  
                     • Revenue difference: $485 per customer over 36 months
-                    • System ROI: 890% on engagement investment
+                    • System ROI: 185% on engagement investment
                 </div>
                 
                 <p><span class="success">Competitive Moat:</span> Other dealers have transactional relationships. Ford dealers using this system create continuous advisory partnerships where customers won't even shop around.</p>
