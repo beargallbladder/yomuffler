@@ -1905,7 +1905,168 @@ Florida salt corrosion threshold ≠ Montana salt corrosion threshold.
                 window.location.href = window.location.href + '?v=' + Date.now();
             }
         };
+        
+        function toggleCarousel() {
+            const carousel = document.getElementById('lead-carousel');
+            const toggle = document.getElementById('carousel-toggle');
+            
+            if (carousel.style.display === 'none') {
+                carousel.style.display = 'block';
+                toggle.innerHTML = '💰 HIDE LEADS';
+                toggle.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+            } else {
+                carousel.style.display = 'none';
+                toggle.innerHTML = '💰 SHOW LEADS';
+                toggle.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+            }
+        }
     </script>
+    
+    <!-- Toggle Button for Lead Carousel -->
+    <div id="carousel-toggle" style="
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        background: linear-gradient(45deg, #22c55e, #16a34a);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        z-index: 10000;
+        box-shadow: 0 4px 12px rgba(34,197,94,0.4);
+        border: 2px solid rgba(34,197,94,0.8);
+        animation: pulse 2s infinite;
+    " onclick="toggleCarousel()">
+        💰 LIVE LEADS
+    </div>
+    
+    <!-- Lead Carousel - Simple Demo on Right Side -->
+    <div id="lead-carousel" style="
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 300px;
+        max-height: 70vh;
+        background: rgba(0,0,0,0.9);
+        border-radius: 12px;
+        padding: 16px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(34,197,94,0.5);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        z-index: 9999;
+        overflow: hidden;
+        display: block;
+    ">
+        <div style="text-align: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 12px;">
+            <div style="font-size: 14px; font-weight: 700; color: #22c55e;">💰 LIVE LEADS</div>
+            <div style="font-size: 11px; color: rgba(255,255,255,0.7);">Real dealer dashboard</div>
+        </div>
+        <div id="carousel-content" style="
+            max-height: 400px;
+            overflow-y: auto;
+            animation: scrollDown 20s linear infinite;
+        ">
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(239,68,68,0.2); border-radius: 8px; border-left: 3px solid #ef4444; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #fca5a5;">HIGH PRIORITY</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2023 F-150 SuperCrew</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Detroit • 47K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Cold weather + short trips = battery stress"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$450 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(245,158,11,0.2); border-radius: 8px; border-left: 3px solid #f59e0b; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #fbbf24;">MODERATE</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2022 Explorer Hybrid</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Austin • 34K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Hybrid optimization opportunity"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$285 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(139,92,246,0.2); border-radius: 8px; border-left: 3px solid #8b5cf6; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #c4b5fd;">FOLLOW-UP</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2023 Mustang GT</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">LA • 12K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Performance maintenance due"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$380 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(239,68,68,0.2); border-radius: 8px; border-left: 3px solid #ef4444; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #fca5a5;">HIGH PRIORITY</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2022 F-250 PowerStroke</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Houston • 23K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"DPF regen patterns flagged"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$680 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(34,197,94,0.2); border-radius: 8px; border-left: 3px solid #22c55e; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #86efac;">RETENTION</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2021 F-150 Regular</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Phoenix • 28K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Excellent patterns - upsell ready"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$195 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(245,158,11,0.2); border-radius: 8px; border-left: 3px solid #f59e0b; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #fbbf24;">MODERATE</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2021 Transit 350</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Denver • 67K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Fleet optimization discussion"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$340 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(245,158,11,0.2); border-radius: 8px; border-left: 3px solid #f59e0b; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #fbbf24;">MODERATE</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2022 Escape Hybrid</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Seattle • 19K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Battery efficiency review"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$220 opportunity</div>
+            </div>
+            
+            <div class="lead-item" style="margin-bottom: 12px; padding: 12px; background: rgba(239,68,68,0.2); border-radius: 8px; border-left: 3px solid #ef4444; color: white;">
+                <div style="font-size: 12px; font-weight: 600; color: #fca5a5;">HIGH PRIORITY</div>
+                <div style="font-size: 13px; color: white; margin: 4px 0;">2023 Expedition Max</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.8);">Chicago • 41K miles</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,0.7); margin: 4px 0;">"Heavy usage climate stress"</div>
+                <div style="font-size: 12px; color: #22c55e; font-weight: 600;">$520 opportunity</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">Total: $3,670 today</div>
+        </div>
+    </div>
+    
+    <style>
+        @keyframes scrollDown {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        #carousel-content:hover {
+            animation-play-state: paused;
+        }
+        
+        @media (max-width: 768px) {
+            #lead-carousel { 
+                width: 260px;
+                right: 10px;
+            }
+            #carousel-toggle {
+                right: 10px;
+                padding: 10px 14px;
+                font-size: 12px;
+            }
+        }
+    </style>
+
 </body>
 </html>
 """
