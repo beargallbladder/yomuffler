@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Depends, HTTPException, Request, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from starlette.middleware.sessions import SessionMiddleware
 import uvicorn
 import os
 import secrets
@@ -9,21 +10,23 @@ import random
 from datetime import datetime
 from typing import List, Dict
 
-# Simple auth setup
-security = HTTPBasic()
+app = FastAPI(title="Ford Lead Generation - SECURE")
 
-def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
-    """Simple username/password auth"""
-    correct_username = secrets.compare_digest(credentials.username, "dealer")
-    correct_password = secrets.compare_digest(credentials.password, "ford2024")
-    
-    if not (correct_username and correct_password):
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid credentials",
-            headers={"WWW-Authenticate": "Basic"},
-        )
-    return credentials.username
+# Add session middleware for proper authentication
+app.add_middleware(SessionMiddleware, secret_key="ford-dealer-secure-key-2024-production")
+
+# Valid credentials
+VALID_USERS = {
+    "dealer": "Ford2024!Secure",
+    "demo": "Demo2024!ReadOnly", 
+    "ford_admin": "Ford2024!Admin"
+}
+
+def get_current_user(request: Request):
+    """Check if user is authenticated"""
+    if not request.session.get("authenticated"):
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return request.session.get("username")
 
 # OpenAI setup
 try:
@@ -35,8 +38,6 @@ except Exception as e:
     client = None
     openai_available = False
     print(f"⚠️ OpenAI not available: {e}")
-
-app = FastAPI(title="Ford Lead Generation - WITH AUTH AND REAL LLM")
 
 def generate_ai_lead(vehicle_data: Dict) -> str:
     """Generate sophisticated AI phone conversation with technical depth"""
@@ -191,8 +192,173 @@ REAL_VEHICLES = [
     },
 ]
 
+@app.get("/login", response_class=HTMLResponse)
+async def login_page():
+    """Secure login page"""
+    return HTMLResponse("""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ford Dealer Portal - Secure Login</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+                background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+            }
+            .login-container {
+                background: rgba(255,255,255,0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 16px;
+                padding: 40px;
+                max-width: 400px;
+                width: 90%;
+                border: 1px solid rgba(255,255,255,0.2);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            }
+            .logo {
+                text-align: center;
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+            .subtitle {
+                text-align: center;
+                color: rgba(255,255,255,0.8);
+                margin-bottom: 32px;
+                font-size: 14px;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                font-size: 14px;
+            }
+            input[type="text"], input[type="password"] {
+                width: 100%;
+                padding: 12px 16px;
+                border: none;
+                border-radius: 8px;
+                background: rgba(255,255,255,0.9);
+                color: #333;
+                font-size: 16px;
+                transition: all 0.3s ease;
+            }
+            input[type="text"]:focus, input[type="password"]:focus {
+                outline: none;
+                background: rgba(255,255,255,1);
+                box-shadow: 0 0 0 3px rgba(96,165,250,0.5);
+            }
+            .login-btn {
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(45deg, #22c55e, #16a34a);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(34,197,94,0.3);
+            }
+            .login-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(34,197,94,0.4);
+            }
+            .credentials {
+                background: rgba(0,0,0,0.3);
+                padding: 16px;
+                border-radius: 8px;
+                margin-top: 24px;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            .error {
+                background: rgba(239,68,68,0.2);
+                border: 1px solid #ef4444;
+                color: #fca5a5;
+                padding: 12px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-container">
+            <div class="logo">🔒 Ford Dealer Portal</div>
+            <div class="subtitle">Secure Access Required</div>
+            
+            <form method="post" action="/authenticate">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">🚀 Access Dealer Portal</button>
+            </form>
+            
+            <div class="credentials">
+                <strong>🔐 Valid Credentials:</strong><br>
+                <strong>dealer</strong> / Ford2024!Secure<br>
+                <strong>demo</strong> / Demo2024!ReadOnly<br>
+                <strong>ford_admin</strong> / Ford2024!Admin
+            </div>
+        </div>
+    </body>
+    </html>
+    """)
+
+@app.post("/authenticate")
+async def authenticate(request: Request, username: str = Form(...), password: str = Form(...)):
+    """Process login"""
+    if username in VALID_USERS and VALID_USERS[username] == password:
+        request.session["authenticated"] = True
+        request.session["username"] = username
+        return RedirectResponse(url="/", status_code=303)
+    else:
+        return HTMLResponse("""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Login Failed</title>
+            <meta http-equiv="refresh" content="3;url=/login">
+            <style>
+                body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #dc2626; color: white; text-align: center; padding: 100px 20px; }
+                .error { background: rgba(0,0,0,0.3); padding: 40px; border-radius: 12px; display: inline-block; }
+            </style>
+        </head>
+        <body>
+            <div class="error">
+                <h1>❌ Login Failed</h1>
+                <p>Invalid credentials. Redirecting...</p>
+            </div>
+        </body>
+        </html>
+        """, status_code=401)
+
+@app.get("/logout")
+async def logout(request: Request):
+    """Logout user"""
+    request.session.clear()
+    return RedirectResponse(url="/login", status_code=303)
+
 @app.get("/api/generate-leads")
-async def generate_leads(username: str = Depends(authenticate)):
+async def generate_leads(username: str = Depends(get_current_user)):
     """Generate real AI-powered leads"""
     leads = []
     for vehicle in REAL_VEHICLES:
@@ -225,8 +391,15 @@ async def generate_leads(username: str = Depends(authenticate)):
     
     return {"leads": leads, "total_revenue": sum(v["revenue"] for v in REAL_VEHICLES)}
 
-@app.get("/", response_class=HTMLResponse)
-async def root(username: str = Depends(authenticate)):
+@app.get("/")
+async def root_redirect(request: Request):
+    """Redirect to login if not authenticated, otherwise show main app"""
+    if not request.session.get("authenticated"):
+        return RedirectResponse(url="/login", status_code=303)
+    return RedirectResponse(url="/dashboard", status_code=303)
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(username: str = Depends(get_current_user)):
     return HTMLResponse("""
     <!DOCTYPE html>
     <html lang="en">
@@ -348,6 +521,7 @@ async def root(username: str = Depends(authenticate)):
             <div class="auth-info">
                 <h3>🔒 AUTHENTICATED USER: Welcome!</h3>
                 <p>You're logged in and can see the AI-generated lead carousel on the right.</p>
+                <a href="/logout" style="display: inline-block; margin-top: 12px; padding: 8px 16px; background: #ef4444; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">🚪 Logout</a>
             </div>
             
             <div class="demo-notice">
