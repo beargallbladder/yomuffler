@@ -88,7 +88,7 @@ REAL_VEHICLES = [
         "location": "Detroit • 47K miles", 
         "issue": "SOC decline + thermal cycling", 
         "priority": "HIGH", 
-        "revenue": 450,
+        "revenue": 315,
         "stressor_score": 0.87,
         "cohort_percentile": 94,
         "primary_stressor": "Battery SOC decline (6.5x likelihood)",
@@ -102,7 +102,7 @@ REAL_VEHICLES = [
         "location": "Austin • 34K miles", 
         "issue": "hybrid system optimization", 
         "priority": "MODERATE", 
-        "revenue": 285,
+        "revenue": 200,
         "stressor_score": 0.64,
         "cohort_percentile": 73,
         "primary_stressor": "Trip cycling variance (2.1x likelihood)",
@@ -116,7 +116,7 @@ REAL_VEHICLES = [
         "location": "LA • 12K miles", 
         "issue": "performance stress patterns", 
         "priority": "FOLLOW-UP", 
-        "revenue": 380,
+        "revenue": 250,
         "stressor_score": 0.78,
         "cohort_percentile": 89,
         "primary_stressor": "High RPM cycling (3.2x likelihood)",
@@ -130,7 +130,7 @@ REAL_VEHICLES = [
         "location": "Houston • 23K miles", 
         "issue": "DPF regen failure patterns", 
         "priority": "HIGH", 
-        "revenue": 680,
+        "revenue": 395,
         "stressor_score": 0.93,
         "cohort_percentile": 97,
         "primary_stressor": "Incomplete regen cycles (4.7x likelihood)",
@@ -158,7 +158,7 @@ REAL_VEHICLES = [
         "location": "Denver • 67K miles", 
         "issue": "fleet utilization optimization", 
         "priority": "MODERATE", 
-        "revenue": 340,
+        "revenue": 220,
         "stressor_score": 0.71,
         "cohort_percentile": 82,
         "primary_stressor": "Load variance cycling (2.9x likelihood)",
@@ -186,7 +186,7 @@ REAL_VEHICLES = [
         "location": "Chicago • 41K miles", 
         "issue": "heavy load climate stress", 
         "priority": "HIGH", 
-        "revenue": 520,
+        "revenue": 300,
         "stressor_score": 0.84,
         "cohort_percentile": 91,
         "primary_stressor": "Load + climate interaction (3.8x likelihood)",
@@ -1093,10 +1093,10 @@ async def admin_portal():
                 <div class="section-title">📊 Business Model Fundamentals</div>
                 
                 <div class="business-metric">
-                    <div class="metric-card">
-                        <div class="metric-value">$2,340</div>
-                        <div class="metric-label">Avg Revenue Per Lead</div>
-                    </div>
+                                    <div class="metric-card">
+                    <div class="metric-value">$185</div>
+                    <div class="metric-label">Avg Revenue Per Lead</div>
+                </div>
                     <div class="metric-card">
                         <div class="metric-value">23%</div>
                         <div class="metric-label">Phone Conversion Rate</div>
@@ -1111,7 +1111,7 @@ async def admin_portal():
                 
                 <div class="math-formula">
                     Revenue_Per_Lead = Service_Revenue + Parts_Revenue + Retention_Value
-                    Phone_ROI = (0.23 × $2,340) - (0.11 × $2,340) = $281 additional per lead
+                    Phone_ROI = (0.23 × $185) - (0.11 × $185) = $22 additional per lead
                 </div>
             </div>
             
@@ -1205,7 +1205,7 @@ async def admin_portal():
                     Dealer ROI Calculation:
                     • Touch-and-go customers: 23% retention rate
                     • Continuous engagement: 67% retention rate  
-                    • Revenue difference: $1,560 per customer over 36 months
+                    • Revenue difference: $485 per customer over 36 months
                     • System ROI: 890% on engagement investment
                 </div>
                 
@@ -1252,7 +1252,7 @@ async def analyze_stressors(request: VehicleInput, username: str = Depends(get_c
             "primary_stressor": "Battery SOC decline (6.5x likelihood)",
             "cohort_percentile": 94,
             "confidence": 0.92,
-            "revenue": 450,
+            "revenue": 315,
             "stressor_details": {
                 "soc_decline": 0.87,
                 "trip_cycling": 0.76,
@@ -1266,7 +1266,7 @@ async def analyze_stressors(request: VehicleInput, username: str = Depends(get_c
             "primary_stressor": "Oil interval extension (2.8x likelihood)",
             "cohort_percentile": 68,
             "confidence": 0.78,
-            "revenue": 285,
+            "revenue": 200,
             "stressor_details": {
                 "oil_interval": 0.67,
                 "cold_starts": 0.23,
@@ -1280,7 +1280,7 @@ async def analyze_stressors(request: VehicleInput, username: str = Depends(get_c
             "primary_stressor": "High RPM cycling (3.2x likelihood)",
             "cohort_percentile": 89,
             "confidence": 0.91,
-            "revenue": 380,
+            "revenue": 250,
             "stressor_details": {
                 "high_rpm": 0.91,
                 "track_usage": 0.78,
@@ -1302,7 +1302,7 @@ async def analyze_stressors(request: VehicleInput, username: str = Depends(get_c
             "primary_stressor": f"{random.choice(stressors)} ({random.uniform(2.1, 6.5):.1f}x likelihood)",
             "cohort_percentile": random.randint(60, 95),
             "confidence": random.uniform(0.75, 0.95),
-            "revenue": random.randint(200, 600),
+            "revenue": random.randint(80, 350),
             "stressor_details": {
                 "primary": random.uniform(0.6, 0.9),
                 "secondary": random.uniform(0.3, 0.7),
