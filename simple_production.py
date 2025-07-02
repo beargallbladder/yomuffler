@@ -388,362 +388,551 @@ async def dashboard(request: Request):
 
 @app.get("/dealer-portal", response_class=HTMLResponse)  
 async def dealer_portal():
-    """STUNNING CUSTOMER DEMO - Dealer Portal"""
+    """INTERACTIVE DEALER PORTAL - Click leads for instant conversion tactics"""
     return HTMLResponse("""
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>🔥 FORD AI REVENUE ENGINE 🔥</title>
+        <title>💰 FORD REVENUE ENGINE - Interactive Dealer Portal</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body { 
                 font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-                background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
                 color: white;
-                overflow-x: hidden;
                 min-height: 100vh;
             }
             
-            .floating-particles {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: 1;
-            }
-            
-            .particle {
-                position: absolute;
-                background: rgba(96,165,250,0.3);
-                border-radius: 50%;
-                animation: float 6s ease-in-out infinite;
-            }
-            
-            @keyframes float {
-                0%, 100% { transform: translateY(0px) rotate(0deg); }
-                50% { transform: translateY(-20px) rotate(180deg); }
-            }
-            
-            .hero-container {
-                position: relative;
-                z-index: 2;
-                text-align: center;
-                padding: 60px 20px;
-                background: rgba(0,0,0,0.3);
+            .header {
+                background: rgba(0,0,0,0.4);
                 backdrop-filter: blur(10px);
+                padding: 20px;
+                border-bottom: 1px solid rgba(34,197,94,0.3);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
             
-            .hero-title {
-                font-size: 64px;
-                font-weight: 900;
-                background: linear-gradient(45deg, #22c55e, #60a5fa, #a855f7);
-                background-size: 200% 200%;
-                animation: gradientShift 3s ease-in-out infinite;
+            .logo { 
+                font-size: 32px; 
+                font-weight: 900; 
+                background: linear-gradient(45deg, #22c55e, #60a5fa);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                margin-bottom: 24px;
-                text-shadow: 0 0 30px rgba(34,197,94,0.5);
             }
             
-            @keyframes gradientShift {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-            }
-            
-            .hero-subtitle {
-                font-size: 24px;
-                font-weight: 600;
-                color: rgba(255,255,255,0.9);
-                margin-bottom: 40px;
-                text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            }
-            
-            .mega-stats {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 30px;
-                max-width: 1200px;
-                margin: 50px auto;
-                padding: 0 20px;
-            }
-            
-            .mega-stat {
-                background: rgba(255,255,255,0.1);
+            .nav-links a {
+                color: #ef4444;
+                text-decoration: none;
+                margin-left: 16px;
+                padding: 8px 16px;
+                border: 1px solid #ef4444;
                 border-radius: 20px;
-                padding: 30px;
-                text-align: center;
-                backdrop-filter: blur(10px);
-                border: 2px solid rgba(34,197,94,0.3);
-                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                font-weight: 600;
                 transition: all 0.3s ease;
             }
             
-            .mega-stat:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 16px 48px rgba(34,197,94,0.4);
-                border-color: #22c55e;
+            .nav-links a:hover {
+                background: #ef4444;
+                color: white;
             }
             
-            .mega-number {
+            .main-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 30px 20px;
+            }
+            
+            .page-title {
+                text-align: center;
                 font-size: 48px;
                 font-weight: 900;
                 color: #22c55e;
                 margin-bottom: 12px;
-                text-shadow: 0 0 20px rgba(34,197,94,0.5);
+                text-shadow: 0 0 30px rgba(34,197,94,0.5);
             }
             
-            .mega-label {
-                font-size: 18px;
-                font-weight: 600;
-                color: rgba(255,255,255,0.9);
-            }
-            
-            .demo-showcase {
-                position: relative;
-                z-index: 2;
-                max-width: 1400px;
-                margin: 80px auto;
-                padding: 0 20px;
-            }
-            
-            .showcase-title {
+            .page-subtitle {
                 text-align: center;
-                font-size: 36px;
-                font-weight: 800;
-                color: #22c55e;
-                margin-bottom: 50px;
-                text-shadow: 0 0 20px rgba(34,197,94,0.5);
+                font-size: 20px;
+                color: rgba(255,255,255,0.8);
+                margin-bottom: 40px;
             }
             
-            .ai-messages-feed {
-                background: rgba(0,0,0,0.4);
-                border-radius: 20px;
-                padding: 30px;
-                backdrop-filter: blur(15px);
-                border: 2px solid rgba(96,165,250,0.3);
-                box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-                max-height: 600px;
-                overflow-y: auto;
+            .conversion-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+                margin-bottom: 40px;
             }
             
-            .ai-message {
-                background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(96,165,250,0.2));
+            .stat-card {
+                background: rgba(34,197,94,0.1);
+                border: 2px solid rgba(34,197,94,0.3);
                 border-radius: 16px;
-                padding: 20px;
-                margin-bottom: 20px;
-                border-left: 4px solid #22c55e;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-                animation: messageSlideIn 0.5s ease-out;
+                padding: 24px;
+                text-align: center;
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
             }
             
-            @keyframes messageSlideIn {
-                from { opacity: 0; transform: translateX(-30px); }
-                to { opacity: 1; transform: translateX(0); }
+            .stat-card:hover {
+                border-color: #22c55e;
+                transform: translateY(-4px);
+                box-shadow: 0 12px 32px rgba(34,197,94,0.3);
             }
             
-            .message-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 12px;
+            .stat-number {
+                font-size: 36px;
+                font-weight: 900;
+                color: #22c55e;
+                margin-bottom: 8px;
             }
             
-            .message-priority {
-                background: #ef4444;
-                color: white;
-                padding: 4px 12px;
+            .stat-label {
+                color: rgba(255,255,255,0.9);
+                font-weight: 600;
+            }
+            
+            .leads-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 20px;
+                margin-top: 30px;
+            }
+            
+            .lead-card {
+                background: rgba(255,255,255,0.05);
+                border-radius: 16px;
+                padding: 24px;
+                border: 2px solid transparent;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .lead-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+            }
+            
+            .lead-card.high-priority {
+                border-color: rgba(239,68,68,0.6);
+                background: rgba(239,68,68,0.1);
+            }
+            
+            .lead-card.moderate-priority {
+                border-color: rgba(245,158,11,0.6);
+                background: rgba(245,158,11,0.1);
+            }
+            
+            .lead-card.follow-up {
+                border-color: rgba(139,92,246,0.6);
+                background: rgba(139,92,246,0.1);
+            }
+            
+            .lead-card.retention {
+                border-color: rgba(34,197,94,0.6);
+                background: rgba(34,197,94,0.1);
+            }
+            
+            .priority-badge {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                padding: 6px 12px;
                 border-radius: 20px;
                 font-size: 12px;
                 font-weight: 700;
                 text-transform: uppercase;
             }
             
-            .message-revenue {
+            .revenue-amount {
+                font-size: 28px;
+                font-weight: 900;
                 color: #22c55e;
-                font-size: 16px;
-                font-weight: 700;
-            }
-            
-            .message-vehicle {
-                font-size: 18px;
-                font-weight: 700;
-                color: white;
                 margin-bottom: 8px;
             }
             
-            .message-ai-text {
-                background: rgba(96,165,250,0.2);
-                padding: 16px;
-                border-radius: 12px;
-                border-left: 3px solid #60a5fa;
-                font-style: italic;
-                color: rgba(255,255,255,0.95);
-                line-height: 1.5;
-            }
-            
-            .refresh-button {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                background: linear-gradient(45deg, #22c55e, #16a34a);
-                color: white;
-                border: none;
-                padding: 16px 24px;
-                border-radius: 50px;
-                font-size: 16px;
+            .vehicle-info {
+                font-size: 20px;
                 font-weight: 700;
-                cursor: pointer;
-                box-shadow: 0 8px 32px rgba(34,197,94,0.4);
-                z-index: 1000;
-                animation: pulse 2s infinite;
+                margin-bottom: 8px;
             }
             
-            @keyframes pulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.05); }
+            .location-info {
+                color: rgba(255,255,255,0.7);
+                margin-bottom: 16px;
             }
             
-            .admin-link {
+            .click-hint {
+                background: rgba(96,165,250,0.2);
+                padding: 12px;
+                border-radius: 8px;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+                color: #60a5fa;
+                border: 1px solid rgba(96,165,250,0.3);
+            }
+            
+            /* Modal Styles */
+            .modal {
+                display: none;
                 position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 1000;
+                backdrop-filter: blur(5px);
+            }
+            
+            .modal-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #1e293b;
+                border-radius: 20px;
+                padding: 30px;
+                max-width: 800px;
+                width: 90%;
+                max-height: 90vh;
+                overflow-y: auto;
+                border: 2px solid rgba(34,197,94,0.3);
+                box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            }
+            
+            .modal-close {
+                position: absolute;
                 top: 20px;
                 right: 20px;
-                background: rgba(139,92,246,0.9);
-                color: white;
-                padding: 10px 16px;
-                border-radius: 25px;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 14px;
-                z-index: 1000;
-                backdrop-filter: blur(10px);
+                background: none;
+                border: none;
+                color: #ef4444;
+                font-size: 24px;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
-            .logout-link {
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                background: rgba(239,68,68,0.9);
-                color: white;
-                padding: 10px 16px;
-                border-radius: 25px;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 14px;
-                z-index: 1000;
-                backdrop-filter: blur(10px);
+            .modal-close:hover {
+                background: rgba(239,68,68,0.2);
+            }
+            
+            .modal-title {
+                font-size: 24px;
+                font-weight: 900;
+                color: #22c55e;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            
+            .conversion-options {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin: 30px 0;
+            }
+            
+            .option-card {
+                background: rgba(255,255,255,0.05);
+                border-radius: 12px;
+                padding: 20px;
+                border: 2px solid transparent;
+                transition: all 0.3s ease;
+            }
+            
+            .option-card.phone {
+                border-color: rgba(34,197,94,0.6);
+                background: rgba(34,197,94,0.1);
+            }
+            
+            .option-card.email {
+                border-color: rgba(96,165,250,0.6);
+                background: rgba(96,165,250,0.1);
+            }
+            
+            .option-title {
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .conversion-rate {
+                font-size: 32px;
+                font-weight: 900;
+                margin-bottom: 8px;
+            }
+            
+            .phone .conversion-rate { color: #22c55e; }
+            .email .conversion-rate { color: #60a5fa; }
+            
+            .script-section {
+                background: rgba(0,0,0,0.3);
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+                border-left: 4px solid #22c55e;
+            }
+            
+            .script-text {
+                font-style: italic;
+                line-height: 1.6;
+                color: rgba(255,255,255,0.9);
+            }
+            
+            .plain-english {
+                background: rgba(96,165,250,0.1);
+                border: 1px solid rgba(96,165,250,0.3);
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .plain-english h3 {
+                color: #60a5fa;
+                margin-bottom: 12px;
+            }
+            
+            .loading {
+                text-align: center;
+                padding: 40px;
+                color: #22c55e;
+                font-size: 18px;
+            }
+            
+            @media (max-width: 768px) {
+                .conversion-options {
+                    grid-template-columns: 1fr;
+                }
+                .leads-grid {
+                    grid-template-columns: 1fr;
+                }
             }
         </style>
     </head>
     <body>
-        <!-- Floating Particles Animation -->
-        <div class="floating-particles">
-            <div class="particle" style="left: 10%; top: 20%; width: 4px; height: 4px; animation-delay: 0s;"></div>
-            <div class="particle" style="left: 20%; top: 80%; width: 6px; height: 6px; animation-delay: 1s;"></div>
-            <div class="particle" style="left: 60%; top: 30%; width: 3px; height: 3px; animation-delay: 2s;"></div>
-            <div class="particle" style="left: 80%; top: 70%; width: 5px; height: 5px; animation-delay: 3s;"></div>
-            <div class="particle" style="left: 30%; top: 10%; width: 4px; height: 4px; animation-delay: 4s;"></div>
+        <div class="header">
+            <div class="logo">💰 FORD REVENUE ENGINE</div>
+            <div class="nav-links">
+                <a href="/admin-portal">⚙️ Admin Portal</a>
+                <a href="/logout">🚪 Logout</a>
+            </div>
         </div>
         
-        <a href="/logout" class="logout-link">🚪 Logout</a>
-        <a href="/admin-portal" class="admin-link">⚙️ Admin Portal</a>
-        
-        <div class="hero-container">
-            <h1 class="hero-title">💰 FORD AI REVENUE ENGINE 💰</h1>
-            <p class="hero-subtitle">Real-Time Lead Generation • AI-Powered Conversations • Instant Revenue Opportunities</p>
+        <div class="main-container">
+            <h1 class="page-title">Interactive Lead Dashboard</h1>
+            <p class="page-subtitle">Click any lead below for instant conversion tactics • SMS • Email • Phone Scripts</p>
             
-            <div class="mega-stats">
-                <div class="mega-stat">
-                    <div class="mega-number">$2.3M</div>
-                    <div class="mega-label">Live Revenue Opportunities</div>
+            <div class="conversion-stats">
+                <div class="stat-card">
+                    <div class="stat-number">📞 23%</div>
+                    <div class="stat-label">Phone Conversion Rate</div>
                 </div>
-                <div class="mega-stat">
-                    <div class="mega-number">847</div>
-                    <div class="mega-label">Active Leads Today</div>
+                <div class="stat-card">
+                    <div class="stat-number">📧 11%</div>
+                    <div class="stat-label">Email Conversion Rate</div>
                 </div>
-                <div class="mega-stat">
-                    <div class="mega-number">96%</div>
-                    <div class="mega-label">AI Accuracy Rate</div>
+                <div class="stat-card">
+                    <div class="stat-number">💰 2.1x</div>
+                    <div class="stat-label">Phone Advantage</div>
                 </div>
-                <div class="mega-stat">
-                    <div class="mega-number">2.1x</div>
-                    <div class="mega-label">Phone Conversion Boost</div>
+                <div class="stat-card">
+                    <div class="stat-number">⚡ <5s</div>
+                    <div class="stat-label">AI Response Time</div>
+                </div>
+            </div>
+            
+            <div class="leads-grid" id="leadsGrid">
+                <div class="loading">
+                    🤖 Loading interactive leads...
                 </div>
             </div>
         </div>
         
-        <div class="demo-showcase">
-            <h2 class="showcase-title">🤖 LIVE AI CONVERSATIONS</h2>
-            
-            <div class="ai-messages-feed" id="messageFeed">
-                <div style="text-align: center; padding: 40px; color: #22c55e; font-size: 18px;">
-                    🤖 Loading AI-generated dealer conversations...
+        <!-- Lead Detail Modal -->
+        <div class="modal" id="leadModal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <div id="modalContent">
+                    <!-- Content will be dynamically loaded here -->
                 </div>
             </div>
         </div>
-        
-        <button class="refresh-button" onclick="refreshMessages()">
-            🔄 Refresh AI Leads
-        </button>
         
         <script>
-            async function loadMessages() {
+            let allLeads = [];
+            
+            async function loadLeads() {
                 try {
                     const response = await fetch('/api/generate-leads');
                     const data = await response.json();
+                    allLeads = data.leads;
                     
-                    const feed = document.getElementById('messageFeed');
-                    feed.innerHTML = data.leads.map(lead => `
-                        <div class="ai-message" style="animation-delay: ${Math.random() * 0.5}s">
-                            <div class="message-header">
-                                <div class="message-priority" style="background: ${
-                                    lead.priority === 'HIGH' ? '#ef4444' : 
-                                    lead.priority === 'MODERATE' ? '#f59e0b' : 
-                                    lead.priority === 'FOLLOW-UP' ? '#8b5cf6' : '#22c55e'
-                                }">${lead.priority}</div>
-                                <div class="message-revenue">$${lead.revenue}</div>
+                    const grid = document.getElementById('leadsGrid');
+                    grid.innerHTML = allLeads.map((lead, index) => {
+                        const priorityClass = lead.priority.toLowerCase().replace('-', '');
+                        const priorityColor = {
+                            'HIGH': '#ef4444',
+                            'MODERATE': '#f59e0b', 
+                            'FOLLOW-UP': '#8b5cf6',
+                            'RETENTION': '#22c55e'
+                        }[lead.priority];
+                        
+                        return `
+                            <div class="lead-card ${priorityClass}-priority" onclick="openLeadModal(${index})">
+                                <div class="priority-badge" style="background: ${priorityColor};">
+                                    ${lead.priority}
+                                </div>
+                                <div class="revenue-amount">$${lead.revenue}</div>
+                                <div class="vehicle-info">${lead.model}</div>
+                                <div class="location-info">${lead.location}</div>
+                                <div class="click-hint">
+                                    👆 Click for conversion tactics • SMS • Email • Phone scripts
+                                </div>
                             </div>
-                            <div class="message-vehicle">${lead.model}</div>
-                            <div style="font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 12px;">
-                                ${lead.location} • ${lead.cohort_percentile}th percentile • ${(lead.confidence*100).toFixed(0)}% confidence
-                            </div>
-                            <div class="message-ai-text">
-                                📞 <strong>AI Phone Script:</strong><br>
-                                "${lead.ai_message}"
-                            </div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                     
                 } catch (error) {
-                    document.getElementById('messageFeed').innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: #ef4444;">
-                            ❌ Failed to load AI messages
+                    document.getElementById('leadsGrid').innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #ef4444;">
+                            ❌ Failed to load leads
                         </div>
                     `;
                 }
             }
             
-            function refreshMessages() {
-                document.getElementById('messageFeed').innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #22c55e; font-size: 18px;">
-                        🤖 Generating fresh AI conversations...
+            function openLeadModal(leadIndex) {
+                const lead = allLeads[leadIndex];
+                const modal = document.getElementById('leadModal');
+                const content = document.getElementById('modalContent');
+                
+                // Explain cohort in plain English
+                const cohortExplanation = `We group similar vehicles together (like "${lead.model.split(' ')[1]} trucks in similar climates with similar usage"). This customer's vehicle is performing differently than ${lead.cohort_percentile}% of similar vehicles. Think of it like: if 100 similar ${lead.model.split(' ')[1]}s were lined up from best to worst, this one would be in position ${lead.cohort_percentile}.`;
+                
+                const percentileExplanation = lead.cohort_percentile > 80 ? 
+                    `This means their vehicle has MORE stress patterns than most similar vehicles. This is your conversation opportunity!` :
+                    lead.cohort_percentile > 60 ?
+                    `This means their vehicle has SOME stress patterns worth discussing.` :
+                    `This means their vehicle is performing BETTER than most. Perfect for retention conversations!`;
+                
+                content.innerHTML = `
+                    <div class="modal-title">
+                        💰 ${lead.model} - $${lead.revenue} Opportunity
+                    </div>
+                    
+                    <div class="plain-english">
+                        <h3>🎯 What This Customer Means (Plain English)</h3>
+                        <p><strong>Location:</strong> ${lead.location}</p>
+                        <p><strong>Technical Issue:</strong> ${lead.primary_stressor}</p>
+                        <p><strong>Cohort Position:</strong> ${cohortExplanation}</p>
+                        <p><strong>Why This Matters:</strong> ${percentileExplanation}</p>
+                        <p><strong>Confidence Level:</strong> ${(lead.confidence*100).toFixed(0)}% sure this is worth a conversation</p>
+                    </div>
+                    
+                    <div class="conversion-options">
+                        <div class="option-card phone">
+                            <div class="option-title">📞 PHONE CALL (RECOMMENDED)</div>
+                            <div class="conversion-rate">23%</div>
+                            <div style="font-size: 14px; margin-bottom: 12px;">Conversion Rate</div>
+                            <div style="font-size: 13px; color: rgba(255,255,255,0.8);">
+                                • Real-time objection handling<br>
+                                • Builds trust instantly<br>
+                                • 2.1x better than email<br>
+                                • Can book appointment on call
+                            </div>
+                        </div>
+                        
+                        <div class="option-card email">
+                            <div class="option-title">📧 EMAIL FOLLOW-UP</div>
+                            <div class="conversion-rate">11%</div>
+                            <div style="font-size: 14px; margin-bottom: 12px;">Conversion Rate</div>
+                            <div style="font-size: 13px; color: rgba(255,255,255,0.8);">
+                                • Good for initial contact<br>
+                                • Customer can read when ready<br>
+                                • Use to set up phone call<br>
+                                • Include technical details
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="script-section">
+                        <h3 style="color: #22c55e; margin-bottom: 16px;">📞 AI-Generated Phone Script</h3>
+                        <div class="script-text">"${lead.ai_message}"</div>
+                    </div>
+                    
+                    <div class="script-section" style="border-left-color: #60a5fa;">
+                        <h3 style="color: #60a5fa; margin-bottom: 16px;">📧 Email Template</h3>
+                        <div class="script-text">
+                            "Hi [Customer Name],<br><br>
+                            Our system flagged your ${lead.model} for ${lead.primary_stressor.toLowerCase()}. Based on ${lead.cohort_size.toLocaleString()} similar vehicles, your driving patterns put you in the ${lead.cohort_percentile}th percentile for this type of stress.<br><br>
+                            This creates a great opportunity for preventive maintenance that could save you significant costs. Can I give you a quick call this week to discuss?<br><br>
+                            Best regards,<br>
+                            [Your Name] - [Dealer Name]"
+                        </div>
+                    </div>
+                    
+                    <div class="script-section" style="border-left-color: #f59e0b;">
+                        <h3 style="color: #f59e0b; margin-bottom: 16px;">📱 SMS Template</h3>
+                        <div class="script-text">
+                            "Hi [Name], this is [Dealer]. Our analysis shows your ${lead.model} has ${lead.primary_stressor.toLowerCase()} patterns worth discussing. Quick call this week? Could save you significant maintenance costs. Reply YES or call [phone]."
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(34,197,94,0.1); border-radius: 12px;">
+                        <div style="font-size: 24px; font-weight: 900; color: #22c55e; margin-bottom: 8px;">
+                            💡 WHY PHONE CALLS WIN
+                        </div>
+                        <div style="font-size: 16px; line-height: 1.5;">
+                            Phone calls convert 2.1x better because you can handle objections in real-time, build trust through conversation, and book the appointment immediately. Email is good for initial contact, but phone calls close deals.
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button onclick="closeModal()" style="background: linear-gradient(45deg, #22c55e, #16a34a); color: white; border: none; padding: 16px 32px; border-radius: 25px; font-size: 16px; font-weight: 700; cursor: pointer;">
+                            🚀 Ready to Convert This Lead!
+                        </button>
                     </div>
                 `;
-                setTimeout(loadMessages, 1000);
+                
+                modal.style.display = 'block';
             }
             
-            // Load messages on page load
-            loadMessages();
+            function closeModal() {
+                document.getElementById('leadModal').style.display = 'none';
+            }
             
-            // Auto-refresh every 30 seconds
-            setInterval(loadMessages, 30000);
-                 </script>
-     </body>
-     </html>
-     """)
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('leadModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            }
+            
+            // Load leads on page load
+            loadLeads();
+            
+            // Auto-refresh every 60 seconds
+            setInterval(loadLeads, 60000);
+        </script>
+    </body>
+    </html>
+    """)
 
 @app.get("/admin-portal", response_class=HTMLResponse)
 async def admin_portal():
