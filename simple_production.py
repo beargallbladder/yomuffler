@@ -42,30 +42,30 @@ except Exception as e:
 def generate_ai_lead(vehicle_data: Dict) -> str:
     """Generate sophisticated AI phone conversation with technical depth"""
     if not openai_available:
-        return f"Hi, this is [Dealer]. Our analysis shows your {vehicle_data['model']} has {vehicle_data['primary_stressor']} patterns. We'd like to discuss preventive options that could save you significant costs."
+        return f"Hi, this is [Service Advisor] from [Ford Dealer]. Our analysis shows your {vehicle_data['model']} has {vehicle_data['primary_stressor']} patterns. We'd like to discuss some preventive maintenance options that could benefit you. Can we schedule a time to talk this week?"
     
     try:
-        prompt = f"""You are a Ford dealer service advisor making a PHONE CALL (2x higher conversion than web). 
+        prompt = f"""You are generating what a Ford dealer service advisor should SAY TO THE CUSTOMER on a phone call.
+
+        CUSTOMER'S VEHICLE: {vehicle_data['model']} 
+        TECHNICAL FINDINGS: {vehicle_data['primary_stressor']} in {vehicle_data['cohort_percentile']}th percentile of {vehicle_data['cohort_size']:,} similar vehicles
         
-        Vehicle: {vehicle_data['model']} 
-        Technical findings: {vehicle_data['primary_stressor']} in {vehicle_data['cohort_percentile']}th percentile of {vehicle_data['cohort_size']:,} similar vehicles
-        Revenue opportunity: ${vehicle_data['revenue']}
-        Confidence: {vehicle_data['confidence']*100:.0f}%
+        Generate the exact words the dealer should SAY TO THE CUSTOMER on the phone:
+        1. Dealer introduces themselves
+        2. Mentions specific technical findings about THEIR vehicle
+        3. References comparison to similar vehicles 
+        4. Suggests proactive maintenance for THEIR benefit
+        5. Asks to schedule service
+        6. 2-3 sentences max for phone call
         
-        Generate a professional phone conversation starter that:
-        1. Mentions specific technical findings (stressor data)
-        2. References cohort analysis 
-        3. Suggests proactive maintenance
-        4. Creates urgency without being pushy
-        5. 2-3 sentences max for phone call
-        
+        IMPORTANT: This is what the dealer says TO the customer, NOT advice for the dealer.
         Start with "Hi, this is [Your Name] from [Dealer Name]..."
         """
         
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are an expert Ford dealer service advisor who makes sophisticated phone calls using technical vehicle data analysis. Phone calls convert 2x better than web leads."},
+                {"role": "system", "content": "Generate what a Ford dealer service advisor should SAY TO THE CUSTOMER on the phone. Your output should be the exact words spoken to the customer, not advice for the dealer."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=150,
@@ -74,7 +74,7 @@ def generate_ai_lead(vehicle_data: Dict) -> str:
         return response.choices[0].message.content.strip()
     except Exception as e:
         print(f"OpenAI error: {e}")
-        return f"Hi, this is [Service Advisor] from [Ford Dealer]. Our Bayesian analysis shows your {vehicle_data['model']} has {vehicle_data['primary_stressor']} patterns in the {vehicle_data['cohort_percentile']}th percentile. We'd like to discuss preventive options that could save you ${vehicle_data['revenue']}."
+        return f"Hi, this is [Service Advisor] from [Ford Dealer]. Our analysis shows your {vehicle_data['model']} has {vehicle_data['primary_stressor']} patterns that put you in the {vehicle_data['cohort_percentile']}th percentile compared to similar vehicles. We'd like to discuss some preventive maintenance options that could benefit you. Can we schedule a time this week?"
 
 # Real vehicle data with sophisticated Bayesian stressor analysis
 REAL_VEHICLES = [
