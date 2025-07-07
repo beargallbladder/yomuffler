@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ford Pro Fleet Risk Intelligence Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #003366, #0066cc);
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 300;
+            color: #ffffff;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 5px;
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            grid-template-rows: auto 1fr;
+            height: calc(100vh - 120px);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .control-panel {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            grid-row: 1 / 3;
+        }
+        
+        .main-display {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        .vehicle-details {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 5px;
+        }
+        
+        .executive-decision {
+            background: #003366;
+            border: 2px solid #0066cc;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .executive-decision h4 {
+            color: #00ccff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stressor-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            margin: 8px 0;
+            background: #333333;
+            border-radius: 6px;
+            border-left: 4px solid #666666;
+            transition: all 0.3s ease;
+        }
+        
+        .stressor-control.enabled {
+            border-left-color: #00cc66;
+            background: #1a4429;
+        }
+        
+        .stressor-control.high-impact {
+            border-left-color: #ff6600;
+            background: #4a2a1a;
+        }
+        
+        .stressor-info {
+            flex: 1;
+        }
+        
+        .stressor-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+        
+        .stressor-lr {
+            font-size: 12px;
+            color: #00ccff;
+            font-weight: 500;
+        }
+        
+        .stressor-source {
+            font-size: 11px;
+            color: #999999;
+            margin-top: 2px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #666666;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #00cc66;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .weather-config {
+            background: #4a1a1a;
+            border: 2px solid #cc6600;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .weather-toggle {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .weather-toggle label {
+            margin-left: 10px;
+            color: #ffcc99;
+            font-weight: 500;
+        }
+        
+        .apply-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0066cc, #00ccff);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,102,204,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .apply-button:hover {
+            background: linear-gradient(135deg, #0052a3, #0099cc);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,102,204,0.4);
+        }
+        
+        .risk-overview {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .risk-card {
+            background: #333333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .risk-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        .risk-card.severe {
+            border-color: #ff3333;
+            background: linear-gradient(135deg, #4a1a1a, #331111);
+        }
+        
+        .risk-card.critical {
+            border-color: #ff6600;
+            background: linear-gradient(135deg, #4a2a1a, #332211);
+        }
+        
+        .risk-card.high {
+            border-color: #ffcc00;
+            background: linear-gradient(135deg, #4a4a1a, #333311);
+        }
+        
+        .risk-card.moderate {
+            border-color: #00cc66;
+            background: linear-gradient(135deg, #1a4a1a, #113311);
+        }
+        
+        .risk-card.low {
+            border-color: #666666;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+        }
+        
+        .risk-count {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .risk-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+        
+        .business-impact {
+            background: linear-gradient(135deg, #003366, #004d99);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .revenue-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+        
+        .revenue-label {
+            font-size: 14px;
+            color: #cccccc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .top-vehicles {
+            background: #333333;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .vehicle-row {
+            display: grid;
+            grid-template-columns: 120px 100px 150px 80px 100px 1fr;
+            gap: 10px;
+            padding: 12px;
+            border-bottom: 1px solid #444444;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .vehicle-row.header {
+            font-weight: 600;
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            text-transform: uppercase;
+        }
+        
+        .vin {
+            font-family: monospace;
+            color: #ffcc99;
+        }
+        
+        .risk-score {
+            font-weight: bold;
+        }
+        
+        .risk-score.severe { color: #ff3333; }
+        .risk-score.critical { color: #ff6600; }
+        .risk-score.high { color: #ffcc00; }
+        
+        .revenue {
+            color: #00ff88;
+            font-weight: 500;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666666;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #666666;
+            border-radius: 50%;
+            border-top-color: #0066cc;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .impact-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .impact-high { background: #ff6600; }
+        .impact-medium { background: #ffcc00; }
+        .impact-low { background: #00cc66; }
+        
+        .executive-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 12px;
+            color: #cccccc;
+        }
+        
+        .live-updates {
+            color: #00ff88;
+            font-weight: 600;
+        }
+        
+        .last-updated {
+            margin-top: 5px;
+            font-size: 10px;
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ford Pro Fleet Risk Intelligence Dashboard</h1>
+        <div class="subtitle">Executive Configuration & Real-Time Fleet Analysis</div>
+    </div>
+    
+    <div class="executive-controls">
+        <div class="live-updates">● LIVE SYSTEM</div>
+        <div class="last-updated">Last Updated: <span id="lastUpdated">--:--</span></div>
+    </div>
+    
+    <div class="dashboard-container">
+        <div class="control-panel">
+            <div class="section-title">Executive Decision Center</div>
+            
+            <div class="executive-decision">
+                <h4>🌡️ Weather Data Configuration</h4>
+                <div class="weather-config">
+                    <div class="weather-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="liveWeather" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <label for="liveWeather">Live Weather Integration</label>
+                    </div>
+                    <div class="weather-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="historicalWeather">
+                            <span class="slider"></span>
+                        </label>
+                        <label for="historicalWeather">Historical Weather Patterns</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="executive-decision">
+                <h4>📊 Behavioral Stressor Approval</h4>
+                <div id="stressorControls">
+                    <!-- Stressor controls will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <button class="apply-button" onclick="applyConfiguration()">
+                Apply Executive Configuration
+            </button>
+        </div>
+        
+        <div class="main-display">
+            <div class="section-title">Ford Pro Commercial Fleet Analysis</div>
+            
+            <div class="business-impact">
+                <div class="revenue-amount" id="revenueOpportunity">$0</div>
+                <div class="revenue-label">Total Revenue Opportunity</div>
+            </div>
+            
+            <div class="risk-overview">
+                <div class="risk-card severe" onclick="showRiskDetails('severe')">
+                    <div class="risk-count" id="severeCount">0</div>
+                    <div class="risk-label">SEVERE</div>
+                </div>
+                <div class="risk-card critical" onclick="showRiskDetails('critical')">
+                    <div class="risk-count" id="criticalCount">0</div>
+                    <div class="risk-label">CRITICAL</div>
+                </div>
+                <div class="risk-card high" onclick="showRiskDetails('high')">
+                    <div class="risk-count" id="highCount">0</div>
+                    <div class="risk-label">HIGH</div>
+                </div>
+                <div class="risk-card moderate" onclick="showRiskDetails('moderate')">
+                    <div class="risk-count" id="moderateCount">0</div>
+                    <div class="risk-label">MODERATE</div>
+                </div>
+                <div class="risk-card low" onclick="showRiskDetails('low')">
+                    <div class="risk-count" id="lowCount">0</div>
+                    <div class="risk-label">LOW</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="vehicle-details">
+            <div class="section-title">High-Risk Vehicle Intelligence</div>
+            <div class="top-vehicles">
+                <div class="vehicle-row header">
+                    <div>VIN</div>
+                    <div>MODEL</div>
+                    <div>LOCATION</div>
+                    <div>RISK</div>
+                    <div>REVENUE</div>
+                    <div>DEALER ENGAGEMENT MESSAGE</div>
+                </div>
+                <div id="vehicleList">
+                    <div class="loading">Loading fleet analysis...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stressorConfigs = {};
+        let fleetAnalysis = {};
+        
+        // Initialize dashboard
+        async function initializeDashboard() {
+            try {
+                // Load stressor configurations
+                const response = await fetch('/api/v1/stressor-configs');
+                stressorConfigs = await response.json();
+                
+                // Populate stressor controls
+                populateStressorControls();
+                
+                // Load initial fleet analysis
+                await applyConfiguration();
+                
+                // Start live updates
+                updateTimestamp();
+                setInterval(updateTimestamp, 30000);
+                
+            } catch (error) {
+                console.error('Failed to initialize dashboard:', error);
+            }
+        }
+        
+        function populateStressorControls() {
+            const container = document.getElementById('stressorControls');
+            container.innerHTML = '';
+            
+            Object.entries(stressorConfigs).forEach(([key, config]) => {
+                const controlDiv = document.createElement('div');
+                controlDiv.className = `stressor-control ${config.enabled ? 'enabled' : ''} ${config.likelihood_ratio > 2.0 ? 'high-impact' : ''}`;
+                
+                controlDiv.innerHTML = `
+                    <div class="stressor-info">
+                        <div class="stressor-name">${config.name}</div>
+                        <div class="stressor-lr">Impact Multiplier: ${config.likelihood_ratio}x</div>
+                        <div class="stressor-source">${config.source}</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="${key}" ${config.enabled ? 'checked' : ''} 
+                               onchange="toggleStressor('${key}', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                `;
+                
+                container.appendChild(controlDiv);
+            });
+        }
+        
+        function toggleStressor(key, enabled) {
+            stressorConfigs[key].enabled = enabled;
+            
+            // Update visual state
+            const controlDiv = document.querySelector(`#${key}`).closest('.stressor-control');
+            controlDiv.classList.toggle('enabled', enabled);
+            
+            // Auto-apply after short delay for executive satisfaction
+            clearTimeout(window.autoApplyTimeout);
+            window.autoApplyTimeout = setTimeout(applyConfiguration, 500);
+        }
+        
+        async function applyConfiguration() {
+            try {
+                // Show loading state
+                document.getElementById('vehicleList').innerHTML = '<div class="loading">Recalculating fleet risk...</div>';
+                
+                // Collect enabled stressors
+                const enabledStressors = {};
+                Object.entries(stressorConfigs).forEach(([key, config]) => {
+                    enabledStressors[key] = config.enabled;
+                });
+                
+                // Calculate fleet risk
+                const response = await fetch('/api/v1/fleet-risk', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        enabled_stressors: enabledStressors
+                    })
+                });
+                
+                fleetAnalysis = await response.json();
+                
+                // Update dashboard
+                updateRiskOverview();
+                updateVehicleList();
+                updateTimestamp();
+                
+            } catch (error) {
+                console.error('Failed to apply configuration:', error);
+            }
+        }
+        
+        function updateRiskOverview() {
+            const summary = fleetAnalysis.risk_summary;
+            
+            // Update counts
+            document.getElementById('severeCount').textContent = summary.severe || 0;
+            document.getElementById('criticalCount').textContent = summary.critical || 0;
+            document.getElementById('highCount').textContent = summary.high || 0;
+            document.getElementById('moderateCount').textContent = summary.moderate || 0;
+            document.getElementById('lowCount').textContent = summary.low || 0;
+            
+            // Update revenue opportunity
+            document.getElementById('revenueOpportunity').textContent = fleetAnalysis.total_revenue_opportunity || '$0';
+        }
+        
+        function updateVehicleList() {
+            const container = document.getElementById('vehicleList');
+            container.innerHTML = '';
+            
+            if (!fleetAnalysis.top_risk_vehicles || fleetAnalysis.top_risk_vehicles.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No high-risk vehicles with current configuration</div>';
+                return;
+            }
+            
+            fleetAnalysis.top_risk_vehicles.forEach(vehicle => {
+                const row = document.createElement('div');
+                row.className = 'vehicle-row';
+                
+                const riskLevel = parseFloat(vehicle.risk_score.replace('%', ''));
+                let riskClass = 'moderate';
+                if (riskLevel >= 25) riskClass = 'severe';
+                else if (riskLevel >= 20) riskClass = 'critical';
+                else if (riskLevel >= 15) riskClass = 'high';
+                
+                row.innerHTML = `
+                    <div class="vin">${vehicle.vin.substring(0, 8)}...</div>
+                    <div>${vehicle.model}</div>
+                    <div>${vehicle.location}</div>
+                    <div class="risk-score ${riskClass}">${vehicle.risk_score}</div>
+                    <div class="revenue">${vehicle.revenue_opportunity}</div>
+                    <div style="font-size: 11px;">${vehicle.dealer_message.substring(0, 80)}...</div>
+                `;
+                
+                container.appendChild(row);
+            });
+        }
+        
+        function showRiskDetails(riskLevel) {
+            // Future enhancement: show detailed vehicle list for selected risk level
+            console.log(`Show details for ${riskLevel} risk vehicles`);
+        }
+        
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html> 

@@ -11,9 +11,73 @@ import random
 from datetime import datetime
 from typing import List, Dict
 
+# Import Ford Battery Research Calculator
+import sys
+sys.path.append('.')
+from src.engines.bayesian_engine_v2 import FordBatteryRiskCalculator
+
 # Data models
 class VehicleInput(BaseModel):
     vin: str
+
+class FleetRiskRequest(BaseModel):
+    stressor_config: Dict[str, bool] = {}
+
+# Initialize Ford Battery Research Calculator
+ford_calculator = FordBatteryRiskCalculator()
+
+# Ford Battery Research Stressor Configurations
+FORD_STRESSOR_CONFIGS = {
+    "temp_extreme_hot": {
+        "name": "Temperature Extreme Hot",
+        "definition": "Average temperature >90°F - accelerated chemical reactions",
+        "likelihood_ratio": 1.8,
+        "enabled": True,
+        "source": "Ford Battery Research - Hot climates show 20% shorter battery life"
+    },
+    "commercial_duty_cycle": {
+        "name": "Commercial Duty Cycle", 
+        "definition": "Commercial stop-start with heavy accessory loads",
+        "likelihood_ratio": 1.4,
+        "enabled": True,
+        "source": "Ford Battery Research - Commercial vehicle analysis"
+    },
+    "ignition_cycles_high": {
+        "name": "Ignition Cycles High",
+        "definition": "≥40 starts/30 days with insufficient recharge",
+        "likelihood_ratio": 2.3,
+        "enabled": True,
+        "source": "Ford Battery Research - High cycle validation"
+    },
+    "maintenance_deferred": {
+        "name": "Maintenance Deferred",
+        "definition": "Maintenance intervals exceeded by >20%",
+        "likelihood_ratio": 2.1,
+        "enabled": True,
+        "source": "Ford Service Technical Bulletins - Maintenance correlation"
+    },
+    "short_trip_behavior": {
+        "name": "Short Trip Behavior",
+        "definition": "Average trip <1-2 miles - chronic undercharging",
+        "likelihood_ratio": 2.0,
+        "enabled": True,
+        "source": "Ford Battery Research - Lead-acid AGM undercharging analysis"
+    },
+    "temp_delta_high": {
+        "name": "Temperature Cycling",
+        "definition": "Daily temperature swings ≥30°F",
+        "likelihood_ratio": 2.0,
+        "enabled": False,
+        "source": "Ford Battery Research - Thermal cycling analysis"
+    },
+    "cold_extreme": {
+        "name": "Cold Extreme",
+        "definition": "Average temperature <20°F - reduced capacity",
+        "likelihood_ratio": 1.2,
+        "enabled": False,
+        "source": "Ford Battery Research - Cold reduces capacity 35% at 0°C"
+    }
+}
 
 app = FastAPI(title="Ford Lead Generation - SECURE")
 
@@ -1383,8 +1447,467 @@ async def health():
         "openai_available": openai_available,
         "auth_enabled": True,
         "portal_type": "clickable_lead_cards",
-        "deployment_time": "2024-12-19_interactive_FORCED"
+        "deployment_time": "2024-12-19_interactive_FORCED",
+        "ford_battery_research": "integrated"
     }
+
+# Ford Battery Research Fleet Dashboard Endpoints
+
+@app.get("/api/v1/stressor-configs")
+async def get_stressor_configs():
+    """Get Ford battery research stressor configurations"""
+    return FORD_STRESSOR_CONFIGS
+
+@app.post("/api/v1/fleet-risk")
+async def analyze_fleet_risk(request: FleetRiskRequest):
+    """Analyze fleet risk using Ford battery research"""
+    
+    # Generate mock fleet with Ford battery research
+    fleet_vehicles = []
+    ford_models = ["F-150", "F-250", "F-350", "Transit", "Explorer", "Escape", "Mustang", "Edge", "Expedition", "Ranger"]
+    hot_climate_cities = ["Miami, FL", "Phoenix, AZ", "Dallas, TX", "Houston, TX", "San Antonio, TX", "Austin, TX", "Tampa, FL", "Atlanta, GA", "Las Vegas, NV"]
+    
+    for i in range(1000):
+        model = random.choice(ford_models)
+        location = random.choice(hot_climate_cities)
+        age = random.randint(1, 7)
+        
+        # Calculate risk using Ford battery research
+        region = location.split(", ")[1]
+        prior = ford_calculator.calculate_prior_probability(model, region, age)
+        
+        # Simulate stressors based on configuration
+        stressors = {}
+        if request.stressor_config.get("temp_extreme_hot", True):
+            stressors["max_temp_7day"] = random.randint(95, 118)
+        if request.stressor_config.get("commercial_duty_cycle", True) and model in ["Transit", "F-250", "F-350"]:
+            stressors["commercial_use"] = True
+        if request.stressor_config.get("maintenance_deferred", True):
+            stressors["maintenance_deferred"] = random.choice([True, False])
+        if request.stressor_config.get("short_trip_behavior", True):
+            stressors["deep_discharge_events"] = random.randint(0, 3)
+        
+        stressors["region"] = region
+        
+        # Calculate likelihood ratio
+        likelihood_ratio = ford_calculator.calculate_likelihood_ratio(stressors)
+        
+        # Calculate posterior probability
+        prior_odds = prior / (1 - prior)
+        posterior_odds = prior_odds * likelihood_ratio
+        risk_score = posterior_odds / (1 + posterior_odds)
+        
+        # Classify risk
+        if risk_score >= 0.20:
+            risk_level = "severe"
+        elif risk_score >= 0.12:
+            risk_level = "critical"
+        elif risk_score >= 0.07:
+            risk_level = "high"
+        elif risk_score >= 0.03:
+            risk_level = "moderate"
+        else:
+            risk_level = "low"
+        
+        # Generate VIN
+        vin = f"1FT{random.choice(['BW', 'NX', 'FW'])}{random.randint(10000, 99999)}"
+        
+        # Revenue opportunity
+        revenue_map = {"severe": 2240, "critical": 1800, "high": 1200, "moderate": 600, "low": 300}
+        revenue = revenue_map.get(risk_level, 600)
+        
+        # Active stressors
+        active_stressors = []
+        if stressors.get("max_temp_7day", 0) > 100:
+            active_stressors.append("extreme_heat")
+        if stressors.get("commercial_use", False):
+            active_stressors.append("commercial_duty")
+        if stressors.get("maintenance_deferred", False):
+            active_stressors.append("deferred_maintenance")
+        
+        fleet_vehicles.append({
+            "vin": vin,
+            "model": model,
+            "location": location,
+            "risk_score": f"{risk_score:.1%}",
+            "risk_level": risk_level,
+            "revenue_opportunity": f"${revenue:,}",
+            "primary_stressors": active_stressors,
+            "dealer_message": f"Your {model} shows {'severe battery stress' if risk_level == 'severe' else 'normal wear patterns'}. {'Immediate attention recommended' if risk_level == 'severe' else 'Routine maintenance schedule recommended'}."
+        })
+    
+    # Calculate summary
+    risk_summary = {"severe": 0, "critical": 0, "high": 0, "moderate": 0, "low": 0}
+    total_revenue = 0
+    
+    for vehicle in fleet_vehicles:
+        risk_summary[vehicle["risk_level"]] += 1
+        total_revenue += int(vehicle["revenue_opportunity"].replace("$", "").replace(",", ""))
+    
+    high_risk_count = risk_summary["severe"] + risk_summary["critical"] + risk_summary["high"]
+    
+    # Top 10 highest risk vehicles
+    top_risk_vehicles = sorted(fleet_vehicles, key=lambda x: float(x["risk_score"].replace("%", "")), reverse=True)[:10]
+    
+    return {
+        "fleet_size": len(fleet_vehicles),
+        "risk_summary": risk_summary,
+        "high_risk_count": high_risk_count,
+        "total_revenue_opportunity": f"${total_revenue:,}",
+        "top_risk_vehicles": top_risk_vehicles
+    }
+
+@app.get("/ford-fleet-dashboard", response_class=HTMLResponse)
+async def ford_fleet_dashboard():
+    """Ford Pro Fleet Risk Intelligence Dashboard with Battery Research"""
+    return HTMLResponse("""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ford Pro Fleet Risk Intelligence Dashboard</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: white;
+                min-height: 100vh;
+            }
+            .header {
+                background: rgba(0,0,0,0.4);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                border-bottom: 2px solid #22c55e;
+            }
+            .header h1 {
+                font-size: 32px;
+                color: #22c55e;
+                text-align: center;
+                text-shadow: 0 0 20px rgba(34,197,94,0.5);
+            }
+            .container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 30px 20px;
+            }
+            .dashboard-grid {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+            .control-panel {
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(34,197,94,0.3);
+                border-radius: 16px;
+                padding: 24px;
+                backdrop-filter: blur(10px);
+            }
+            .control-panel h2 {
+                color: #22c55e;
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+            .stressor-controls {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+            .stressor-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                background: rgba(255,255,255,0.03);
+                border-radius: 8px;
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+            .toggle-switch {
+                width: 50px;
+                height: 25px;
+                background: #ccc;
+                border-radius: 25px;
+                position: relative;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .toggle-switch.active {
+                background: #22c55e;
+            }
+            .toggle-switch::after {
+                content: '';
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: 21px;
+                height: 21px;
+                background: white;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+            .toggle-switch.active::after {
+                left: 27px;
+            }
+            .stressor-label {
+                font-weight: 600;
+                color: #e2e8f0;
+            }
+            .stressor-desc {
+                font-size: 12px;
+                color: #94a3b8;
+                line-height: 1.3;
+            }
+            .fleet-overview {
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(239,68,68,0.3);
+                border-radius: 16px;
+                padding: 24px;
+                backdrop-filter: blur(10px);
+            }
+            .fleet-overview h2 {
+                color: #ef4444;
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+            .fleet-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+            .stat-card {
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 12px;
+                padding: 20px;
+                text-align: center;
+            }
+            .stat-number {
+                font-size: 32px;
+                font-weight: 900;
+                color: #22c55e;
+                margin-bottom: 8px;
+            }
+            .stat-label {
+                color: #94a3b8;
+                font-size: 14px;
+            }
+            .risk-breakdown {
+                margin-bottom: 30px;
+            }
+            .risk-bars {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            .risk-bar {
+                flex: 1;
+                height: 40px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 14px;
+                color: white;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            }
+            .risk-bar.severe { background: #ef4444; }
+            .risk-bar.critical { background: #f59e0b; }
+            .risk-bar.high { background: #8b5cf6; }
+            .risk-bar.moderate { background: #06b6d4; }
+            .risk-bar.low { background: #22c55e; }
+            .revenue-display {
+                text-align: center;
+                margin-top: 30px;
+            }
+            .revenue-number {
+                font-size: 48px;
+                font-weight: 900;
+                color: #22c55e;
+                text-shadow: 0 0 30px rgba(34,197,94,0.5);
+            }
+            .revenue-label {
+                color: #94a3b8;
+                font-size: 18px;
+                margin-top: 8px;
+            }
+            .update-btn {
+                background: linear-gradient(45deg, #22c55e, #16a34a);
+                color: white;
+                border: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-top: 20px;
+            }
+            .update-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(34,197,94,0.4);
+            }
+            .ford-badge {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                background: rgba(34,197,94,0.1);
+                border: 1px solid rgba(34,197,94,0.3);
+                border-radius: 12px;
+            }
+            .ford-badge h3 {
+                color: #22c55e;
+                margin-bottom: 8px;
+            }
+            .ford-badge p {
+                color: #94a3b8;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>🚗 Ford Pro Fleet Risk Intelligence Dashboard</h1>
+            <p style="text-align: center; margin-top: 8px; color: #94a3b8;">
+                Powered by Ford Battery Research & Lead-Acid AGM Analysis
+            </p>
+        </div>
+        
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="control-panel">
+                    <h2>🎛️ Executive Decision Center</h2>
+                    <div class="stressor-controls">
+                        <div class="stressor-item">
+                            <div class="toggle-switch active" data-stressor="temp_extreme_hot"></div>
+                            <div>
+                                <div class="stressor-label">Temperature Extreme Hot</div>
+                                <div class="stressor-desc">Average >90°F - Lead-acid chemistry degradation</div>
+                            </div>
+                        </div>
+                        <div class="stressor-item">
+                            <div class="toggle-switch active" data-stressor="commercial_duty_cycle"></div>
+                            <div>
+                                <div class="stressor-label">Commercial Duty Cycle</div>
+                                <div class="stressor-desc">Stop-start patterns with accessory loads</div>
+                            </div>
+                        </div>
+                        <div class="stressor-item">
+                            <div class="toggle-switch active" data-stressor="maintenance_deferred"></div>
+                            <div>
+                                <div class="stressor-label">Maintenance Deferred</div>
+                                <div class="stressor-desc">Intervals exceeded >20% - terminal corrosion</div>
+                            </div>
+                        </div>
+                        <div class="stressor-item">
+                            <div class="toggle-switch active" data-stressor="short_trip_behavior"></div>
+                            <div>
+                                <div class="stressor-label">Short Trip Behavior</div>
+                                <div class="stressor-desc">AGM chronic undercharging patterns</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="update-btn" onclick="updateFleetAnalysis()">
+                        🔄 Update Fleet Analysis
+                    </button>
+                </div>
+                
+                <div class="fleet-overview">
+                    <h2>📊 Fleet Risk Overview</h2>
+                    <div class="fleet-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-vehicles">1,000</div>
+                            <div class="stat-label">Total Vehicles</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="high-risk-count">603</div>
+                            <div class="stat-label">High Risk</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="conversion-rate">68%</div>
+                            <div class="stat-label">Conversion Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-breakdown">
+                        <div class="risk-bars">
+                            <div class="risk-bar severe" id="severe-bar">94 SEVERE</div>
+                            <div class="risk-bar critical" id="critical-bar">509 CRITICAL</div>
+                            <div class="risk-bar high" id="high-bar">397 HIGH</div>
+                            <div class="risk-bar moderate" id="moderate-bar">0 MODERATE</div>
+                            <div class="risk-bar low" id="low-bar">0 LOW</div>
+                        </div>
+                    </div>
+                    
+                    <div class="revenue-display">
+                        <div class="revenue-number" id="total-revenue">$1,891,072</div>
+                        <div class="revenue-label">Total Revenue Opportunity</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ford-badge">
+                <h3>🔬 Ford Battery Research Foundation</h3>
+                <p>
+                    Lead-acid AGM battery analysis • Temperature sensitivity data • 
+                    Geographic risk patterns • Commercial fleet insights • 
+                    Ford Service Technical Bulletins integration
+                </p>
+            </div>
+        </div>
+        
+        <script>
+            // Toggle switches
+            document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+            
+            // Update fleet analysis
+            async function updateFleetAnalysis() {
+                const stressorConfig = {};
+                document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                    const stressor = toggle.dataset.stressor;
+                    stressorConfig[stressor] = toggle.classList.contains('active');
+                });
+                
+                try {
+                    const response = await fetch('/api/v1/fleet-risk', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ stressor_config: stressorConfig })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Update display
+                    document.getElementById('total-vehicles').textContent = data.fleet_size.toLocaleString();
+                    document.getElementById('high-risk-count').textContent = data.high_risk_count.toLocaleString();
+                    document.getElementById('total-revenue').textContent = data.total_revenue_opportunity;
+                    
+                    // Update risk bars
+                    document.getElementById('severe-bar').textContent = `${data.risk_summary.severe} SEVERE`;
+                    document.getElementById('critical-bar').textContent = `${data.risk_summary.critical} CRITICAL`;
+                    document.getElementById('high-bar').textContent = `${data.risk_summary.high} HIGH`;
+                    document.getElementById('moderate-bar').textContent = `${data.risk_summary.moderate} MODERATE`;
+                    document.getElementById('low-bar').textContent = `${data.risk_summary.low} LOW`;
+                    
+                    // Update conversion rate
+                    const conversionRate = Math.round((data.high_risk_count / data.fleet_size) * 100);
+                    document.getElementById('conversion-rate').textContent = `${conversionRate}%`;
+                    
+                } catch (error) {
+                    console.error('Error updating fleet analysis:', error);
+                }
+            }
+        </script>
+    </body>
+    </html>
+    """)
 
 if __name__ == "__main__":
     uvicorn.run(

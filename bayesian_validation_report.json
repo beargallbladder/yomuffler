@@ -1,0 +1,557 @@
+{
+  "summary": {
+    "total_records": 500,
+    "calculation_accuracy": "97.60%",
+    "correct_calculations": 488,
+    "calculation_errors": 12,
+    "priors_calculated": 6,
+    "likelihood_ratios_calculated": 17
+  },
+  "priors": {
+    "by_model": {
+      "Expedition": {
+        "mean": 0.16,
+        "std": 0.0,
+        "count": 868.0
+      },
+      "Explorer": {
+        "mean": 0.12,
+        "std": 0.0,
+        "count": 815.0
+      },
+      "F-150": {
+        "mean": 0.15,
+        "std": 0.0,
+        "count": 827.0
+      },
+      "F-250": {
+        "mean": 0.18,
+        "std": 0.0,
+        "count": 873.0
+      },
+      "F-350": {
+        "mean": 0.2,
+        "std": 0.0,
+        "count": 827.0
+      },
+      "Ranger": {
+        "mean": 0.12,
+        "std": 0.0,
+        "count": 790.0
+      }
+    },
+    "by_age": {
+      "1": {
+        "mean": 0.1552813504823151,
+        "std": 0.029191320072986283,
+        "count": 1244.0
+      },
+      "2": {
+        "mean": 0.15538402457757297,
+        "std": 0.028661640112195137,
+        "count": 1302.0
+      },
+      "3": {
+        "mean": 0.1566996699669967,
+        "std": 0.029265699307557184,
+        "count": 1212.0
+      },
+      "4": {
+        "mean": 0.15512882447665055,
+        "std": 0.02922349054690687,
+        "count": 1242.0
+      }
+    },
+    "by_climate": {
+      "coastal_hot": {
+        "mean": 0.1545358306188925,
+        "std": 0.029102794285958723,
+        "count": 1228.0
+      },
+      "coastal_moderate": {
+        "mean": 0.15600814663951118,
+        "std": 0.030053556528761006,
+        "count": 491.0
+      },
+      "inland_hot": {
+        "mean": 0.15531894013738962,
+        "std": 0.02862554371366758,
+        "count": 1019.0
+      },
+      "inland_moderate": {
+        "mean": 0.15631077694235587,
+        "std": 0.029171503028034285,
+        "count": 1995.0
+      },
+      "mountain_cool": {
+        "mean": 0.15576779026217227,
+        "std": 0.02819891768548106,
+        "count": 267.0
+      }
+    },
+    "by_vehicle_type": {
+      "light": {
+        "mean": 0.13534322820037106,
+        "std": 0.015000711788986336,
+        "count": 1617.0
+      },
+      "midweight": {
+        "mean": 0.1897294117647059,
+        "std": 0.009999279827268417,
+        "count": 1700.0
+      },
+      "suv": {
+        "mean": 0.14062982768865123,
+        "std": 0.019996021938650833,
+        "count": 1683.0
+      }
+    }
+  },
+  "likelihood_ratios": {
+    "temperature_stress": {
+      "0-0.05": {
+        "mean_combined_lr": 4.1325755800328094,
+        "count": 4267,
+        "avg_posterior": 0.42759268807124445
+      },
+      "0.05-0.1": {
+        "mean_combined_lr": 3.9571489361702126,
+        "count": 235,
+        "avg_posterior": 0.43985531914893605
+      },
+      "0.1-0.15": {
+        "mean_combined_lr": 4.139277108433734,
+        "count": 498,
+        "avg_posterior": 0.3966967871485944
+      }
+    },
+    "short_trip_percentage": {
+      "0-0.2": {
+        "mean_combined_lr": 2.5050024912805178,
+        "count": 2007,
+        "avg_posterior": 0.37482112605879414
+      },
+      "0.2-0.4": {
+        "mean_combined_lr": 2.5550863885377164,
+        "count": 2373,
+        "avg_posterior": 0.3757117572692794
+      },
+      "0.4-0.6": {
+        "mean_combined_lr": 15.630942760942759,
+        "count": 297,
+        "avg_posterior": 0.7657979797979798
+      },
+      "0.6-0.8": {
+        "mean_combined_lr": 15.13385350318471,
+        "count": 314,
+        "avg_posterior": 0.787031847133758
+      },
+      "0.8-1.0": {
+        "mean_combined_lr": 15.534444444444444,
+        "count": 9,
+        "avg_posterior": 0.7843333333333332
+      }
+    },
+    "start_cycles": {
+      "0-1500": {
+        "mean_combined_lr": 5.431928294573644,
+        "count": 1032,
+        "avg_posterior": 0.4423759689922481
+      },
+      "1500-2000": {
+        "mean_combined_lr": 5.393006993006993,
+        "count": 1001,
+        "avg_posterior": 0.4362807192807193
+      },
+      "2000-2500": {
+        "mean_combined_lr": 2.16,
+        "count": 397,
+        "avg_posterior": 0.39389672544080606
+      },
+      "2500-3000": {
+        "mean_combined_lr": 2.1600000000000006,
+        "count": 1966,
+        "avg_posterior": 0.39498728382502535
+      },
+      "3000-5000": {
+        "mean_combined_lr": 7.478079470198673,
+        "count": 604,
+        "avg_posterior": 0.4955099337748344
+      }
+    },
+    "combined_patterns": {
+      "0_stressors": {
+        "mean_combined_lr": 1.0,
+        "count": 922,
+        "avg_posterior": 0.17985140997830804
+      },
+      "1_stressors": {
+        "mean_combined_lr": 2.940647773279352,
+        "count": 3458,
+        "avg_posterior": 0.4274167148640832
+      },
+      "2_stressors": {
+        "mean_combined_lr": 12.349999999999996,
+        "count": 489,
+        "avg_posterior": 0.7572167689161554
+      },
+      "3_stressors": {
+        "mean_combined_lr": 26.680000000000007,
+        "count": 131,
+        "avg_posterior": 0.85
+      }
+    }
+  },
+  "validation": {
+    "total_checked": 500,
+    "correct_calculations": 488,
+    "calculation_errors": [
+      {
+        "index": 1615,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 4878,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.234,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.8907138128609583,
+        "difference": 0.04071381286095832
+      },
+      {
+        "index": 2804,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.187,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.859879768913646,
+        "difference": 0.009879768913646059
+      },
+      {
+        "index": 999,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.18,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.8541548093340922,
+        "difference": 0.00415480933409218
+      },
+      {
+        "index": 3653,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 691,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 416,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.18,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.8541548093340922,
+        "difference": 0.00415480933409218
+      },
+      {
+        "index": 414,
+        "base_prior": 0.2,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 485,
+        "base_prior": 0.2,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 2292,
+        "base_prior": 0.18,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 1874,
+        "base_prior": 0.15,
+        "adjusted_prior": 0.25,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.898921832884097,
+        "difference": 0.048921832884097016
+      },
+      {
+        "index": 4139,
+        "base_prior": 0.12,
+        "adjusted_prior": 0.234,
+        "combined_lr": 26.68,
+        "actual_posterior": 0.85,
+        "expected_posterior": 0.8907138128609583,
+        "difference": 0.04071381286095832
+      }
+    ],
+    "sample_validations": [
+      {
+        "vin": "1FTUDW1E1NW947770",
+        "model": "F-150",
+        "age": 2,
+        "climate": "inland_hot",
+        "base_prior": 0.15,
+        "adjusted_prior": 0.25,
+        "combined_lr": 2.16,
+        "actual_posterior": 0.419,
+        "expected_posterior": 0.4186046511627907,
+        "is_correct": true,
+        "difference": 0.00039534883720926395
+      },
+      {
+        "vin": "1FTWYW1EXLS464074",
+        "model": "F-150",
+        "age": 4,
+        "climate": "inland_moderate",
+        "base_prior": 0.15,
+        "adjusted_prior": 0.15,
+        "combined_lr": 6.5,
+        "actual_posterior": 0.534,
+        "expected_posterior": 0.5342465753424658,
+        "is_correct": true,
+        "difference": 0.0002465753424657491
+      },
+      {
+        "vin": "1FMAMW1E8ML775927",
+        "model": "Explorer",
+        "age": 3,
+        "climate": "inland_moderate",
+        "base_prior": 0.12,
+        "adjusted_prior": 0.18,
+        "combined_lr": 2.16,
+        "actual_posterior": 0.322,
+        "expected_posterior": 0.32164129715420253,
+        "is_correct": true,
+        "difference": 0.00035870284579747613
+      },
+      {
+        "vin": "1FMRXW1E2LZ176498",
+        "model": "Expedition",
+        "age": 4,
+        "climate": "inland_moderate",
+        "base_prior": 0.16,
+        "adjusted_prior": 0.16,
+        "combined_lr": 6.5,
+        "actual_posterior": 0.553,
+        "expected_posterior": 0.5531914893617021,
+        "is_correct": true,
+        "difference": 0.00019148936170210185
+      },
+      {
+        "vin": "1FTREW1E7NZ950716",
+        "model": "F-350",
+        "age": 2,
+        "climate": "inland_moderate",
+        "base_prior": 0.2,
+        "adjusted_prior": 0.25,
+        "combined_lr": 2.16,
+        "actual_posterior": 0.419,
+        "expected_posterior": 0.4186046511627907,
+        "is_correct": true,
+        "difference": 0.00039534883720926395
+      },
+      {
+        "vin": "1FTDMW1E4NN229859",
+        "model": "F-350",
+        "age": 2,
+        "climate": "coastal_moderate",
+        "base_prior": 0.2,
+        "adjusted_prior": 0.25,
+        "combined_lr": 2.16,
+        "actual_posterior": 0.419,
+        "expected_posterior": 0.4186046511627907,
+        "is_correct": true,
+        "difference": 0.00039534883720926395
+      },
+      {
+        "vin": "1FMDZW1E3NY442628",
+        "model": "Explorer",
+        "age": 2,
+        "climate": "coastal_moderate",
+        "base_prior": 0.12,
+        "adjusted_prior": 0.198,
+        "combined_lr": 2.16,
+        "actual_posterior": 0.348,
+        "expected_posterior": 0.34779780105393276,
+        "is_correct": true,
+        "difference": 0.00020219894606721134
+      },
+      {
+        "vin": "1FTNXW1E4LN363289",
+        "model": "F-350",
+        "age": 4,
+        "climate": "inland_moderate",
+        "base_prior": 0.2,
+        "adjusted_prior": 0.2,
+        "combined_lr": 6.5,
+        "actual_posterior": 0.619,
+        "expected_posterior": 0.6190476190476191,
+        "is_correct": true,
+        "difference": 4.7619047619074095e-05
+      },
+      {
+        "vin": "1FMJAW1E0LE856057",
+        "model": "Explorer",
+        "age": 4,
+        "climate": "inland_moderate",
+        "base_prior": 0.12,
+        "adjusted_prior": 0.156,
+        "combined_lr": 12.35,
+        "actual_posterior": 0.695,
+        "expected_posterior": 0.6953728434274165,
+        "is_correct": true,
+        "difference": 0.00037284342741650267
+      },
+      {
+        "vin": "1FTZAW1E3NC132124",
+        "model": "F-150",
+        "age": 2,
+        "climate": "inland_moderate",
+        "base_prior": 0.15,
+        "adjusted_prior": 0.225,
+        "combined_lr": 2.16,
+        "actual_posterior": 0.385,
+        "expected_posterior": 0.38540840602696275,
+        "is_correct": true,
+        "difference": 0.00040840602696273764
+      }
+    ],
+    "accuracy_percentage": 97.6
+  },
+  "stressor_analysis": {
+    "temperature_impact": {
+      "Very Low": {
+        "mean_posterior": 0.4256569215392304,
+        "std_posterior": 0.17887739574256278,
+        "count": 4002.0
+      },
+      "Low": {
+        "mean_posterior": 0.45682641509433963,
+        "std_posterior": 0.1739072594967226,
+        "count": 265.0
+      },
+      "Medium": {
+        "mean_posterior": 0.43985531914893616,
+        "std_posterior": 0.17201231173451634,
+        "count": 235.0
+      },
+      "High": {
+        "mean_posterior": NaN,
+        "std_posterior": NaN,
+        "count": 0.0
+      },
+      "Very High": {
+        "mean_posterior": 0.3966967871485944,
+        "std_posterior": 0.17902117729823566,
+        "count": 498.0
+      }
+    },
+    "short_trip_impact": {
+      "Very Low": {
+        "mean_posterior": 0.37380998080614203,
+        "std_posterior": 0.12588098141161616,
+        "count": 3126.0
+      },
+      "Low": {
+        "mean_posterior": 0.37902711323763955,
+        "std_posterior": 0.12703710889983927,
+        "count": 1254.0
+      },
+      "Medium": {
+        "mean_posterior": 0.7565885416666666,
+        "std_posterior": 0.07769400627767044,
+        "count": 192.0
+      },
+      "High": {
+        "mean_posterior": 0.7827737556561086,
+        "std_posterior": 0.048277356247887905,
+        "count": 221.0
+      },
+      "Very High": {
+        "mean_posterior": 0.7892318840579711,
+        "std_posterior": 0.04772366195621168,
+        "count": 207.0
+      }
+    },
+    "age_impact": {
+      "1": {
+        "mean_posterior": 0.3947958199356913,
+        "std_posterior": 0.03773752491908064,
+        "count": 1244.0
+      },
+      "2": {
+        "mean_posterior": 0.396410906298003,
+        "std_posterior": 0.03731754141288871,
+        "count": 1302.0
+      },
+      "3": {
+        "mean_posterior": 0.23055280528052804,
+        "std_posterior": 0.09920155903511572,
+        "count": 1212.0
+      },
+      "4": {
+        "mean_posterior": 0.6753429951690821,
+        "std_posterior": 0.12115362708981074,
+        "count": 1242.0
+      }
+    },
+    "climate_impact": {
+      "coastal_hot": {
+        "mean_posterior": 0.4506750814332247,
+        "std_posterior": 0.17395979675287457,
+        "count": 1228.0
+      },
+      "coastal_moderate": {
+        "mean_posterior": 0.42661710794297353,
+        "std_posterior": 0.18069375386634934,
+        "count": 491.0
+      },
+      "inland_hot": {
+        "mean_posterior": 0.44999705593719336,
+        "std_posterior": 0.17894369989466505,
+        "count": 1019.0
+      },
+      "inland_moderate": {
+        "mean_posterior": 0.4052160401002506,
+        "std_posterior": 0.17722365138770815,
+        "count": 1995.0
+      },
+      "mountain_cool": {
+        "mean_posterior": 0.35808239700374533,
+        "std_posterior": 0.17122142138207308,
+        "count": 267.0
+      }
+    }
+  }
+}
