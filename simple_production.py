@@ -10,6 +10,10 @@ import json
 import random
 from datetime import datetime
 from typing import List, Dict
+import asyncio
+
+# Import performance optimization
+from performance_optimization import optimize_lead_generation, optimizer
 
 # Import Ford Battery Research Calculator
 import sys
@@ -107,6 +111,9 @@ except Exception as e:
     client = None
     openai_available = False
     print(f"⚠️ OpenAI not available: {e}")
+
+# Initialize performance optimization
+optimize_lead_generation()
 
 def generate_ai_lead(vehicle_data: Dict) -> str:
     """Generate sophisticated AI phone conversation with technical depth"""
@@ -261,6 +268,9 @@ REAL_VEHICLES = [
     },
 ]
 
+# Preload cache for instant first load
+optimizer.preload_common_leads(REAL_VEHICLES)
+
 @app.get("/login", response_class=HTMLResponse)
 async def login_page():
     """Secure login page"""
@@ -406,37 +416,18 @@ async def logout(request: Request):
 
 @app.get("/api/generate-leads")
 async def generate_leads(username: str = Depends(get_current_user)):
-    """Generate real AI-powered leads"""
-    leads = []
-    for vehicle in REAL_VEHICLES:
-        ai_message = generate_ai_lead(vehicle)
-        
-        # Priority colors
-        priority_colors = {
-            "HIGH": {"bg": "rgba(239,68,68,0.2)", "border": "#ef4444", "text": "#fca5a5"},
-            "MODERATE": {"bg": "rgba(245,158,11,0.2)", "border": "#f59e0b", "text": "#fbbf24"},
-            "FOLLOW-UP": {"bg": "rgba(139,92,246,0.2)", "border": "#8b5cf6", "text": "#c4b5fd"},
-            "RETENTION": {"bg": "rgba(34,197,94,0.2)", "border": "#22c55e", "text": "#86efac"}
-        }
-        
-        colors = priority_colors.get(vehicle["priority"], priority_colors["MODERATE"])
-        
-        leads.append({
-            "priority": vehicle["priority"],
-            "model": vehicle["model"],
-            "location": vehicle["location"],
-            "revenue": vehicle["revenue"],
-            "ai_message": ai_message,
-            "colors": colors,
-            "stressor_score": vehicle["stressor_score"],
-            "cohort_percentile": vehicle["cohort_percentile"],
-            "primary_stressor": vehicle["primary_stressor"],
-            "cohort_size": vehicle["cohort_size"],
-            "confidence": vehicle["confidence"],
-            "academic_basis": vehicle["academic_basis"]
-        })
+    """⚡ OPTIMIZED: Generate real AI-powered leads with parallel processing and caching"""
+    # Use optimized parallel generation
+    leads = await optimizer.generate_all_leads_parallel(
+        REAL_VEHICLES, 
+        client if openai_available else None
+    )
     
-    return {"leads": leads, "total_revenue": sum(v["revenue"] for v in REAL_VEHICLES)}
+    return {
+        "leads": leads, 
+        "total_revenue": sum(v["revenue"] for v in REAL_VEHICLES),
+        "performance_stats": optimizer.get_performance_stats()
+    }
 
 @app.get("/")
 async def root_redirect(request: Request):
@@ -1448,7 +1439,23 @@ async def health():
         "auth_enabled": True,
         "portal_type": "clickable_lead_cards",
         "deployment_time": "2024-12-19_interactive_FORCED",
-        "ford_battery_research": "integrated"
+        "ford_battery_research": "integrated",
+        "performance_optimization": "active",
+        "performance_stats": optimizer.get_performance_stats()
+    }
+
+@app.get("/api/performance-stats")
+async def get_performance_stats():
+    """Get detailed performance statistics"""
+    return {
+        "performance_stats": optimizer.get_performance_stats(),
+        "optimization_features": [
+            "In-memory caching (1 hour TTL)",
+            "Parallel AI message generation", 
+            "High-quality fallback messages",
+            "Performance metrics tracking",
+            "Automatic cache cleanup"
+        ]
     }
 
 # Ford Battery Research Fleet Dashboard Endpoints
