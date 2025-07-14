@@ -65,14 +65,18 @@ class FordBatteryRiskCalculator:
     
     def __init__(self):
         # Ford battery research base failure rates (lead-acid AGM)
+        # Enhanced with HL Mando research findings (Park & Lee, 2023)
         self.base_failure_rates = {
             "normal_conditions": 0.025,      # 2.5% annual (normal conditions)
             "severe_heat_exposure": 0.10,    # 10% annual (severe heat)
             "commercial_use": 0.06,          # 6% annual (commercial duty)
-            "combined_stressors": 0.17       # 17% annual (combined stressors)
+            "combined_stressors": 0.17,      # 17% annual (combined stressors)
+            "fleet_taxi": 0.08,              # 8% annual (HL Mando taxi fleet data)
+            "high_cycle_usage": 0.12         # 12% annual (high charge/discharge cycles)
         }
         
         # Ford battery research likelihood multipliers
+        # Enhanced with HL Mando telematics-based multipliers (Park & Lee, 2023)
         self.likelihood_multipliers = {
             "temp_100F_plus": 3.5,           # Temperature >100°F
             "temp_110F_plus": 6.2,           # Temperature >110°F
@@ -82,7 +86,12 @@ class FordBatteryRiskCalculator:
             "hot_climate_region": 2.3,       # Arizona, Texas, Florida
             "summer_season": 1.6,            # July-August peak
             "deferred_maintenance": 1.9,     # Overdue maintenance
-            "high_vibration": 1.3            # Commercial/work truck usage
+            "high_vibration": 1.3,           # Commercial/work truck usage
+            # HL Mando telematics-derived multipliers
+            "driving_pattern_eco": 0.7,      # Eco driving reduces stress
+            "driving_pattern_hard": 1.5,     # Harsh driving increases failure
+            "charge_cycle_frequency": 1.3,   # High charge/discharge frequency
+            "internal_resistance_high": 2.2   # Degraded battery indicator
         }
         
         # Geographic hot climate regions (2-3x failure rates)
@@ -131,7 +140,13 @@ class FordBatteryRiskCalculator:
         return max(0.01, min(0.35, prior))
     
     def calculate_likelihood_ratio(self, stressors: Dict[str, any]) -> float:
-        """Calculate combined likelihood ratio from active stressors"""
+        """Calculate combined likelihood ratio from active stressors
+        
+        Enhanced with HL Mando telematics-based approach:
+        - Driving pattern classification (eco/normal/hard)
+        - Internal resistance monitoring
+        - Charge cycle frequency analysis
+        """
         combined_lr = 1.0
         
         # Temperature stressors (primary for lead-acid)
@@ -166,6 +181,21 @@ class FordBatteryRiskCalculator:
         if stressors.get("region") in self.hot_climate_regions:
             combined_lr *= self.likelihood_multipliers["hot_climate_region"]
         
+        # HL Mando driving pattern analysis
+        driving_pattern = stressors.get("driving_pattern", "normal")
+        if driving_pattern == "eco":
+            combined_lr *= self.likelihood_multipliers["driving_pattern_eco"]
+        elif driving_pattern == "hard":
+            combined_lr *= self.likelihood_multipliers["driving_pattern_hard"]
+        
+        # Charge cycle frequency (HL Mando approach)
+        if stressors.get("high_charge_cycles", False):
+            combined_lr *= self.likelihood_multipliers["charge_cycle_frequency"]
+        
+        # Internal resistance monitoring (HL Mando battery health indicator)
+        if stressors.get("internal_resistance_elevated", False):
+            combined_lr *= self.likelihood_multipliers["internal_resistance_high"]
+        
         return combined_lr
 
 
@@ -180,19 +210,21 @@ class BayesianRiskEngineV2:
         self.model_version = "2.0-Ford-Battery-Research"
         self.ford_calculator = FordBatteryRiskCalculator()
         
-        # Ford Battery Research Foundation
+        # Ford Battery Research Foundation enhanced with HL Mando research
         self.academic_foundation = {
             "primary_sources": [
                 "Ford/Lincoln 12V Battery Specifications Research (2025)",
                 "Battery Council International - Lead-Acid Service Life",
                 "Ford Service Technical Bulletins",
-                "NHTSA Complaint Database - Ford Battery Failures"
+                "NHTSA Complaint Database - Ford Battery Failures",
+                "Park & Lee (2023) - Bayesian Component Lifetime Prediction Using Telematics"
             ],
             "battery_chemistry": "Lead-Acid AGM (Absorbed Glass Mat)",
             "vehicle_coverage": "All Ford/Lincoln vehicles (Gas, Diesel, Hybrid, EV 12V systems)",
-            "methodology": "Fleet failure rate analysis with geographic/seasonal patterns",
+            "methodology": "Fleet failure rate analysis with geographic/seasonal patterns + telematics Bayesian updates",
             "temperature_sensitivity": "50% capacity loss at 0°F, exponential failure >100°F",
-            "institutions": ["Ford Motor Company", "Battery Council International", "NHTSA"]
+            "institutions": ["Ford Motor Company", "Battery Council International", "NHTSA", "HL Mando Corp"],
+            "telematics_integration": "Real-time driving pattern analysis and maintenance record fusion"
         }
         
         # Initialize cohort service

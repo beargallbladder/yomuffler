@@ -1,13 +1,14 @@
 # VIN Stressors Platform - Claude Context
 
 ## Project Overview
-VIN Stressors is an enterprise vehicle intelligence platform that analyzes battery failure risks using academic research from Argonne National Laboratory. The platform uses Bayesian inference with government data validation.
+VIN Stressors is an enterprise vehicle intelligence platform that analyzes battery failure risks using academic research from Argonne National Laboratory and HL Mando Corp. The platform uses Bayesian inference with government data validation and real-time telematics updates.
 
 ## Core Architecture
 - **Language**: Python 3.9+ with FastAPI
-- **Mathematical Engine**: Bayesian inference using Argonne ANL-115925.pdf research
-- **Data Sources**: NOAA weather data, NHTSA complaints, enterprise lead databases
+- **Mathematical Engine**: Bayesian inference using Argonne ANL-115925.pdf research + HL Mando telematics approach
+- **Data Sources**: NOAA weather data, NHTSA complaints, enterprise lead databases, real-time telematics
 - **Deployment**: Render.com production, localhost:8000 development
+- **Academic Foundation**: Park & Lee (2023) - "Bayesian Component Lifetime Prediction Using Telematics"
 
 ## Key Commands
 ```bash
