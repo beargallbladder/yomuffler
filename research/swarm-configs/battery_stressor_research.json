@@ -1,0 +1,331 @@
+{
+  "swarm_name": "Battery Stressor Research & Enhancement Platform",
+  "version": "1.0.0",
+  "description": "Continuous discovery, validation, and integration of new battery failure stressors for enhanced Bayesian predictions",
+  
+  "orchestration": {
+    "mode": "distributed",
+    "max_agents": 12,
+    "parallel_execution": true,
+    "session_persistence": true,
+    "checkpoint_interval": 300,
+    "memory_persistence": true
+  },
+
+  "research_objectives": {
+    "primary": "Discover new environmental and behavioral stressors that correlate with battery failure",
+    "secondary": "Validate discovered stressors against historical data",
+    "tertiary": "Calculate likelihood ratios and integrate into production Bayesian engine",
+    "success_metrics": {
+      "false_positive_reduction": 0.30,
+      "prediction_accuracy_improvement": 0.15,
+      "new_stressors_validated": 5,
+      "data_coverage_expansion": 0.25
+    }
+  },
+
+  "agent_roles": {
+    "discovery_swarm": {
+      "DataSourceScout": {
+        "priority": "high",
+        "description": "Identifies new external data sources for battery stress factors",
+        "targets": [
+          "traffic_patterns_api",
+          "road_quality_databases", 
+          "weather_microclimate_data",
+          "socioeconomic_indicators",
+          "vehicle_usage_patterns",
+          "maintenance_ecosystem_data"
+        ],
+        "outputs": ["data_source_inventory.json", "api_connectivity_status.json"],
+        "memory_tags": ["data_sources", "api_endpoints", "access_methods"]
+      },
+      
+      "CorrelationHunter": {
+        "priority": "high", 
+        "description": "Discovers statistical correlations between new variables and battery failure",
+        "methods": [
+          "pearson_correlation_analysis",
+          "mutual_information_scoring", 
+          "chi_square_independence_tests",
+          "temporal_lag_correlation",
+          "geographic_clustering_analysis"
+        ],
+        "outputs": ["correlation_matrix.csv", "significant_relationships.json"],
+        "memory_tags": ["correlations", "statistical_significance", "effect_sizes"]
+      },
+
+      "AnomalyDetector": {
+        "priority": "medium",
+        "description": "Identifies edge cases and outlier patterns in failure data",
+        "techniques": [
+          "isolation_forest_detection",
+          "local_outlier_factor",
+          "one_class_svm",
+          "dbscan_clustering",
+          "time_series_anomalies"
+        ],
+        "outputs": ["anomaly_patterns.json", "edge_case_analysis.csv"],
+        "memory_tags": ["anomalies", "outliers", "unusual_patterns"]
+      },
+
+      "PatternMiner": {
+        "priority": "medium",
+        "description": "Mines sequential and temporal patterns in vehicle usage and failure data",
+        "algorithms": [
+          "frequent_sequence_mining",
+          "temporal_association_rules",
+          "hidden_markov_models",
+          "lstm_pattern_discovery"
+        ],
+        "outputs": ["usage_patterns.json", "failure_sequences.csv"],
+        "memory_tags": ["patterns", "sequences", "temporal_relationships"]
+      }
+    },
+
+    "validation_swarm": {
+      "StatisticalValidator": {
+        "priority": "critical",
+        "description": "Rigorously validates discovered correlations using proper statistical methods",
+        "validation_tests": [
+          "bootstrap_confidence_intervals",
+          "cross_validation_stability",
+          "permutation_testing",
+          "bonferroni_correction",
+          "effect_size_calculation"
+        ],
+        "significance_threshold": 0.01,
+        "minimum_effect_size": 0.1,
+        "outputs": ["validation_results.json", "statistical_report.pdf"],
+        "memory_tags": ["validated_stressors", "statistical_evidence", "confidence_levels"]
+      },
+
+      "BacktestEngine": {
+        "priority": "critical",
+        "description": "Tests new stressors against historical data to measure prediction improvement",
+        "methodologies": [
+          "time_series_cross_validation",
+          "walk_forward_analysis", 
+          "stratified_sampling_validation",
+          "geographic_holdout_testing"
+        ],
+        "metrics": [
+          "precision_recall_improvement",
+          "roc_auc_enhancement",
+          "false_positive_reduction",
+          "revenue_impact_analysis"
+        ],
+        "outputs": ["backtest_results.json", "performance_comparison.csv"],
+        "memory_tags": ["backtest_performance", "historical_validation", "improvement_metrics"]
+      },
+
+      "FalsePositiveAnalyzer": {
+        "priority": "high",
+        "description": "Specifically focuses on reducing false positive predictions",
+        "analysis_methods": [
+          "confusion_matrix_analysis",
+          "precision_optimization",
+          "cost_sensitive_learning",
+          "threshold_tuning"
+        ],
+        "targets": {
+          "current_fp_rate": 0.18,
+          "target_fp_rate": 0.10,
+          "acceptable_recall_trade_off": 0.05
+        },
+        "outputs": ["fp_analysis.json", "threshold_recommendations.csv"],
+        "memory_tags": ["false_positives", "precision_tuning", "threshold_optimization"]
+      },
+
+      "BiasDetector": {
+        "priority": "medium",
+        "description": "Identifies and mitigates bias in discovered patterns",
+        "bias_types": [
+          "selection_bias",
+          "temporal_bias", 
+          "geographic_bias",
+          "demographic_bias",
+          "confirmation_bias"
+        ],
+        "mitigation_strategies": [
+          "stratified_sampling",
+          "demographic_parity_testing",
+          "temporal_stability_analysis"
+        ],
+        "outputs": ["bias_assessment.json", "fairness_metrics.csv"],
+        "memory_tags": ["bias_detection", "fairness_analysis", "equity_metrics"]
+      }
+    },
+
+    "integration_swarm": {
+      "LikelihoodRatioCalculator": {
+        "priority": "high",
+        "description": "Calculates Bayesian likelihood ratios for validated new stressors",
+        "calculation_methods": [
+          "maximum_likelihood_estimation",
+          "bayesian_parameter_estimation",
+          "empirical_bayes_approach",
+          "hierarchical_modeling"
+        ],
+        "confidence_intervals": true,
+        "uncertainty_quantification": true,
+        "outputs": ["likelihood_ratios.json", "uncertainty_bounds.csv"],
+        "memory_tags": ["likelihood_ratios", "bayesian_parameters", "uncertainty_estimates"]
+      },
+
+      "BayesianUpdater": {
+        "priority": "critical",
+        "description": "Integrates new stressors into the existing Bayesian engine",
+        "integration_steps": [
+          "prior_probability_updates",
+          "likelihood_ratio_integration", 
+          "posterior_calculation_validation",
+          "sensitivity_analysis"
+        ],
+        "validation_requirements": [
+          "mathematical_consistency",
+          "computational_stability",
+          "performance_benchmarking"
+        ],
+        "outputs": ["updated_engine.py", "integration_validation.json"],
+        "memory_tags": ["bayesian_updates", "engine_modifications", "integration_results"]
+      },
+
+      "DocumentationBuilder": {
+        "priority": "medium",
+        "description": "Creates comprehensive documentation for new stressors and their scientific basis",
+        "documentation_types": [
+          "scientific_methodology",
+          "statistical_evidence",
+          "implementation_guide",
+          "api_documentation"
+        ],
+        "academic_standards": true,
+        "peer_review_ready": true,
+        "outputs": ["stressor_documentation.md", "scientific_paper_draft.tex"],
+        "memory_tags": ["documentation", "scientific_evidence", "methodology"]
+      }
+    },
+
+    "monitoring_swarm": {
+      "AccuracyTracker": {
+        "priority": "high",
+        "description": "Continuously monitors prediction accuracy with new stressors",
+        "tracking_metrics": [
+          "rolling_accuracy_windows",
+          "geographic_performance_variation",
+          "temporal_stability_monitoring",
+          "cohort_specific_performance"
+        ],
+        "alert_thresholds": {
+          "accuracy_degradation": 0.02,
+          "false_positive_spike": 0.05,
+          "regional_bias_emergence": 0.10
+        },
+        "outputs": ["accuracy_dashboard.json", "performance_alerts.csv"],
+        "memory_tags": ["accuracy_monitoring", "performance_trends", "alert_conditions"]
+      },
+
+      "DriftDetector": {
+        "priority": "medium",
+        "description": "Detects concept drift in stressor relationships over time",
+        "drift_detection_methods": [
+          "statistical_process_control",
+          "kullback_leibler_divergence",
+          "population_stability_index",
+          "adversarial_validation"
+        ],
+        "monitoring_frequency": "weekly",
+        "outputs": ["drift_analysis.json", "stability_report.csv"],
+        "memory_tags": ["concept_drift", "stability_analysis", "temporal_changes"]
+      },
+
+      "ImprovementReporter": {
+        "priority": "low",
+        "description": "Quantifies and reports business impact of new stressors",
+        "impact_metrics": [
+          "revenue_opportunity_increase",
+          "false_positive_cost_reduction",
+          "customer_satisfaction_improvement",
+          "dealer_conversion_enhancement"
+        ],
+        "reporting_frequency": "monthly",
+        "outputs": ["business_impact_report.json", "roi_analysis.csv"],
+        "memory_tags": ["business_impact", "roi_metrics", "value_creation"]
+      }
+    }
+  },
+
+  "data_requirements": {
+    "existing_sources": [
+      "ford_telemetry_streams",
+      "noaa_weather_data", 
+      "nhtsa_complaint_database",
+      "hl_mando_telematics",
+      "argonne_battery_research"
+    ],
+    "target_new_sources": [
+      "google_traffic_api",
+      "usgs_road_quality_data",
+      "census_socioeconomic_data",
+      "dot_infrastructure_databases",
+      "iot_parking_sensors",
+      "insurance_claims_databases",
+      "obd_diagnostic_networks"
+    ]
+  },
+
+  "research_workflows": {
+    "discovery_phase": {
+      "duration": "2_weeks",
+      "agents": ["DataSourceScout", "CorrelationHunter", "AnomalyDetector", "PatternMiner"],
+      "deliverables": ["new_data_sources", "correlation_candidates", "anomaly_patterns"]
+    },
+    "validation_phase": {
+      "duration": "3_weeks", 
+      "agents": ["StatisticalValidator", "BacktestEngine", "FalsePositiveAnalyzer", "BiasDetector"],
+      "deliverables": ["validated_stressors", "performance_improvements", "bias_assessments"]
+    },
+    "integration_phase": {
+      "duration": "1_week",
+      "agents": ["LikelihoodRatioCalculator", "BayesianUpdater", "DocumentationBuilder"],
+      "deliverables": ["updated_engine", "likelihood_ratios", "documentation"]
+    },
+    "monitoring_phase": {
+      "duration": "ongoing",
+      "agents": ["AccuracyTracker", "DriftDetector", "ImprovementReporter"],
+      "deliverables": ["performance_monitoring", "drift_alerts", "business_reports"]
+    }
+  },
+
+  "quality_gates": {
+    "statistical_significance": {
+      "p_value_threshold": 0.01,
+      "effect_size_minimum": 0.1,
+      "sample_size_minimum": 1000
+    },
+    "prediction_improvement": {
+      "accuracy_increase_minimum": 0.02,
+      "false_positive_reduction_minimum": 0.05,
+      "business_impact_minimum": 1000000
+    },
+    "integration_requirements": {
+      "code_coverage": 0.90,
+      "performance_regression_tolerance": 0.05,
+      "documentation_completeness": 1.0
+    }
+  },
+
+  "memory_configuration": {
+    "persistent_storage": "sqlite",
+    "memory_categories": [
+      "discovered_stressors",
+      "validation_results", 
+      "integration_history",
+      "performance_tracking",
+      "research_insights"
+    ],
+    "retention_policy": "5_years",
+    "backup_frequency": "daily"
+  }
+}

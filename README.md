@@ -1,5 +1,14 @@
 # Ford Bayesian Risk Score Engine
 
+## 🚀 Development Workflow
+
+This project follows a **swarm-based development approach**. See [WORKFLOW.md](./WORKFLOW.md) for detailed guidelines.
+
+**Quick Start**: All development uses swarm mode with autonomous agents:
+```bash
+./claude-flow swarm "<your_task>" --persist --trace --validate
+```
+
 ## 🎯 Executive Summary
 
 The **Ford Bayesian Risk Score Engine** is a production-ready, swarm-based system that leverages **Ford's existing VH/Telemetry data streams** combined with **industry-validated benchmarks** to create a high-performance risk scoring platform. This system ensures **data sovereignty** while delivering sub-millisecond API responses and processing 15M VINs overnight.

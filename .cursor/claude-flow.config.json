@@ -1,0 +1,101 @@
+{
+  "project_name": "VIN Stressors Platform",
+  "default_mode": "swarm",
+  "workflow_version": "1.0.0",
+  
+  "swarm_configuration": {
+    "max_agents": 8,
+    "parallel_execution": true,
+    "agent_coordination": "distributed",
+    "task_atomicity": true
+  },
+  
+  "persist_features": [
+    "authentication",
+    "session_state",
+    "routing_context",
+    "calculation_traces",
+    "integration_status"
+  ],
+  
+  "memory_configuration": {
+    "tags_enabled": true,
+    "auto_persist": true,
+    "session_continuity": true,
+    "retention_days": 30
+  },
+  
+  "agent_output_requirements": {
+    "require_code": true,
+    "require_trace": true,
+    "require_memory": true,
+    "require_logs": true,
+    "require_validation": true,
+    "require_documentation": true
+  },
+  
+  "validation_rules": {
+    "pre_commit": {
+      "run_tests": true,
+      "check_types": true,
+      "verify_integrations": true,
+      "validate_performance": true
+    },
+    "code_quality": {
+      "min_coverage": 80,
+      "max_complexity": 10,
+      "require_docstrings": true
+    }
+  },
+  
+  "integration_checks": {
+    "bayesian_engine": {
+      "validate_calculations": true,
+      "verify_academic_sources": true
+    },
+    "telematics": {
+      "validate_hl_mando_integration": true,
+      "check_realtime_updates": true
+    },
+    "government_data": {
+      "verify_noaa_connection": true,
+      "verify_nhtsa_connection": true
+    }
+  },
+  
+  "development_strategies": {
+    "feature_implementation": {
+      "strategy": "development",
+      "mode": "distributed",
+      "require_tests": true
+    },
+    "bug_fixes": {
+      "strategy": "debugging",
+      "mode": "centralized",
+      "require_regression_tests": true
+    },
+    "performance_optimization": {
+      "strategy": "optimization",
+      "mode": "hierarchical",
+      "require_benchmarks": true
+    },
+    "documentation": {
+      "strategy": "research",
+      "mode": "mesh",
+      "require_examples": true
+    }
+  },
+  
+  "session_management": {
+    "checkpoint_interval": 300,
+    "auto_save": true,
+    "resume_on_failure": true,
+    "state_directory": ".cursor/sessions/"
+  },
+  
+  "workflow_directive": {
+    "reference": "./WORKFLOW.md",
+    "enforce_swarm_mode": true,
+    "prohibit_hive_mind": true
+  }
+}
