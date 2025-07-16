@@ -1197,12 +1197,15 @@ async def admin_portal():
                 <p>Our system uses <span class="success">industry-validated priors</span> from Argonne National Laboratory and NHTSA studies to calculate component failure probabilities.</p>
                 
                 <div class="math-formula">
-                    P(failure|stressors) = P(failure) × ∏(likelihood_ratio_i × stressor_intensity_i)
+                    P(failure|stressors) = P(failure) × ∏(1 + (likelihood_ratio_i - 1) × stressor_intensity_i)
                     
                     Where:
                     • P(failure) = Industry base rate (Argonne ANL-115925 for batteries: 2.3%)
-                    • likelihood_ratio_i = Stressor impact multiplier (cold starts: 6.5x)
-                    • stressor_intensity_i = Vehicle-specific stressor score (0.0-1.0)
+                    • likelihood_ratio_i = Stressor impact multiplier at full intensity (e.g., cold starts: 6.5x)
+                    • stressor_intensity_i = Vehicle-specific stressor intensity (0.0-1.0)
+                    
+                    Note: This interpolation formula scales between neutral (1x) and full impact (LR_i),
+                    preserving boundedness and interpretability while avoiding overestimation.
                 </div>
                 
                 <div class="code-block">
@@ -1215,7 +1218,10 @@ async def admin_portal():
                     vehicle_trip_score = 0.76  # This F-150's trip patterns<br>
                     <br>
                     final_risk = base_rate × (1 + (6.50-1) × 0.87) × (1 + (2.83-1) × 0.76)<br>
-                    <span class="highlight">final_risk = 0.234  # 23.4% probability</span>
+                    # = 0.023 × (1 + 5.5 × 0.87) × (1 + 1.83 × 0.76)<br>
+                    # = 0.023 × (1 + 4.785) × (1 + 1.3908)<br>
+                    # = 0.023 × 5.785 × 2.3908<br>
+                    <span class="highlight">final_risk = 0.318  # 31.8% probability</span>
                 </div>
             </div>
             
