@@ -1206,6 +1206,13 @@ async def admin_portal():
                     
                     Note: This interpolation formula scales between neutral (1x) and full impact (LR_i),
                     preserving boundedness and interpretability while avoiding overestimation.
+                    
+                    <span class="warning">* Why not naive LR × intensity?</span>
+                    This interpolated approach is superior for real-world scaling because:
+                    • It avoids overinflating failure rates at high LR and intensity
+                    • It respects that intensity = 0 should yield no risk impact (multiplier = 1)
+                    • It keeps outputs interpretable and bounded (vs exponential explosion)
+                    • Example: LR=10x at 90% intensity → 9.1x (not 9.0x), preserving baseline
                 </div>
                 
                 <div class="code-block">

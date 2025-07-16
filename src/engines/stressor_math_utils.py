@@ -13,11 +13,19 @@ def calculate_interpolated_likelihood_ratio(stressor_impacts: Dict[str, Tuple[fl
     
     Formula: ∏(1 + (likelihood_ratio_i - 1) × stressor_intensity_i)
     
-    This interpolation:
-    - Scales between neutral (1x) and full impact (LR_i)
-    - Avoids overestimation at high LR and intensity
-    - Ensures intensity=0 yields no impact (multiplier=1)
-    - Keeps outputs bounded and interpretable
+    Why not naive LR × intensity?
+    This interpolated approach is superior for real-world scaling because:
+    - It avoids overinflating failure rates at high LR and intensity
+      (e.g., LR=10x at 90% would give 900% failure rate with naive approach!)
+    - It respects that intensity = 0 should yield no risk impact (multiplier = 1)
+      (naive approach would give 0x multiplier, incorrectly eliminating base risk)
+    - It keeps outputs interpretable and bounded vs exponential explosion
+    - Example: LR=10x at 90% intensity → 9.1x (not 9.0x), preserving baseline
+    
+    Mathematical properties:
+    - When intensity = 0: multiplier = 1 (no effect)
+    - When intensity = 1: multiplier = LR (full effect)
+    - When 0 < intensity < 1: smooth interpolation between the two
     
     Args:
         stressor_impacts: Dict mapping stressor_name to (likelihood_ratio, intensity)
