@@ -20,6 +20,15 @@ import uvicorn
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Import desktop UI routes
+try:
+    from src.api.desktop_optimized_ui import add_desktop_routes
+    desktop_ui_available = True
+    logger.info("✅ Desktop UI module loaded")
+except ImportError:
+    logger.warning("Desktop UI not available")
+    desktop_ui_available = False
+
 # Initialize OpenAI client (optional)
 client = None
 try:
@@ -38,6 +47,11 @@ app = FastAPI(
     description="Advanced Cohort-Based Behavioral Analysis & Dealer Messaging Platform",
     version="2.0.1"
 )
+
+# Add desktop UI routes if available
+if desktop_ui_available:
+    add_desktop_routes(app)
+    logger.info("✅ Desktop UI routes added")
 
 # Industry-Validated Priors (from your specification)
 INDUSTRY_PRIORS = {
