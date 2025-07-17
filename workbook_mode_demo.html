@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIN Stressors - Engineering Workbook Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        .data-field {
+            font-family: 'Courier New', monospace;
+            background: #f3f4f6;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 4px 0;
+        }
+        .pipeline-step {
+            border-left: 4px solid #3b82f6;
+            padding-left: 16px;
+            margin: 16px 0;
+        }
+        .editable-cell {
+            background: #fef3c7;
+            border: 1px dashed #f59e0b;
+            padding: 4px;
+            cursor: text;
+        }
+        .calculation-trace {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-family: monospace;
+        }
+        pre {
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .service-box {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px 0;
+        }
+        .service-box:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header with Mode Selector -->
+    <div class="bg-white shadow-lg p-4 mb-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-800">VIN Stressors Platform</h1>
+            <div class="flex space-x-4">
+                <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" onclick="window.location.href='/admin'">Admin Mode</button>
+                <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" onclick="window.location.href='/dealer'">Dealer Mode</button>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded">Workbook Mode</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Overview -->
+        <div class="bg-blue-50 border-2 border-blue-400 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-bold text-blue-900 mb-4">Engineering Workbook: Data Requirements</h2>
+            <p class="text-blue-800">
+                This workbook shows exactly what data we need to collect to predict battery failures using our scientifically-validated model.
+                The math is proven - now let's build the data pipeline.
+            </p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="bg-white rounded-lg shadow-lg mb-6">
+            <div class="flex border-b">
+                <button class="px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" onclick="showTab('data-requirements')">
+                    1. Data Requirements
+                </button>
+                <button class="px-6 py-3 font-semibold text-gray-600 hover:text-blue-600" onclick="showTab('pipeline')">
+                    2. Pipeline Architecture
+                </button>
+                <button class="px-6 py-3 font-semibold text-gray-600 hover:text-blue-600" onclick="showTab('workbook')">
+                    3. Interactive Workbook
+                </button>
+                <button class="px-6 py-3 font-semibold text-gray-600 hover:text-blue-600" onclick="showTab('services')">
+                    4. Services & Jobs
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab 1: Data Requirements -->
+        <div id="data-requirements" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Required Data Fields</h2>
+                
+                <!-- Core Vehicle Data -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">A. Core Vehicle Data</h3>
+                    <div class="space-y-3">
+                        <div class="data-field">
+                            <span class="font-bold">VIN</span>: STRING(17) - Vehicle Identification Number
+                            <span class="text-sm text-gray-600 ml-2">// Primary key</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">battery_install_date</span>: DATE - When current battery was installed
+                            <span class="text-sm text-gray-600 ml-2">// For age calculation</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">location_zip</span>: STRING(5) - Vehicle primary location
+                            <span class="text-sm text-gray-600 ml-2">// For weather lookup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trip Pattern Data -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">B. Trip Pattern Data (Last 90 Days)</h3>
+                    <div class="space-y-3">
+                        <div class="data-field">
+                            <span class="font-bold">total_trips</span>: INTEGER - Total number of trips
+                            <span class="text-sm text-gray-600 ml-2">// Denominator for ratios</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">short_trips_count</span>: INTEGER - Trips < 20 minutes
+                            <span class="text-sm text-gray-600 ml-2">// Key stressor per HL Mando research</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">avg_trip_duration</span>: FLOAT - Average trip length in minutes
+                            <span class="text-sm text-gray-600 ml-2">// For SOC recovery analysis</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">daily_starts</span>: FLOAT - Average ignition cranks per day
+                            <span class="text-sm text-gray-600 ml-2">// Cycling stress indicator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Pattern Data -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">C. Weather Exposure (Last 365 Days)</h3>
+                    <div class="space-y-3">
+                        <div class="data-field">
+                            <span class="font-bold">days_above_95F</span>: INTEGER - Days with max temp > 95°F
+                            <span class="text-sm text-gray-600 ml-2">// Thermal stress per Argonne</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">days_above_105F</span>: INTEGER - Days with max temp > 105°F
+                            <span class="text-sm text-gray-600 ml-2">// Extreme thermal stress</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">avg_daily_high</span>: FLOAT - Average daily high temperature
+                            <span class="text-sm text-gray-600 ml-2">// For Arrhenius calculation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional Enhancement Data -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">D. Optional Enhancement Data (If Available)</h3>
+                    <div class="space-y-3">
+                        <div class="data-field">
+                            <span class="font-bold">avg_soc</span>: FLOAT - Average state of charge %
+                            <span class="text-sm text-gray-600 ml-2">// Direct measurement if available</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">deep_discharge_events</span>: INTEGER - Times SOC < 20%
+                            <span class="text-sm text-gray-600 ml-2">// Critical stress events</span>
+                        </div>
+                        <div class="data-field">
+                            <span class="font-bold">battery_voltage_min</span>: FLOAT - Lowest recorded voltage
+                            <span class="text-sm text-gray-600 ml-2">// Health indicator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Quality Requirements -->
+                <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-4">
+                    <h4 class="font-semibold text-yellow-900 mb-2">Data Quality Requirements</h4>
+                    <ul class="text-sm text-yellow-800 space-y-1">
+                        <li>• Trip data must cover at least 30 days for reliable patterns</li>
+                        <li>• Weather data should be from nearest NOAA station (< 50 miles)</li>
+                        <li>• Missing data can be interpolated but reduces confidence</li>
+                        <li>• Update frequency: Trip data weekly, weather data daily</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Pipeline Architecture -->
+        <div id="pipeline" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Data Pipeline Architecture</h2>
+                
+                <!-- Pipeline Flow -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">End-to-End Data Flow</h3>
+                    
+                    <div class="pipeline-step">
+                        <h4 class="font-semibold text-blue-600">Step 1: Data Collection</h4>
+                        <pre>
+# Telematics API Integration
+GET /api/telematics/trips/{vin}
+Response: {
+    "vin": "1FAHP3K20JL123456",
+    "trips": [
+        {"start": "2024-01-15T08:00:00", "duration_min": 15, "distance_mi": 8.3},
+        {"start": "2024-01-15T17:30:00", "duration_min": 22, "distance_mi": 14.1}
+    ],
+    "daily_summary": {
+        "avg_trips": 3.2,
+        "avg_duration": 18.5,
+        "short_trip_ratio": 0.76
+    }
+}</pre>
+                    </div>
+
+                    <div class="pipeline-step">
+                        <h4 class="font-semibold text-blue-600">Step 2: Weather Data Enrichment</h4>
+                        <pre>
+# NOAA Weather API
+def enrich_with_weather(vin_data):
+    zip_code = vin_data['location_zip']
+    
+    # Get historical weather
+    weather_data = noaa_client.get_annual_summary(
+        zip_code=zip_code,
+        metrics=['TMAX', 'TMIN', 'TAVG']
+    )
+    
+    # Calculate stress days
+    vin_data['days_above_95F'] = sum(1 for d in weather_data if d['TMAX'] > 95)
+    vin_data['days_above_105F'] = sum(1 for d in weather_data if d['TMAX'] > 105)
+    
+    return vin_data</pre>
+                    </div>
+
+                    <div class="pipeline-step">
+                        <h4 class="font-semibold text-blue-600">Step 3: Stressor Calculation</h4>
+                        <pre>
+# Apply scientific model
+def calculate_stressors(enriched_data):
+    # Base failure rate from Argonne
+    base_rate = 0.023
+    
+    # Thermal stress (Journal of Power Sources)
+    thermal_intensity = enriched_data['days_above_95F'] / 365
+    thermal_lr = 3.5
+    thermal_multiplier = 1 + (thermal_lr - 1) * thermal_intensity
+    
+    # Trip pattern stress (HL Mando)
+    trip_intensity = min(1.0, enriched_data['short_trip_ratio'] / 0.7)
+    trip_lr = 2.83
+    trip_multiplier = 1 + (trip_lr - 1) * trip_intensity
+    
+    # Calculate posterior probability
+    posterior = base_rate * thermal_multiplier * trip_multiplier
+    
+    return {
+        'vin': enriched_data['vin'],
+        'risk_score': posterior,
+        'thermal_impact': thermal_multiplier,
+        'trip_impact': trip_multiplier,
+        'confidence': calculate_confidence(enriched_data)
+    }</pre>
+                    </div>
+
+                    <div class="pipeline-step">
+                        <h4 class="font-semibold text-blue-600">Step 4: Lead Generation</h4>
+                        <pre>
+# Generate actionable leads
+def generate_leads(scored_vins):
+    leads = []
+    
+    for vin in scored_vins:
+        if vin['risk_score'] > 0.10:  # 10% threshold
+            leads.append({
+                'vin': vin['vin'],
+                'risk_percentage': vin['risk_score'] * 100,
+                'severity': get_severity_bucket(vin['risk_score']),
+                'recommended_action': get_action(vin['risk_score']),
+                'revenue_opportunity': calculate_revenue(vin),
+                'contact_priority': get_priority(vin['risk_score'])
+            })
+    
+    return sorted(leads, key=lambda x: x['risk_percentage'], reverse=True)</pre>
+                    </div>
+                </div>
+
+                <!-- Data Flow Diagram -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold mb-4">System Architecture</h3>
+                    <div class="text-sm font-mono">
+                        <div class="mb-4">
+                            [Telematics API] ─┐
+                                             ├─→ [Data Lake] ─→ [Enrichment Service] ─→ [Scoring Engine] ─→ [Lead API]
+                            [Weather API] ────┘                          │                          │
+                                                                        │                          │
+                                                            [Ford Data Sources]          [Dealer Portal]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Interactive Workbook -->
+        <div id="workbook" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Interactive Data Workbook</h2>
+                
+                <p class="text-gray-600 mb-4">
+                    Edit the yellow cells to see how different data inputs affect the risk calculation. 
+                    This demonstrates exactly what data we need from Ford systems.
+                </p>
+
+                <!-- Sample VIN Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border p-2 text-left">VIN</th>
+                                <th class="border p-2">Location</th>
+                                <th class="border p-2">Battery Age (days)</th>
+                                <th class="border p-2">Total Trips</th>
+                                <th class="border p-2">Short Trips</th>
+                                <th class="border p-2">Days >95°F</th>
+                                <th class="border p-2">Risk Score</th>
+                                <th class="border p-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vinTable">
+                            <tr>
+                                <td class="border p-2 font-mono text-sm">1FAHP3K20JL123456</td>
+                                <td class="border p-2 text-center">85001</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">847</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">500</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">380</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">180</td>
+                                <td class="border p-2 text-center font-bold text-red-600" id="risk1">14.5%</td>
+                                <td class="border p-2 text-center text-sm">CRITICAL</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 font-mono text-sm">1FTFW1ET5DFC10312</td>
+                                <td class="border p-2 text-center">55401</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">423</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">300</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">60</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">15</td>
+                                <td class="border p-2 text-center font-bold text-yellow-600" id="risk2">3.8%</td>
+                                <td class="border p-2 text-center text-sm">MONITOR</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 font-mono text-sm">3FA6P0H91JR146842</td>
+                                <td class="border p-2 text-center">90210</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">1200</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">800</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">720</td>
+                                <td class="border p-2 text-center editable-cell" contenteditable="true" onblur="recalculate()">145</td>
+                                <td class="border p-2 text-center font-bold text-orange-600" id="risk3">11.8%</td>
+                                <td class="border p-2 text-center text-sm">HIGH</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Calculation Trace -->
+                <div class="mt-6 bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold mb-2">Calculation Trace (VIN #1)</h3>
+                    <div class="calculation-trace" id="trace">
+                        Base Rate: 2.3%<br>
+                        Weather Impact: 180 days >95°F ÷ 365 = 0.493 intensity → 2.23x multiplier<br>
+                        Trip Impact: 380 short ÷ 500 total = 0.76 ratio → 2.65x multiplier<br>
+                        Final Risk: 2.3% × 2.23 × 2.65 = 14.5%
+                    </div>
+                </div>
+
+                <!-- CSV Upload -->
+                <div class="mt-6 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <p class="text-gray-600 mb-4">Upload CSV with VIN data to process in bulk</p>
+                    <input type="file" id="csvFile" accept=".csv" class="hidden" onchange="handleCSVUpload(event)">
+                    <button onclick="document.getElementById('csvFile').click()" 
+                            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                        Upload VIN List
+                    </button>
+                    <p class="text-sm text-gray-500 mt-2">
+                        Required columns: vin, zip_code, battery_age_days, total_trips, short_trips
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Services & Jobs -->
+        <div id="services" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Required Services & Jobs</h2>
+                
+                <!-- Data Collection Services -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">1. Data Collection Services</h3>
+                    
+                    <div class="service-box">
+                        <h4 class="font-semibold text-blue-600 mb-2">Telematics Ingestion Service</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Purpose:</strong> Collect trip data from vehicle telematics</p>
+                            <p><strong>Technology:</strong> Kafka + Apache Spark for streaming</p>
+                            <p><strong>Schedule:</strong> Real-time streaming with hourly aggregation</p>
+                            <pre class="mt-2">
+# Kafka consumer configuration
+kafka.topics = ["ford.telematics.trips"]
+kafka.consumer.group = "battery-stressor-calculator"
+processing.window = "1 hour"
+output.format = "parquet"
+output.path = "s3://ford-battery-analytics/trips/"</pre>
+                        </div>
+                    </div>
+
+                    <div class="service-box">
+                        <h4 class="font-semibold text-blue-600 mb-2">Weather Data Sync Job</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Purpose:</strong> Daily sync of NOAA weather data</p>
+                            <p><strong>Technology:</strong> Python + Airflow DAG</p>
+                            <p><strong>Schedule:</strong> Daily at 2 AM EST</p>
+                            <pre class="mt-2">
+# Airflow DAG
+@dag(schedule="0 2 * * *", catchup=False)
+def weather_sync_dag():
+    @task
+    def fetch_noaa_data():
+        for zip_code in active_zip_codes:
+            data = noaa_client.get_daily_summary(zip_code)
+            store_to_data_lake(data)
+    
+    @task
+    def calculate_heat_days():
+        update_heat_stress_metrics()</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Services -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">2. Processing Services</h3>
+                    
+                    <div class="service-box">
+                        <h4 class="font-semibold text-blue-600 mb-2">Stressor Calculation Engine</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Purpose:</strong> Calculate risk scores using Bayesian model</p>
+                            <p><strong>Technology:</strong> Python microservice with Redis cache</p>
+                            <p><strong>SLA:</strong> < 100ms per VIN calculation</p>
+                            <pre class="mt-2">
+# FastAPI endpoint
+@app.post("/calculate-risk")
+async def calculate_risk(vin_data: VINData):
+    # Check cache first
+    cached = await redis.get(f"risk:{vin_data.vin}")
+    if cached:
+        return json.loads(cached)
+    
+    # Calculate using scientific model
+    risk = bayesian_model.calculate(
+        weather_stress=vin_data.heat_days / 365,
+        trip_stress=vin_data.short_trip_ratio
+    )
+    
+    # Cache for 24 hours
+    await redis.setex(f"risk:{vin_data.vin}", 86400, json.dumps(risk))
+    return risk</pre>
+                        </div>
+                    </div>
+
+                    <div class="service-box">
+                        <h4 class="font-semibold text-blue-600 mb-2">Batch Scoring Job</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Purpose:</strong> Nightly scoring of entire Ford fleet</p>
+                            <p><strong>Technology:</strong> Apache Spark on EMR</p>
+                            <p><strong>Schedule:</strong> Nightly at 12 AM EST</p>
+                            <p><strong>Scale:</strong> Process 15M VINs in 2 hours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lead Generation Services -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">3. Lead Generation & Distribution</h3>
+                    
+                    <div class="service-box">
+                        <h4 class="font-semibold text-blue-600 mb-2">Lead Prioritization Service</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Purpose:</strong> Rank and distribute leads to dealers</p>
+                            <p><strong>Features:</strong></p>
+                            <ul class="ml-4 list-disc">
+                                <li>Geographic assignment to nearest dealer</li>
+                                <li>Revenue opportunity calculation</li>
+                                <li>Customer contact preference lookup</li>
+                                <li>Severity-based prioritization</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="service-box">
+                        <h4 class="font-semibold text-blue-600 mb-2">Dealer API Gateway</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Purpose:</strong> Secure API for dealer lead access</p>
+                            <p><strong>Endpoints:</strong></p>
+                            <pre class="mt-2">
+GET  /api/v1/leads?dealer_id={id}&severity={HIGH,CRITICAL}
+GET  /api/v1/leads/{vin}/details
+POST /api/v1/leads/{vin}/contact
+PUT  /api/v1/leads/{vin}/status</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infrastructure Requirements -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold mb-4">Infrastructure Requirements</h3>
+                    <div class="grid grid-cols-2 gap-6 text-sm">
+                        <div>
+                            <h4 class="font-semibold mb-2">Compute</h4>
+                            <ul class="space-y-1">
+                                <li>• EMR cluster for batch processing</li>
+                                <li>• ECS for microservices</li>
+                                <li>• Lambda for event processing</li>
+                                <li>• Redis cluster for caching</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Storage</h4>
+                            <ul class="space-y-1">
+                                <li>• S3 data lake for raw data</li>
+                                <li>• RDS PostgreSQL for leads</li>
+                                <li>• DynamoDB for real-time state</li>
+                                <li>• Elasticsearch for search</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Sample Data -->
+        <div class="fixed bottom-6 right-6">
+            <button onclick="downloadSampleData()" 
+                    class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Download Sample CSV
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.remove('hidden');
+            
+            // Update button styles
+            document.querySelectorAll('.flex.border-b button').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+                btn.classList.add('text-gray-600');
+            });
+            
+            event.target.classList.remove('text-gray-600');
+            event.target.classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+        }
+
+        // Recalculate risk scores
+        function recalculate() {
+            const rows = document.querySelectorAll('#vinTable tr');
+            
+            rows.forEach((row, index) => {
+                const cells = row.querySelectorAll('.editable-cell');
+                const batteryAge = parseInt(cells[0].textContent) || 0;
+                const totalTrips = parseInt(cells[1].textContent) || 1;
+                const shortTrips = parseInt(cells[2].textContent) || 0;
+                const hotDays = parseInt(cells[3].textContent) || 0;
+                
+                // Calculate risk using our model
+                const baseRate = 0.023;
+                const weatherIntensity = Math.min(1.0, hotDays / 365);
+                const weatherMultiplier = 1 + (3.5 - 1) * weatherIntensity;
+                
+                const tripRatio = shortTrips / totalTrips;
+                const tripIntensity = Math.min(1.0, tripRatio / 0.7);
+                const tripMultiplier = 1 + (2.83 - 1) * tripIntensity;
+                
+                const risk = baseRate * weatherMultiplier * tripMultiplier;
+                const riskPercent = (risk * 100).toFixed(1);
+                
+                // Update risk display
+                const riskCell = document.getElementById(`risk${index + 1}`);
+                if (riskCell) {
+                    riskCell.textContent = riskPercent + '%';
+                    
+                    // Update color based on severity
+                    riskCell.classList.remove('text-red-600', 'text-orange-600', 'text-yellow-600', 'text-green-600');
+                    if (risk > 0.12) {
+                        riskCell.classList.add('text-red-600');
+                        row.cells[7].textContent = 'CRITICAL';
+                    } else if (risk > 0.08) {
+                        riskCell.classList.add('text-orange-600');
+                        row.cells[7].textContent = 'HIGH';
+                    } else if (risk > 0.05) {
+                        riskCell.classList.add('text-yellow-600');
+                        row.cells[7].textContent = 'MODERATE';
+                    } else {
+                        riskCell.classList.add('text-green-600');
+                        row.cells[7].textContent = 'MONITOR';
+                    }
+                }
+                
+                // Update trace for first row
+                if (index === 0) {
+                    document.getElementById('trace').innerHTML = `
+                        Base Rate: 2.3%<br>
+                        Weather Impact: ${hotDays} days >95°F ÷ 365 = ${weatherIntensity.toFixed(3)} intensity → ${weatherMultiplier.toFixed(2)}x multiplier<br>
+                        Trip Impact: ${shortTrips} short ÷ ${totalTrips} total = ${tripRatio.toFixed(2)} ratio → ${tripMultiplier.toFixed(2)}x multiplier<br>
+                        Final Risk: 2.3% × ${weatherMultiplier.toFixed(2)} × ${tripMultiplier.toFixed(2)} = ${riskPercent}%
+                    `;
+                }
+            });
+        }
+
+        // Handle CSV upload
+        function handleCSVUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                Papa.parse(file, {
+                    header: true,
+                    complete: function(results) {
+                        console.log('Parsed CSV:', results.data);
+                        alert(`Successfully parsed ${results.data.length} VINs. In production, these would be processed through the pipeline.`);
+                    }
+                });
+            }
+        }
+
+        // Download sample data
+        function downloadSampleData() {
+            const csvContent = `vin,zip_code,battery_age_days,total_trips,short_trips,avg_trip_duration
+1FAHP3K20JL123456,85001,847,500,380,18.5
+1FTFW1ET5DFC10312,55401,423,300,60,45.2
+3FA6P0H91JR146842,90210,1200,800,720,12.3
+1FM5K8D87FGA17844,33101,650,400,340,15.7
+1FADP3F27JL234567,75201,920,600,450,22.1
+1FMCU0GD5JUA98765,60601,380,250,50,48.9
+5LMCJ2C92JUL54321,94102,1100,900,810,11.2
+1FM5K8F88HGA12345,30301,560,450,320,19.8
+MAJ6S3KL0JC185426,02101,290,200,30,52.3
+1FMCU9GD2KUA67890,98101,730,550,480,14.6`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sample_vin_data.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize
+        recalculate();
+    </script>
+</body>
+</html>
